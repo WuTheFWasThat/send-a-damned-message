@@ -211,14 +211,17 @@ def switchbacks(x):
         ))
     return ''.join(result)
 
-if 0:
+"""
+if 1:
     all_ms = set()
     cur = 'a damned message'
     while True:
         print(cur)
         if cur in all_ms:
             break
+        all_ms.add(cur)
         cur = switchbacks(cur)
+"""
 
 def count_words(x):
     prev = ''
@@ -311,13 +314,6 @@ def lonely_death(x):
 # example='The quick brown fox jumped over the lazy dog'
 levels = [
     dict(
-        name='W',
-        fn=switchbacks,
-        goal='a damned message',
-        answer='a dcbabcdefghijklmmnmlkjihgfeed mlkjihgfefghijklmnopqrssrqponmlkjihgfedcbabcdefgfe',
-        # answer="Send a daklpocdbc meqrutage"
-    ),
-    dict(
         name='Rot',
         fn=rot_word,
         goal='a damned message',
@@ -373,12 +369,18 @@ levels = [
         '"She said, '"message' damned a 'Send"'", he said'
         """.strip(),
     ),
+    dict(
+        name='W',
+        fn=switchbacks,
+        goal='a damned message',
+        answer='a dcbabcdefghijklmmnmlkjihgfeed mlkjihgfefghijklmnopqrssrqponmlkjihgfedcbabcdefgfe',
+        # answer="Send a daklpocdbc meqrutage"
+    ),
     # accumulate sum within word?
 
     # something like lempel ziv?
 
-    # something where it quickly blows up?
-    # e.g. between each pair of letters, add their average?
+    # something where it super quickly blows up?
     # maybe you have to solve system of equations to prevent blowup
 ]
 
