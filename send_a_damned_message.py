@@ -1,9 +1,12 @@
 import fire
 import random
+import readline
 
 _COLORS = dict(
     green = "\033[92m",
+    blue = "\033[94m",
     red = "\033[91m",
+    yellow = "\033[93m",
 )
 _COLORS_END = "\033[0m"
 def _colored(t, color):
@@ -26,34 +29,131 @@ def substitution(x):
     return ''.join([replace(l) for l in x])
 
 def cancerous_vowels(x):
-    """vowels bleed, x's escape"""
+    """vowels bleed, x's stop it"""
     chars = [l for l in x]
-    escaped = []
-    i = 0
-    while i < len(chars):
-        if chars[i] == 'x':
-            chars = chars[:i] + chars[i+1:]
-            if i < len(chars):
-                escaped.append(True)
-        else:
-            escaped.append(False)
-        i += 1
-
-    assert len(chars) == len(escaped)
     newchars = [l for l in chars]
     cancerous = 'aeiou'
     for vowel in cancerous:
-        for i, (l, e) in enumerate(zip(chars, escaped)):
-            if l.lower() == vowel and not e:
+        for i, l in enumerate(chars):
+            if l.lower() == vowel:
                 if i != 0 and newchars[i-1] != ' ' and newchars[i-1].lower() not in cancerous:
-                    newchars[i-1] = l
-                if i != len(chars) - 1 and newchars[i+1] != ' ' and newchars[i-1].lower() not in cancerous:
-                    newchars[i+1] = l
-    return ''.join(newchars)
+                    if newchars[i-1] == 'x':
+                        newchars[i-1] = None
+                    else:
+                        newchars[i-1] = l
+                if i != len(chars) - 1 and newchars[i+1] != ' ' and newchars[i+1].lower() not in cancerous:
+                    if newchars[i+1] == 'x':
+                        newchars[i+1] = None
+                    else:
+                        newchars[i+1] = l
+    return ''.join([l for l in newchars if l is not None])
+
+def quote_hell(x):
+    """
+    spaces reverse groups
+    single quotes are literal quotes
+    double quotes just group
+    """
+    i = 0
+    def read_quote(quotechar=None):
+        nonlocal i
+        result = ''
+        while i < len(x):
+            l = x[i]
+            i += 1
+            if l == ' ' and quotechar is not "'":
+                result2 = read_quote(quotechar)
+                return result2 + ' ' + result
+            if l == quotechar:
+                return result
+            if l == '"' and quotechar is None:
+                result += read_quote('"')
+            elif l == "'" and quotechar is None:
+                result += read_quote("'")
+            else:
+                result += l
+        return result
+    return read_quote()
+
+def extend_sequences(x):
+    prev = None
+    direction = None
+    result = []
+    for char in x + ' ':
+        cur = ord(char)
+        if prev is not None:
+            new_direction = None
+            if direction is not None:
+                if cur != prev + direction:
+                    result.append(chr(prev + direction))
+                    new_direction = None
+                else:
+                    new_direction = direction
+            if cur == prev + 1:
+                new_direction = 1
+            elif cur == prev - 1:
+                new_direction = -1
+            elif cur == prev:
+                new_direction = 0
+            if direction is None and new_direction is None:
+                result.append(chr(prev))
+            direction = new_direction
+        prev = cur
+    return ''.join(result)
+
+
+def grow_sequences(x):
+    """
+    Sequences reach for each other, also break if two switches
+    i.e. babcdc
+    """
+    prev = None
+    prev_direction = None
+    result = []
+    for char in x:
+        if char.lower() not in alphabet:
+            result.append(char)
+            prev = None
+            prev_direction = None
+            continue
+        cur = ord(char)
+
+        if prev is not None:
+            difference = cur - prev
+            if difference == 1:
+                if prev_direction == -1:
+                    assert result.pop() == chr(prev), f'{result.pop()} != {chr(prev)}'
+                    assert result.pop() == chr(cur), f'{result.pop()} != {chr(cur)}'
+                    difference = 0
+            if difference == -1:
+                if prev_direction == 1:
+                    assert result.pop() == chr(prev), f'{result.pop()} != {chr(prev)}'
+                    assert result.pop() == chr(cur), f'{result.pop()} != {chr(cur)}'
+                    difference = 0
+            if difference > 0:
+                direction = 1
+            elif difference < 0:
+                direction = -1
+            else:
+                direction = 0
+
+            print('cur', cur, 'prev', prev, 'direction', direction, 'prev_direction', prev_direction)
+            if cur != prev + direction:
+                result.append(chr(prev + direction))
+                if cur - direction != prev + direction:
+                    result.append(chr(cur - direction))
+                direction = None
+        else:
+            direction = None
+
+        prev_direction = direction
+        result.append(chr(cur))
+        prev = cur
+    return ''.join(result)
+
+
 
 def count_words(x):
-    i = 0
-
     prev = ''
     count = 0
     result = []
@@ -83,19 +183,35 @@ def needs_palindromic_redundancy(x):
             break
     return ''.join(recovered)
 
-def random_permute_3cycle(x):
+# def ordered_cyclic_permute_3(x):
+#     n = len(x)
+#     seed = sum([ord(l) for l in x])
+#     my_rand = random.Random(seed)
+#     indices = list(range(n))
+#     my_rand.shuffle(indices)
+#     chars = [l for l in x]
+#     for i in range(0, n-2, 3):
+#         ind_1, ind_2, ind_3 = indices[i:i+3]
+#         chars[ind_1] = x[ind_2]
+#         chars[ind_2] = x[ind_3]
+#         chars[ind_3] = x[ind_1]
+#     return ''.join(chars)
+
+def ordered_cyclic_permute_3(x):
     n = len(x)
-    seed = sum([ord(l) for l in x])
-    my_rand = random.Random(seed)
-    indices = list(range(n))
-    my_rand.shuffle(indices)
-    chars = [l for l in x]
-    for i in range(0, n-2, 3):
-        ind_1, ind_2, ind_3 = indices[i:i+3]
-        chars[ind_1] = x[ind_2]
-        chars[ind_2] = x[ind_3]
-        chars[ind_3] = x[ind_1]
-    return ''.join(chars)
+    n3 = (n // 3) * 3
+    newchars = [l for l in x]
+    for i in range(0, n3 // 3):
+        ind_1 = i
+        ind_2 = n3 // 3 + i
+        ind_3 = 2 * n3 // 3 + i
+        if i % 2 == 1:
+            ind_2, ind_3 = ind_3, ind_2
+        newchars[ind_1] = x[ind_2]
+        newchars[ind_2] = x[ind_3]
+        newchars[ind_3] = x[ind_1]
+    return ''.join(newchars)
+
 
 def lonely_death(x):
     """vowels/consonants are enemies.  those surrounded by enemies die.  y's are both"""
@@ -129,40 +245,75 @@ def lonely_death(x):
 # example='The quick brown fox jumped over the lazy dog'
 levels = [
     dict(
+        name='V',
+        fn=grow_sequences,
+        goal='Send a damned message',
+        # answer="Send a daklpocdbc meqrutage"
+    ),
+    dict(
+        name='Rot',
         fn=rot_word,
         goal='Send a damned message',
         answer='a amnedd essagem endS',
     ),
+    # dict(
+    #     name='Sub',
+    #     fn=substitution,
+    #     goal='Send a damned message',
+    #     answer='Vejz t ztyjez yevvtxe',
+    # ),
     dict(
-        fn=substitution,
-        goal='Send a damned message',
-        answer='Vejz t ztyjez yevvtxe',
-    ),
-    dict(
+        name='Un',
         fn=count_words,
         goal='Damn it',
         answer='DDDDammmmmmmmmmmmmnnnnnnnnnnnnnn iiiiiiiiitttttttttttttttttttt',
     ),
     dict(
-        fn=cancerous_vowels,
+        name='Step',
+        fn=extend_sequences,
         goal='Send a damned message',
-        answer='Sxend xa dxamnxed mxessxagxe',
+        answer="Send a daklpocdbc meqrutage"
     ),
     dict(
+        name='Cancer',
+        fn=cancerous_vowels,
+        goal='Send a damned message',
+        answer='Sxexnd a dxaxmnxexd mxexssxaxgxe',
+    ),
+    dict(
+        name='Fold',
         fn=needs_palindromic_redundancy,
         goal='Send a damned message',
         answer='Send a damned messageegassem denmad a dneS',
     ),
     dict(
-        fn=random_permute_3cycle,
-        goal='Send a damned message',
-        answer='eda aee mdSgam ndessn',
-    ),
-    dict(
+        name='Lonely',
         fn=lonely_death,
         goal='Send a damned message',
         answer='Syend ay dyamneyd myessaygey',
     ),
+    dict(
+        name='Tricky',
+        fn=ordered_cyclic_permute_3,
+        goal='Send a damned message',
+        answer='masnadeSens g demdea ',
+        # answer='eda aee mdSgam ndessn',
+    ),
+    dict(
+        name='Quote',
+        fn=quote_hell,
+        goal='\'She said, "Send a damned message"\', he said',
+        answer="""
+        " said, 'She"'"Send a damned message"'"said he ',"
+        """.strip(),
+    ),
+    # accumulate sum within word?
+
+    # something like lempel ziv?
+
+    # something where it quickly blows up?
+    # e.g. between each pair of letters, add their average?
+    # maybe you have to solve system of equations to prevent blowup
 ]
 
 def smart_input(x, color=None):
@@ -174,7 +325,8 @@ def smart_input(x, color=None):
 
 def main(one_player=True, skip=0):
     for level in levels:
-        assert level['fn'](level['answer']) == level['goal'], level['fn'](level['answer'])
+        if 'answer' in level:
+            assert level['fn'](level['answer']) == level['goal'], f"'{level['fn'](level['answer'])}'"
 
     def clear_screen():
         if one_player:
@@ -193,11 +345,15 @@ def main(one_player=True, skip=0):
             print("Unable to parse, please type 'y' or 'n'")
 
     for i, level in list(enumerate(levels))[skip:]:
+        # print(f'Level {i+1}: {level["name"]}')
         print(f'Level {i+1}')
         while True:
-            print(f'GOAL: "{level["goal"]}"')
+            print('GOAL:')
+            print(_colored(level["goal"], 'green'))
             print()
-            x = smart_input('Send your damned message:\n', color='green')
+            x = smart_input('Send your message:\n', color='yellow')
+            if x == 'SKIP':
+                break
             y = level['fn'](x)
             if y == level['goal']:
                 smart_input('Passed level!')
