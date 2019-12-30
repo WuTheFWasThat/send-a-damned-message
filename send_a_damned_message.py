@@ -75,28 +75,38 @@ def quote_hell(x):
         return result
     return read_quote()
 
+def _rotate_alphabet(x, direction):
+    is_upper = x == x.upper()
+    val = ord(x.lower()) - ord('a')
+    newval = (val + direction) % 26
+    new_x = chr(newval + ord('a'))
+    if is_upper:
+        new_x = new_x.upper()
+    return new_x
+
 def extend_sequences(x):
     prev = None
     direction = None
     result = []
     for char in x + ' ':
-        cur = ord(char)
+        cur = char
         if prev is not None:
             new_direction = None
             if direction is not None:
-                if cur != prev + direction:
-                    result.append(chr(prev + direction))
+                target = _rotate_alphabet(prev, direction)
+                if cur != target:
+                    result.append(target)
                     new_direction = None
                 else:
                     new_direction = direction
-            if cur == prev + 1:
+            if cur == _rotate_alphabet(prev, 1):
                 new_direction = 1
-            elif cur == prev - 1:
+            elif cur == _rotate_alphabet(prev, -1):
                 new_direction = -1
             elif cur == prev:
                 new_direction = 0
             if direction is None and new_direction is None:
-                result.append(chr(prev))
+                result.append(prev)
             direction = new_direction
         prev = cur
     return ''.join(result)
@@ -107,8 +117,10 @@ def switchbacks(x):
     Sequences reach for each other, also break if two switches
     i.e. babcdc
     """
-    prev = None
-    prev_direction = None
+    paths = []
+    path = []
+    segment = []
+    segment_direction = None
     result = []
     for char in x:
         if char.lower() not in alphabet:
@@ -344,7 +356,16 @@ def main(one_player=True, skip=0):
                 return False
             print("Unable to parse, please type 'y' or 'n'")
 
-    for i, level in list(enumerate(levels))[skip:]:
+    i = skip
+    while True:
+        if i >= len(levels):
+            print('Congrats!  Game over')
+            return
+        if i < 0:
+            print('Already at level 1')
+            i = 0
+
+        level = levels[i]
         # print(f'Level {i+1}: {level["name"]}')
         print(f'Level {i+1}')
         while True:
@@ -353,11 +374,16 @@ def main(one_player=True, skip=0):
             print()
             x = smart_input('Send your message:\n', color='yellow')
             if x == 'SKIP':
+                i += 1
+                break
+            if x == 'BACK':
+                i -= 1
                 break
             y = level['fn'](x)
             if y == level['goal']:
                 smart_input('Passed level!')
                 clear_screen()
+                i += 1
                 break
             if not one_player:
                 clear_screen()
