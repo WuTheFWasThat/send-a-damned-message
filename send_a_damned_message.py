@@ -23,7 +23,26 @@ def _colored(t, color):
     return _COLORS[color] + t + _COLORS_END
 
 # example='The quick brown fox jumped over the lazy dog'
+"""
+LEVEL IDEAS
+    - accumulate sum within word?
+
+    - something where the baseline is "Darn it" but you have to get "Damn it"
+      and some simple operations can change single letters
+
+    - something like lempel ziv?
+
+    - something where it super quickly blows up?
+      maybe you have to solve system of equations to prevent blowup
+
+"""
 levels = [
+    dict(
+        name='Id',
+        fn=lambda x: x,
+        goal='a damned message',
+        answer='a damned message',
+    ),
     dict(
         name='Rot',
         fn=rot_word,
@@ -87,12 +106,7 @@ levels = [
         answer='a dcbabcdefghijklmmnmlkjihgfeed mlkjihgfefghijklmnopqrssrqponmlkjihgfedcbabcdefgfe',
         # answer="Send a daklpocdbc meqrutage"
     ),
-    # accumulate sum within word?
 
-    # something like lempel ziv?
-
-    # something where it super quickly blows up?
-    # maybe you have to solve system of equations to prevent blowup
 ]
 
 
@@ -131,12 +145,12 @@ def main(one_player=True, skip=0):
             print('Congrats!  Game over')
             return
         if i < 0:
-            print('Already at level 1')
+            print('Already at level 0')
             i = 0
 
         level = levels[i]
-        # print(f'Level {i+1}: {level["name"]}')
-        print(f'Level {i+1}')
+        # print(f'Level {i}: {level["name"]}')
+        print(f'Level {i}')
         while True:
             print('GOAL IS TO SEND:')
             print(_colored(level["goal"], 'green'))
