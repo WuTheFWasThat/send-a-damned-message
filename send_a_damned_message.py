@@ -51,8 +51,8 @@ levels = [
     dict(
         name='Cancer',
         fn=cancerous_vowels,
-        goal='a damned message',
-        answer='a dxaxmnxexd mxexssxaxgxe',
+        goal='a damned message xoxo',
+        answer='a dxaxmnxexd mxexssxaxgxe xxoxxxox',
     ),
     dict(
         name='Fold',
@@ -67,18 +67,18 @@ levels = [
         answer='ay dyamneyd myessaygey',
     ),
     dict(
-        name='Tricky',
-        fn=ordered_cyclic_permute_3,
-        goal='a really really really really really really really really really stupidly damned long message',
-        answer='la lt pedlyydrmael  oeglmysraaeayrsauli le laynrdalln  eelsygre leylryarla le leylryarla le l',
-    ),
-    dict(
         name='Quote',
         fn=quote_hell,
         goal='"She said, \'Send a damned message\'", he said',
         answer="""
         '"She said, '"message' damned a 'Send"'", he said'
         """.strip(),
+    ),
+    dict(
+        name='Tricky',
+        fn=ordered_cyclic_permute_3,
+        goal='a really really really really really really really really really stupidly damned long message',
+        answer='la lt pedlyydrmael  oeglmysraaeayrsauli le laynrdalln  eelsygre leylryarla le leylryarla le l',
     ),
     dict(
         name='W',
@@ -95,12 +95,14 @@ levels = [
     # maybe you have to solve system of equations to prevent blowup
 ]
 
+
 def smart_input(x, color=None):
     if color is None:
         return input(x)
     y = input(x + _COLORS[color])
     print(_COLORS_END, end='')
     return y
+
 
 def main(one_player=True, skip=0):
     for level in levels:
