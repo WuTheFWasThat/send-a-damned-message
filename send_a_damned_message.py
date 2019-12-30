@@ -102,7 +102,7 @@ def extend_sequences(x):
     return ''.join(result)
 
 
-def grow_sequences(x):
+def switchbacks(x):
     """
     Sequences reach for each other, also break if two switches
     i.e. babcdc
@@ -244,23 +244,24 @@ def lonely_death(x):
 
 # example='The quick brown fox jumped over the lazy dog'
 levels = [
-    dict(
-        name='V',
-        fn=grow_sequences,
-        goal='Send a damned message',
-        # answer="Send a daklpocdbc meqrutage"
-    ),
+    # dict(
+    #     name='W',
+    #     fn=switchbacks,
+    #     goal='a damned message',
+    #     answer='a dcbabcdefghijklm',
+    #     # answer="Send a daklpocdbc meqrutage"
+    # ),
     dict(
         name='Rot',
         fn=rot_word,
-        goal='Send a damned message',
-        answer='a amnedd essagem endS',
+        goal='a damned message',
+        answer='amnedd essagem a',
     ),
     # dict(
     #     name='Sub',
     #     fn=substitution,
-    #     goal='Send a damned message',
-    #     answer='Vejz t ztyjez yevvtxe',
+    #     goal='a damned message',
+    #     answer='t ztyjez yevvtxe',
     # ),
     dict(
         name='Un',
@@ -271,40 +272,39 @@ levels = [
     dict(
         name='Step',
         fn=extend_sequences,
-        goal='Send a damned message',
-        answer="Send a daklpocdbc meqrutage"
+        goal='a damned message',
+        answer="a daklngfd meqrutage"
     ),
     dict(
         name='Cancer',
         fn=cancerous_vowels,
-        goal='Send a damned message',
-        answer='Sxexnd a dxaxmnxexd mxexssxaxgxe',
+        goal='a damned message',
+        answer='a dxaxmnxexd mxexssxaxgxe',
     ),
     dict(
         name='Fold',
         fn=needs_palindromic_redundancy,
-        goal='Send a damned message',
-        answer='Send a damned messageegassem denmad a dneS',
+        goal='a damned message',
+        answer='a damned messageegassem denmad a',
     ),
     dict(
         name='Lonely',
         fn=lonely_death,
-        goal='Send a damned message',
-        answer='Syend ay dyamneyd myessaygey',
+        goal='a damned message',
+        answer='ay dyamneyd myessaygey',
     ),
     dict(
         name='Tricky',
         fn=ordered_cyclic_permute_3,
-        goal='Send a damned message',
-        answer='masnadeSens g demdea ',
-        # answer='eda aee mdSgam ndessn',
+        goal='a really really really really really really really really really stupidly damned long message',
+        answer='la lt pedlyydrmael  oeglmysraaeayrsauli le laynrdalln  eelsygre leylryarla le leylryarla le l',
     ),
     dict(
         name='Quote',
         fn=quote_hell,
-        goal='\'She said, "Send a damned message"\', he said',
+        goal='"She said, \'Send a damned message\'", he said',
         answer="""
-        " said, 'She"'"Send a damned message"'"said he ',"
+        '"She said, '"message' damned a 'Send"'", he said'
         """.strip(),
     ),
     # accumulate sum within word?
@@ -348,7 +348,7 @@ def main(one_player=True, skip=0):
         # print(f'Level {i+1}: {level["name"]}')
         print(f'Level {i+1}')
         while True:
-            print('GOAL:')
+            print('GOAL IS TO SEND:')
             print(_colored(level["goal"], 'green'))
             print()
             x = smart_input('Send your message:\n', color='yellow')
