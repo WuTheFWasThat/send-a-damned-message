@@ -3,10 +3,10 @@ import random
 import readline
 
 _COLORS = dict(
-    green = "\033[92m",
-    blue = "\033[94m",
-    red = "\033[91m",
-    yellow = "\033[93m",
+    green="\033[92m",
+    blue="\033[94m",
+    red="\033[91m",
+    yellow="\033[93m",
 )
 _COLORS_END = "\033[0m"
 def _colored(t, color):
@@ -114,56 +114,62 @@ def extend_sequences(x):
 
 def switchbacks(x):
     """
-    Sequences reach for each other, also break if two switches
-    i.e. babcdc
+    Paths reach for each other, also break if there are two switches
     """
-    paths = []
-    path = []
-    segment = []
-    segment_direction = None
+    def reduce_path(path):
+        segments = []
+        cur_dir = 0
+        segment = [path[0]]
+        for char in path[1:]:
+            new_dir = ord(char.lower()) - ord(segment[-1].lower())
+            assert abs(new_dir) <= 1
+            if abs(new_dir - cur_dir) == 2:
+                segments.append(segment)
+                segment = [segment[-1], char]
+                cur_dir = new_dir
+            else:
+                segment.append(char)
+                if cur_dir == 0:
+                    cur_dir = new_dir
+        segments.append(segment)
+        for i in range(1, len(segments) - 1):
+            segment = segments[i]
+            new_segment = [segment[0]]
+            prev = segment[0]
+            for char in segment[1:]:
+                if char == prev:
+                    new_segment.append(char)
+                prev = char
+            new_segment.append(segment[-1])
+            segments[i] = new_segment
+        result = [*segments[0]]
+        for segment in segments[1:]:
+            assert segment[0] == result[-1], f'{segment[0]} != {result[-1]}'
+            result.extend(segment[1:])
+        return result
+
     result = []
+    curpath = []
     for char in x:
         if char.lower() not in alphabet:
+            if len(curpath):
+                result.extend(reduce_path(curpath))
+                curpath = []
             result.append(char)
-            prev = None
-            prev_direction = None
-            continue
-        cur = ord(char)
-
-        if prev is not None:
-            difference = cur - prev
-            if difference == 1:
-                if prev_direction == -1:
-                    assert result.pop() == chr(prev), f'{result.pop()} != {chr(prev)}'
-                    assert result.pop() == chr(cur), f'{result.pop()} != {chr(cur)}'
-                    difference = 0
-            if difference == -1:
-                if prev_direction == 1:
-                    assert result.pop() == chr(prev), f'{result.pop()} != {chr(prev)}'
-                    assert result.pop() == chr(cur), f'{result.pop()} != {chr(cur)}'
-                    difference = 0
-            if difference > 0:
-                direction = 1
-            elif difference < 0:
-                direction = -1
-            else:
-                direction = 0
-
-            print('cur', cur, 'prev', prev, 'direction', direction, 'prev_direction', prev_direction)
-            if cur != prev + direction:
-                result.append(chr(prev + direction))
-                if cur - direction != prev + direction:
-                    result.append(chr(cur - direction))
-                direction = None
         else:
-            direction = None
-
-        prev_direction = direction
-        result.append(chr(cur))
-        prev = cur
+            if len(curpath):
+                diff = ord(char.lower()) - ord(curpath[-1].lower())
+                if abs(diff) > 1:
+                    sign = 1 if diff > 0 else -1
+                    result.extend(reduce_path(curpath))
+                    result.append(_rotate_alphabet(curpath[-1], sign))
+                    if abs(diff) > 2:
+                        result.append(_rotate_alphabet(char, -sign))
+                    curpath = []
+            curpath.append(char)
+    if len(curpath):
+        result.extend(reduce_path(curpath))
     return ''.join(result)
-
-
 
 def count_words(x):
     prev = ''
@@ -251,18 +257,17 @@ def lonely_death(x):
             has_ally = True
         if not has_ally:
             deaths[i] = True
-
     return ''.join([x for x, d in zip(chars, deaths) if not d])
 
 # example='The quick brown fox jumped over the lazy dog'
 levels = [
-    # dict(
-    #     name='W',
-    #     fn=switchbacks,
-    #     goal='a damned message',
-    #     answer='a dcbabcdefghijklm',
-    #     # answer="Send a daklpocdbc meqrutage"
-    # ),
+    dict(
+        name='W',
+        fn=switchbacks,
+        goal='a damned message',
+        # answer='a dcbabcdefghijklm',
+        # answer="Send a daklpocdbc meqrutage"
+    ),
     dict(
         name='Rot',
         fn=rot_word,
