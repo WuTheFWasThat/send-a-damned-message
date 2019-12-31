@@ -7,7 +7,6 @@ def _switchbacks_reduce_path(path):
     if not len(path):
         return []
     segments = []
-    # NOTE: none means undetermined, not jump (confusing since it means jump in the segments array
     cur_dir = None
     segment = []
     for char in path:
@@ -19,7 +18,7 @@ def _switchbacks_reduce_path(path):
                 segments.append(([
                     rotate_alphabet(segment[-1], sign),
                     rotate_alphabet(char, -sign)
-                ], None))
+                ], 'Jump'))
                 segment = []
                 cur_dir = None
             elif cur_dir is None:
@@ -38,26 +37,25 @@ def _switchbacks_reduce_path(path):
     segments.append((segment, cur_dir or 0))
 
     result = []
-    # print('segments', segments, growleft, growright)
+    # print('segments', segments)
     for i, (segment, dir) in enumerate(segments):
-        if dir is None:
-            result.extend(segment)
-        elif dir == 0:
-            if i > 0 and i < len(segments) - 1 and segments[i-1][1] == segments[i+1][1] and segments[i-1][1] != None:
-                result.extend(segment[1:])
-            else:
-                result.extend(segment)
-        elif dir != 0:
+        assert dir in [-1, 1, 0, 'Jump']
+        if dir == 0:
+            if i > 0 and i < len(segments) - 1 and segments[i-1][1] == segments[i+1][1] and segments[i-1][1] != 'Jump':
+                segment = segment[1:]
+        if dir in [-1, 1]:
             # print('i', i, segments)
-            if i > 0 and segments[i-1][1] == None:
-                result.extend(segment)
-            elif i < len(segments) - 1 and segments[i+1][1] == None:
-                result.extend(segment)
+            if i > 0 and segments[i-1][1] == 'Jump':
+                pass
+            elif i < len(segments) - 1 and segments[i+1][1] == 'Jump':
+                pass
             else:
                 if i == 0:
                     result.append(segment[0])
                 if i == len(segments) - 1:
                     result.append(segment[-1])
+                segment = []
+        result.extend(segment)
         # print('segment', segment, 'new result', result)
 
     # print('result', result)
@@ -67,6 +65,8 @@ def test_switchbacks(s, expected):
     actual = ''.join(_switchbacks_reduce_path(list(s)))
     assert actual == expected, f'{actual} != {expected}'
 
+test_switchbacks('', '')
+test_switchbacks('m', 'm')
 test_switchbacks('jklmz', 'jklmnyz')
 test_switchbacks('ajklm', 'abijklm')
 test_switchbacks('jklm', 'jm')
