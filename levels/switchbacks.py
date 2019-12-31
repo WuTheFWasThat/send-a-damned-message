@@ -92,8 +92,7 @@ def switchbacks(x):
                         curpath, growleft=growleft, growright=True
                     ))
                     result.append(rotate_alphabet(curpath[-1], sign))
-                    if abs(diff) > 2:
-                        result.append(rotate_alphabet(char, -sign))
+                    result.append(rotate_alphabet(char, -sign))
                     curpath = []
                     growleft = True
             curpath.append(char)

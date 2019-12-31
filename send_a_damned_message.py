@@ -11,6 +11,8 @@ from levels.unary import count_words
 from levels.palindrome import needs_palindromic_redundancy
 from levels.cycle3 import ordered_cyclic_permute_3
 from levels.lonely import lonely_death
+from levels.corrupt import corrupt
+from levels.codebook import codebook
 
 _COLORS = dict(
     green="\033[92m",
@@ -22,7 +24,7 @@ _COLORS_END = "\033[0m"
 def _colored(t, color):
     return _COLORS[color] + t + _COLORS_END
 
-# example='The quick brown fox jumped over the lazy dog'
+# example='The quick brown fox jumps over the lazy dog'
 """
 LEVEL IDEAS
     - accumulate sum within word?
@@ -62,7 +64,7 @@ levels = [
         answer='DDDDammmmmmmmmmmmmnnnnnnnnnnnnnn iiiiiiiiitttttttttttttttttttt',
     ),
     dict(
-        name='Step',
+        name='Ext',  # extend, extrapolate
         fn=extend_sequences,
         goal='a damned message',
         answer="a daklngfd meqrutage"
@@ -74,16 +76,28 @@ levels = [
         answer='a dxaxmnxexd mxexssxaxgxe xxoxxxox',
     ),
     dict(
-        name='Fold',
+        name='Lap',  # fold?
         fn=needs_palindromic_redundancy,
         goal='a damned message',
         answer='a damned messageegassem denmad a',
     ),
     dict(
-        name='Lonely',
+        name='Corrupt',
+        fn=corrupt,
+        goal='a damned message',
+        answer='z damned messagea',
+    ),
+    dict(
+        name='Crypt',  # 'Why',  # Lonely?
         fn=lonely_death,
         goal='a damned message',
         answer='ay dyamneyd myessaygey',
+    ),
+    dict(
+        name='Tricky',
+        fn=ordered_cyclic_permute_3,
+        goal='a really really really really really really really really really stupidly damned long message',
+        answer='la lt pedlyydrmael  oeglmysraaeayrsauli le laynrdalln  eelsygre leylryarla le leylryarla le l',
     ),
     dict(
         name='Quote',
@@ -94,19 +108,18 @@ levels = [
         """.strip(),
     ),
     dict(
-        name='Tricky',
-        fn=ordered_cyclic_permute_3,
-        goal='a really really really really really really really really really stupidly damned long message',
-        answer='la lt pedlyydrmael  oeglmysraaeayrsauli le laynrdalln  eelsygre leylryarla le leylryarla le l',
-    ),
-    dict(
-        name='W',
+        name='Hike',  # W
         fn=switchbacks,
         goal='a damned message',
         answer='a dcbabcdefghijklmmnmlkjihgfeed mlkjihgfefghijklmnopqrssrqponmlkjihgfedcbabcdefgfe',
         # answer="Send a daklpocdbc meqrutage"
     ),
-
+    dict(
+        name='Book',
+        fn=codebook,
+        goal='a damned message',
+        answer='adamnedmessage a bcdefg hijklmn',
+    ),
 ]
 
 
@@ -149,8 +162,10 @@ def main(one_player=True, skip=0):
             i = 0
 
         level = levels[i]
-        # print(f'Level {i}: {level["name"]}')
-        print(f'Level {i}')
+        print('=' * 40)
+        print(f'Level {i}: {level["name"]}')
+        print('=' * 40)
+        # print(f'Level {i}')
         while True:
             print('GOAL IS TO SEND:')
             print(_colored(level["goal"], 'green'))
