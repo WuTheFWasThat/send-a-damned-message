@@ -1,4 +1,4 @@
-from utils import alphabet
+from utils import num2a
 
 def count_words(x):
     prev = ''
@@ -9,7 +9,7 @@ def count_words(x):
             count += 1
         else:
             if count != 0:
-                newchar = alphabet[min(count-1, 26)]
+                newchar = num2a(min(count, 26) - 1)
                 if prev == prev.upper():
                     newchar = newchar.upper()
                 result.append(newchar)
@@ -18,5 +18,7 @@ def count_words(x):
             if char == ' ':
                 result.append(char)
                 count = 0
+                prev = ''
     return ''.join(result[:-1])
 
+assert count_words('b AA  cc') == 'a B  b'
