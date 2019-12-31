@@ -51,12 +51,12 @@ levels = [
         goal='a damned message',
         answer='amnedd essagem a',
     ),
-    dict(
-        name='Sub',
-        fn=substitution,
-        goal='a damned message',
-        answer='t ztyjez yevvtxe',
-    ),
+    # dict(
+    #     name='Sub',
+    #     fn=substitution,
+    #     goal='a damned message',
+    #     answer='t ztyjez yevvtxe',
+    # ),
     dict(
         name='Un',
         fn=count_words,
@@ -94,31 +94,34 @@ levels = [
         answer='ay dyamneyd myessaygey',
     ),
     dict(
+        name='Book',
+        fn=codebook,
+        goal='a damned message',
+        answer='adamnedmessage a bcdefg hijklmn',
+    ),
+    dict(
         name='Tricky',
         fn=ordered_cyclic_permute_3,
         goal='a really really really really really really really really really stupidly damned long message',
         answer='aylet liaryylae elalryglee laare  laurydle  lmardyloe  lasrygllarsylpe lladrynle  lnarmylse e',
     ),
-    dict(
-        name='Quote',
-        fn=quote_hell,
-        goal='"She said, \'Send a damned message\'", he said',
-        answer="""
-        '"She said, '"message' damned a 'Send"'", he said'
-        """.strip(),
-    ),
+    # dict(
+    #     name='Quote',
+    #     fn=quote_hell,
+    #     goal='"She said, \'Send a damned message\'", he said',
+    #     answer="""
+    #     '"She said, '"message' damned a 'Send"'", he said'
+    #     """.strip(),
+    #     # answer="""
+    #     # '", he said'"'"'Send a damned message'"'"'"She said, '
+    #     # """.strip(),
+    # ),
     dict(
         name='Hike',  # W
         fn=switchbacks,
         goal='a damned message',
         answer='a dcbabcdefghijklmmnmlkjihgfeed mlkjihgfefghijklmnopqrssrqponmlkjihgfedcbabcdefgfe',
         # answer="Send a daklpocdbc meqrutage"
-    ),
-    dict(
-        name='Book',
-        fn=codebook,
-        goal='a damned message',
-        answer='adamnedmessage a bcdefg hijklmn',
     ),
 ]
 
@@ -179,7 +182,7 @@ def main(one_player=True, skip=0):
                 break
             y = level['fn'](x)
             if y == level['goal']:
-                smart_input('Passed level!')
+                smart_input('Passed level!  Enter to continue')
                 clear_screen()
                 i += 1
                 break

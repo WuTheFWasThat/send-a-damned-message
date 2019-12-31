@@ -1,9 +1,5 @@
 def quote_hell(x):
-    """
-    spaces reverse groups
-    single quotes are literal quotes
-    double quotes just group
-    """
+    """spaces swap order, double quotes group, single quotes group and make spaces literal spaces"""
     i = 0
 
     def read_quote(quotechar=None):
@@ -14,13 +10,18 @@ def quote_hell(x):
             i += 1
             if letter == ' ' and quotechar != "'":
                 result2 = read_quote(quotechar)
+                # since we re-enter with same quotechar, we must exit if exited
                 return result2 + ' ' + result
-            if letter == quotechar:
+            elif letter == quotechar:
                 return result
-            if letter == '"' and quotechar is None:
+            elif letter == '"' and quotechar is None:
                 result += read_quote('"')
+                # result2 = read_quote('"')
+                # result = result2 + result
             elif letter == "'" and quotechar is None:
                 result += read_quote("'")
+                # result2 = read_quote("'")
+                # result = result2 + result
             else:
                 result += letter
         return result
