@@ -73,33 +73,31 @@ def switchbacks(x):
 
     result = []
     curpath = []
-    growleft = False
+    curpaths = []
+    def finishpaths():
+        if len(curpath):
+            curpaths.append((curpath, None))
+        for i, (path, reach_dir) in enumerate(curpaths):
+            result.extend(_switchbacks_reduce_path(
+                path, growleft=(i != 0), growright=(i != len(curpaths) - 1)
+            ))
+            if i != len(curpaths) - 1:
+                result.append(rotate_alphabet(path[-1], reach_dir))
+                result.append(rotate_alphabet(curpaths[i + 1][0][0], -reach_dir))
+
     for char in x:
         if char.lower() not in alphabet:
-            if len(curpath):
-                result.extend(_switchbacks_reduce_path(
-                    curpath, growleft=growleft, growright=False
-                ))
-            curpath = []
-            growleft = False
+            finishpaths()
+            curpath, curpaths = [], []
             result.append(char)
         else:
             if len(curpath):
                 diff = ord(char.lower()) - ord(curpath[-1].lower())
                 if abs(diff) > 1:
-                    sign = 1 if diff > 0 else -1
-                    result.extend(_switchbacks_reduce_path(
-                        curpath, growleft=growleft, growright=True
-                    ))
-                    result.append(rotate_alphabet(curpath[-1], sign))
-                    result.append(rotate_alphabet(char, -sign))
+                    curpaths.append((curpath, 1 if diff > 0 else -1))
                     curpath = []
-                    growleft = True
             curpath.append(char)
-    if len(curpath):
-        result.extend(_switchbacks_reduce_path(
-            curpath, growleft=growleft, growright=False
-        ))
+    finishpaths()
     return ''.join(result)
 
 """
