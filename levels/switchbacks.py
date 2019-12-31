@@ -8,36 +8,41 @@ def _switchbacks_reduce_path(path):
         return []
     segments = []
     cur_dir = None
+    last = None
     segment = []
     for char in path:
-        if len(segment):
-            new_dir = ord(char.lower()) - ord(segment[-1].lower())
+        if last is not None:
+            new_dir = ord(char.lower()) - ord(last.lower())
             if abs(new_dir) > 1:
-                segments.append((segment, cur_dir or 0))
+                segments.append((segment + [last], cur_dir or 0))
                 sign = 1 if new_dir > 0 else -1
                 segments.append(([
-                    rotate_alphabet(segment[-1], sign),
+                    rotate_alphabet(last, sign),
                     rotate_alphabet(char, -sign)
                 ], 'Jump'))
                 segment = []
                 cur_dir = None
             elif cur_dir is None:
+                segment.append(last)
                 cur_dir = new_dir
             elif new_dir != cur_dir:
-                segments.append((segment, cur_dir or 0))
+                if cur_dir == 0 and new_dir != 0:
+                    segment.append(last)
+                segments.append((segment, cur_dir))
                 segment = []
                 if new_dir == 0:
-                    last = segments[-1][0].pop()
                     segment.append(last)
-                elif segments[-1][1] != 0:
-                    last = segments[-1][0].pop()
+                elif cur_dir != 0:  # V or ^ shape
                     segments.append(([last], 0))
                 cur_dir = new_dir
-        segment.append(char)
-    segments.append((segment, cur_dir or 0))
+            else:
+                segment.append(last)
+        last = char
+    assert last is not None
+    segments.append((segment + [last], cur_dir or 0))
 
     result = []
-    # print('segments', segments)
+    print('segments', segments)
     for i, (segment, dir) in enumerate(segments):
         assert dir in [-1, 1, 0, 'Jump']
         if dir == 0:
