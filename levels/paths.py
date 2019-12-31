@@ -18,22 +18,21 @@ def _reduce_path(path):
                     rotate_alphabet(char, -sign)
                 ], 'Jump'))
                 segment = []
-                cur_dir = None
-            elif cur_dir is None:
-                segment.append(last)
-                cur_dir = new_dir
-            elif new_dir != cur_dir:
-                if cur_dir == 0 and new_dir != 0:
-                    segment.append(last)
-                segments.append((segment, cur_dir))
-                segment = []
+                new_dir = None
+            elif cur_dir is not None and new_dir != cur_dir:
                 if new_dir == 0:
-                    segment.append(last)
-                elif cur_dir != 0:  # V or ^ shape
+                    segments.append((segment, cur_dir))
+                    segment = [last]
+                elif cur_dir == 0:
+                    segments.append((segment + [last], cur_dir))
+                    segment = []
+                else:  # V or ^ shape
+                    segments.append((segment, cur_dir))
                     segments.append(([last], 0))
-                cur_dir = new_dir
+                    segment = []
             else:
                 segment.append(last)
+            cur_dir = new_dir
         last = char
     assert last is not None
     segments.append((segment + [last], cur_dir or 0))
