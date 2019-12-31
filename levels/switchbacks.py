@@ -3,68 +3,90 @@ from utils import rotate_alphabet, alphabet
 """
 TODO: a terrible programmer wrote this whole file, there are probably bugs
 """
-def _switchbacks_reduce_path(path, growleft, growright):
+def _switchbacks_reduce_path(path):
+    if not len(path):
+        return []
     segments = []
-    cur_dir = 0
-    segment = [path[0]]
-    for char in path[1:]:
-        new_dir = ord(char.lower()) - ord(segment[-1].lower())
-        assert abs(new_dir) <= 1
-        if new_dir != cur_dir:
-            segments.append((segment, cur_dir))
-            if cur_dir != 0:
-                last = segment.pop()
-                if new_dir != 0:
+    # NOTE: none means undetermined, not jump (confusing since it means jump in the segments array
+    cur_dir = None
+    segment = []
+    for char in path:
+        if len(segment):
+            new_dir = ord(char.lower()) - ord(segment[-1].lower())
+            if abs(new_dir) > 1:
+                segments.append((segment, cur_dir or 0))
+                sign = 1 if new_dir > 0 else -1
+                segments.append(([
+                    rotate_alphabet(segment[-1], sign),
+                    rotate_alphabet(char, -sign)
+                ], None))
+                segment = []
+                cur_dir = None
+            elif cur_dir is None:
+                cur_dir = new_dir
+            elif new_dir != cur_dir:
+                segments.append((segment, cur_dir or 0))
+                segment = []
+                if new_dir == 0:
+                    last = segments[-1][0].pop()
+                    segment.append(last)
+                elif segments[-1][1] != 0:
+                    last = segments[-1][0].pop()
                     segments.append(([last], 0))
-            segment = []
-            if new_dir == 0:
-                segment.append(last)
+                cur_dir = new_dir
         segment.append(char)
-        cur_dir = new_dir
-    segments.append((segment, cur_dir))
-    if cur_dir != 0:
-        last = segment.pop()
-        segments.append(([last], 0))
+    segments.append((segment, cur_dir or 0))
 
     result = []
     # print('segments', segments, growleft, growright)
     for i, (segment, dir) in enumerate(segments):
-        if i % 2 == 0:
-            assert dir == 0
-            if i > 1 and i < len(segments) - 2 and segments[i-1][1] == segments[i+1][1]:
+        if dir is None:
+            result.extend(segment)
+        elif dir == 0:
+            if i > 0 and i < len(segments) - 1 and segments[i-1][1] == segments[i+1][1] and segments[i-1][1] != None:
                 result.extend(segment[1:])
             else:
                 result.extend(segment)
-        else:
-            assert dir != 0
-            if i == 1 and len(segments[0][0]) == 1 and growleft:
+        elif dir != 0:
+            # print('i', i, segments)
+            if i > 0 and segments[i-1][1] == None:
                 result.extend(segment)
-            elif i == len(segments) - 2 and len(segments[-1][0]) == 1 and growright:
+            elif i < len(segments) - 1 and segments[i+1][1] == None:
                 result.extend(segment)
+            else:
+                if i == 0:
+                    result.append(segment[0])
+                if i == len(segments) - 1:
+                    result.append(segment[-1])
         # print('segment', segment, 'new result', result)
 
     # print('result', result)
     return result
 
-def test_switchbacks(s, growleft, growright, expected):
-    actual = ''.join(_switchbacks_reduce_path(list(s), growleft, growright))
+def test_switchbacks(s, expected):
+    actual = ''.join(_switchbacks_reduce_path(list(s)))
     assert actual == expected, f'{actual} != {expected}'
 
-test_switchbacks('abcdef', True, False, 'abcdef')
-test_switchbacks('abcdef', False, True, 'abcdef')
-test_switchbacks('abcdef', False, False, 'af')
+test_switchbacks('jklmz', 'jklmnyz')
+test_switchbacks('ajklm', 'abijklm')
+test_switchbacks('jklm', 'jm')
+test_switchbacks('abjklmyz', 'abcijklmnxyz')
+test_switchbacks('abjjyz', 'abcijjkxyz')
 
-test_switchbacks('aabcdef', True, False, 'aaf')
-test_switchbacks('aabcdef', False, True, 'aabcdef')
-test_switchbacks('aabcdef', False, False, 'aaf')
+test_switchbacks('aabcdef', 'aaf')
+test_switchbacks('aabcdeft', 'aabcdefgst')
+test_switchbacks('taabcdef', 'tsbaaf')
 
-test_switchbacks('abcdeff', True, False, 'abcdeff')
-test_switchbacks('abcdeff', False, True, 'aff')
-test_switchbacks('abcdeff', False, False, 'aff')
+test_switchbacks('tabcdeff', 'tsbabcdeff')
+test_switchbacks('abcdeff', 'aff')
+test_switchbacks('abcdefft', 'affgst')
 
-test_switchbacks('abababa', False, False, 'abababa')
+test_switchbacks('abcba', 'aca')
+test_switchbacks('abababa', 'abababa')
 
-test_switchbacks('abcdeffedcbabccd', True, False, 'abcdeffacd')
+test_switchbacks('abbc', 'abc')
+test_switchbacks('abcdeffedcbabccd', 'affacd')
+test_switchbacks('tabcdeffedcbabccd', 'tsbabcdeffacd')
 
 def switchbacks(x):
     """
@@ -73,31 +95,14 @@ def switchbacks(x):
 
     result = []
     curpath = []
-    curpaths = []
-    def finishpaths():
-        if len(curpath):
-            curpaths.append((curpath, None))
-        for i, (path, reach_dir) in enumerate(curpaths):
-            result.extend(_switchbacks_reduce_path(
-                path, growleft=(i != 0), growright=(i != len(curpaths) - 1)
-            ))
-            if i != len(curpaths) - 1:
-                result.append(rotate_alphabet(path[-1], reach_dir))
-                result.append(rotate_alphabet(curpaths[i + 1][0][0], -reach_dir))
-
     for char in x:
         if char.lower() not in alphabet:
-            finishpaths()
-            curpath, curpaths = [], []
+            result.extend(_switchbacks_reduce_path(curpath))
+            curpath = []
             result.append(char)
         else:
-            if len(curpath):
-                diff = ord(char.lower()) - ord(curpath[-1].lower())
-                if abs(diff) > 1:
-                    curpaths.append((curpath, 1 if diff > 0 else -1))
-                    curpath = []
             curpath.append(char)
-    finishpaths()
+    result.extend(_switchbacks_reduce_path(curpath))
     return ''.join(result)
 
 """
