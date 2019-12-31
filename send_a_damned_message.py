@@ -97,7 +97,7 @@ levels = [
         name='Tricky',
         fn=ordered_cyclic_permute_3,
         goal='a really really really really really really really really really stupidly damned long message',
-        answer='la lt pedlyydrmael  oeglmysraaeayrsauli le laynrdalln  eelsygre leylryarla le leylryarla le l',
+        answer='aylet liaryylae elalryglee laare  laurydle  lmardyloe  lasrygllarsylpe lladrynle  lnarmylse e',
     ),
     dict(
         name='Quote',
