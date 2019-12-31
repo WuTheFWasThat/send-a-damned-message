@@ -6,7 +6,7 @@ from levels.substitution import substitution
 from levels.cancer import cancerous_vowels
 from levels.quote import quote_hell
 from levels.step import extend_sequences
-from levels.switchbacks import switchbacks
+from levels.paths import paths
 from levels.unary import count_words
 from levels.palindrome import needs_palindromic_redundancy
 from levels.cycle3 import ordered_cyclic_permute_3
@@ -118,7 +118,7 @@ levels = [
     # ),
     dict(
         name='Hike',  # W
-        fn=switchbacks,
+        fn=paths,
         goal='a damned message',
         answer='a dcbabcdefghijklmmnmlkjihgfeed mlkjihgfefghijklmnopqrssrqponmlkjihgfedcbabcdefgfe',
         # answer="Send a daklpocdbc meqrutage"
