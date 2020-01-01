@@ -105,9 +105,15 @@ levels = [
         goal='a really really really really really really really really really stupidly damned long message',
         answer='aylet liaryylae elalryglee laare  laurydle  lmardyloe  lasrygllarsylpe lladrynle  lnarmylse e',
     ),
+    dict(
+        name='Quote',
+        fn=quote_hell,
+        goal='"Send a damned message", it said',
+        answer='", it said"""Send a damned message""'
+    ),
     # dict(
     #     name='Quote',
-    #     fn=quote_hell,
+    #     fn=quote_hell_old,
     #     goal='"She said, \'Send a damned message\'", he said',
     #     answer="""
     #     '"She said, '"message' damned a 'Send"'", he said'

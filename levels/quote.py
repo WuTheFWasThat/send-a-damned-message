@@ -1,28 +1,34 @@
 def quote_hell(x):
-    """spaces swap order, double quotes group, single quotes group and make spaces literal spaces"""
+    "Ternary flip operator, abc -> CbA.  Quotes group"
     i = 0
 
-    def read_quote(quotechar=None):
+    def read_expr():
         nonlocal i
+        if i == len(x):
+            return ''
+        letter = x[i]
+        i += 1
+        if letter != '"':
+            return letter
         result = ''
         while i < len(x):
             letter = x[i]
             i += 1
-            if letter == ' ' and quotechar != "'":
-                result2 = read_quote(quotechar)
-                # since we re-enter with same quotechar, we must exit if exited
-                return result2 + ' ' + result
-            elif letter == quotechar:
-                return result
-            elif letter == '"' and quotechar is None:
-                result += read_quote('"')
-                # result2 = read_quote('"')
-                # result = result2 + result
-            elif letter == "'" and quotechar is None:
-                result += read_quote("'")
-                # result2 = read_quote("'")
-                # result = result2 + result
-            else:
+            if letter != '"':
                 result += letter
+            else:
+                break
         return result
-    return read_quote()
+
+    result = read_expr()
+    while i < len(x):
+        z = x[i]
+        i += 1
+        b = read_expr().swapcase()
+        result = b + z + result.swapcase()
+    return result
+
+assert quote_hell('abcde') == 'EdcBa'
+assert quote_hell('abcdef') == 'feDCbA'
+assert quote_hell('ab"cd"ef') == 'FecdBa'
+assert quote_hell('a"bc"def') == 'DEFcb"a'
