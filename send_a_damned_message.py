@@ -14,6 +14,7 @@ from levels.lonely import lonely_death
 from levels.corrupt import corrupt
 from levels.codebook import codebook
 from levels.explode import explode
+from levels.reflect import reflect
 
 _COLORS = dict(
     green="\033[92m",
@@ -45,6 +46,12 @@ levels = [
         fn=lambda x: x,
         goal='a damned message',
         answer='a damned message',
+    ),
+    dict(
+        name='Cut',
+        fn=lambda x: x[:-len(x.split(' '))],
+        goal='a damned message',
+        answer='a damned message...',
     ),
     dict(
         name='Rot',
@@ -95,23 +102,29 @@ levels = [
         answer='ay dyamneyd myessaygey',
     ),
     dict(
+        name='Reflect',
+        fn=reflect,
+        goal='a damned message',
+        answer='egs dma danemesa',
+    ),
+    dict(
         name='Book',
         fn=codebook,
         goal='a damned message',
         answer='adamnedmessage a bcdefg hijklmn',
     ),
     dict(
-        name='Tricky',
-        fn=ordered_cyclic_permute_3,
-        goal='a really really really really really really really really really stupidly damned long message',
-        answer='aylet liaryylae elalryglee laare  laurydle  lmardyloe  lasrygllarsylpe lladrynle  lnarmylse e',
-    ),
-    dict(
-        name='Trippy',
+        name='Group',  # 'Trippy',
         fn=explode,
         goal='please, just a short damned message',
         # answer=' ( please, ( just a)) ( short ( damned message))',
         answer=' ( please, ( just ( a ( short ( damned message'
+    ),
+    dict(
+        name='Tricky',
+        fn=ordered_cyclic_permute_3,
+        goal='a really really really really really really really really really stupidly damned long message',
+        answer='aylet liaryylae elalryglee laare  laurydle  lmardyloe  lasrygllarsylpe lladrynle  lnarmylse e',
     ),
     dict(
         name='Hike',  # W
@@ -121,10 +134,10 @@ levels = [
         # answer="Send a daklpocdbc meqrutage"
     ),
     dict(
-        name='Quote',
+        name='Quote',  # TODO: make this level better
         fn=quote_hell,
         goal='"Send a damned message", I said',
-        answer='", it said"""Send a damned message""'
+        answer='", I said"""Send a damned message""'
     ),
     # dict(
     #     name='Quote',

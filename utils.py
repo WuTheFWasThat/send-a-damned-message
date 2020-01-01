@@ -1,5 +1,11 @@
 alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
+def is_vowel(l):
+    return l.lower() in 'aeiou'
+
+def is_consonant(l):
+    return l.lower() in 'bcdfghjklmnpqrstvwxyz'
+
 def a2num(x):
     return ord(x.lower()) - ord('a')
 

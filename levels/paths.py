@@ -90,8 +90,8 @@ test_reduce_path('abababa', 'abababa')
 test_reduce_path('abbc', 'abc')
 test_reduce_path('abcdeffedcbabccd', 'affacd')
 test_reduce_path('tabcdeffedcbabccd', 'tsbabcdeffacd')
-"""
-if 1:
+
+if 0:
     all_ms = set()
     cur = 'a damned message'
     while True:
@@ -99,5 +99,5 @@ if 1:
         if cur in all_ms:
             break
         all_ms.add(cur)
-        cur = switchbacks(cur)
-"""
+        cur = paths(cur)
+    print(len(all_ms))

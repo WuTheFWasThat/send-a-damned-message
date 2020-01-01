@@ -8,10 +8,7 @@ def explode(x):
             return ''
         word = ''
         words = []
-        def add_word():
-            nonlocal word
-            words.append(word)
-            word = ''
+
         while i < len(x):
             letter = x[i]
             i += 1
@@ -20,10 +17,11 @@ def explode(x):
             if letter == '(':
                 word += read_expr()
             elif letter == ' ':
-                add_word()
+                words.append(word)
+                word = ''
             else:
                 word += letter
-        add_word()
+        words.append(word)
         while len(words) > 1:
             if len(words) == 2:
                 words.append('')
@@ -33,6 +31,7 @@ def explode(x):
         assert len(words) == 1
         return words[0]
     return read_expr()
+
 
 assert explode('a b') == 'a a b'
 assert explode('a b c') == 'a a b c'
