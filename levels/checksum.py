@@ -20,3 +20,11 @@ def checksum(x):
             else:
                 results.append('-' * len(orig))
     return ' '.join(results)
+
+
+checksum = dict(
+    name='Check',
+    fn=checksum,
+    goal='a damned message',
+    answer='aa damnedo messageq',
+)

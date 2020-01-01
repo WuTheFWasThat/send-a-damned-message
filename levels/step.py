@@ -21,3 +21,10 @@ def extend_sequences(x):
             direction = new_direction
         prev = cur
     return ''.join(result)
+
+level = dict(
+    name='Ext',  # extend, extrapolate
+    fn=extend_sequences,
+    goal='a damned message',
+    answer="a daklngfd meqrutage"
+)

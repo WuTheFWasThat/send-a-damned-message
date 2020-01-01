@@ -1,23 +1,23 @@
 import fire
 import readline
 
-from levels.rot_word import rot_word
-from levels.substitution import substitution
-from levels.cancer import cancerous_vowels
-from levels.quote import quote_hell
-from levels.step import extend_sequences
-from levels.paths import paths
-from levels.unary import count_words
-from levels.palindrome import needs_palindromic_redundancy
-from levels.cycle3 import ordered_cyclic_permute_3
-from levels.lonely import lonely_death
-from levels.corrupt import corrupt
-from levels.codebook import codebook
-from levels.explode import explode
-from levels.reflect import reflect
-from levels.checksum import checksum
-from levels.sandwiched import cut_sandwiched
-from levels.end import end
+from levels.rot_word import level as rot_word
+from levels.substitution import level as substitution
+from levels.cancer import level as cancerous_vowels
+from levels.quote import level as quote_hell
+from levels.step import level as extend_sequences
+from levels.paths import level as paths
+from levels.unary import level as count_words
+from levels.palindrome import level as needs_palindromic_redundancy
+from levels.cycle3 import level as ordered_cyclic_permute_3
+from levels.lonely import level as lonely_death
+from levels.corrupt import level as corrupt
+from levels.codebook import level as codebook
+from levels.explode import level as explode
+from levels.reflect import level as reflect
+from levels.checksum import level as checksum
+from levels.sandwiched import level as cut_sandwiched
+from levels.end import level as end
 
 _COLORS = dict(
     green="\033[92m",
@@ -49,42 +49,18 @@ levels = [
         goal='a damned message',
         answer='a damned message...',
     ),
-    dict(
-        name='Rot',
-        fn=rot_word,
-        goal='a damned message',
-        answer='amnedd essagem a',
-    ),
-    # dict(
-    #     name='Sub',
-    #     fn=substitution,
-    #     goal='a damned message',
-    #     answer='t ztyjez yevvtxe',
-    # ),
-    dict(
-        name='Ext',  # extend, extrapolate
-        fn=extend_sequences,
-        goal='a damned message',
-        answer="a daklngfd meqrutage"
-    ),
-    dict(
-        name='Un',
-        fn=count_words,
-        goal='Damn it',
-        answer='DDDDammmmmmmmmmmmmnnnnnnnnnnnnnn iiiiiiiiitttttttttttttttttttt',
-    ),
     # dict(
     #     name='One',
     #     fn=count_words_unimplemented,
     #     goal='1 damned message',
     #     answer='a1a 1d1a1m1n1e1d1 1m1e1s1s1a1g1e',
     # ),
-    # dict(
-    #     name='Check',
-    #     fn=checksum,
-    #     goal='a damned message',
-    #     answer='aa damnedo messageq',
-    # ),
+
+    rot_word,
+    # substitution, # meh level
+    extend_sequences,
+    count_words,
+    # checksum, # meh level
     dict(
         name='Lap',  # fold?
         fn=needs_palindromic_redundancy,

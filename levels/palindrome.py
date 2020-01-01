@@ -7,3 +7,10 @@ def needs_palindromic_redundancy(x):
         else:
             break
     return ''.join(recovered)
+
+level = dict(
+    name='Lap',  # fold?
+    fn=needs_palindromic_redundancy,
+    goal='a damned message',
+    answer='a damned messageegassem denmad a',
+)

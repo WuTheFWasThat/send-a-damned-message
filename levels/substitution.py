@@ -1,5 +1,6 @@
 from utils import alphabet
 
+
 def substitution(x):
     code = 'xpyhekovbntufilwqzcarsjgmd'
     def replace(l):
@@ -9,3 +10,11 @@ def substitution(x):
             return code.upper()[alphabet.upper().index(l)]
         return l
     return ''.join([replace(l) for l in x])
+
+
+level = dict(
+    name='Sub',
+    fn=substitution,
+    goal='a damned message',
+    answer='t ztyjez yevvtxe',
+)

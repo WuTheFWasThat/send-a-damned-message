@@ -22,3 +22,10 @@ def count_words(x):
     return ''.join(result[:-1])
 
 assert count_words('b AA  cc') == 'a B  b'
+
+level = dict(
+    name='Un',
+    fn=count_words,
+    goal='Damn it',
+    answer='DDDDammmmmmmmmmmmmnnnnnnnnnnnnnn iiiiiiiiitttttttttttttttttttt',
+)
