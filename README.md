@@ -14,3 +14,7 @@ Don't look at the source, it can spoil gameplay.
 For now just read the code, there are no dependencies really.
 
 TODO: port to web, maybe try reason instead of typescript?
+
+# Game ideas
+
+I was originally thinking to have a two player game, in which the two players can't communicate except through a chat room.  But the chat room is a noisy channel f and you see f(x) for incoming messages.
