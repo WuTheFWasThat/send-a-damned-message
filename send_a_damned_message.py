@@ -15,6 +15,7 @@ from levels.corrupt import corrupt
 from levels.codebook import codebook
 from levels.explode import explode
 from levels.reflect import reflect
+from levels.checksum import checksum
 
 _COLORS = dict(
     green="\033[92m",
@@ -26,20 +27,6 @@ _COLORS_END = "\033[0m"
 def _colored(t, color):
     return _COLORS[color] + t + _COLORS_END
 
-# example='The quick brown fox jumps over the lazy dog'
-"""
-LEVEL IDEAS
-    - accumulate sum within word?
-
-    - something where the baseline is "Darn it" but you have to get "Damn it"
-      and some simple operations can change single letters
-
-    - something like lempel ziv?
-
-    - something where it super quickly blows up?
-      maybe you have to solve system of equations to prevent blowup
-
-"""
 levels = [
     dict(
         name='Id',
@@ -66,22 +53,28 @@ levels = [
     #     answer='t ztyjez yevvtxe',
     # ),
     dict(
-        name='Un',
-        fn=count_words,
-        goal='Damn it',
-        answer='DDDDammmmmmmmmmmmmnnnnnnnnnnnnnn iiiiiiiiitttttttttttttttttttt',
-    ),
-    dict(
         name='Ext',  # extend, extrapolate
         fn=extend_sequences,
         goal='a damned message',
         answer="a daklngfd meqrutage"
     ),
     dict(
+        name='Un',
+        fn=count_words,
+        goal='Damn it',
+        answer='DDDDammmmmmmmmmmmmnnnnnnnnnnnnnn iiiiiiiiitttttttttttttttttttt',
+    ),
+    dict(
+        name='Check',
+        fn=checksum,
+        goal='a damned message',
+        answer='aa damnedo messageq',
+    ),
+    dict(
         name='Cancer',
         fn=cancerous_vowels,
-        goal='a damned message xoxo',
-        answer='a dxaxmnxexd mxexssxaxgxe xxoxxxox',
+        goal='a damned message...',
+        answer='a d.a.mn.e.d m.e.ss.a.g.e....',
     ),
     dict(
         name='Lap',  # fold?
@@ -165,8 +158,8 @@ def main(one_player=True, skip=0, dev=False):
         if dev:
             print('=' * 20 + level['name'] + '=' * 20)
             print(_colored(level['goal'], 'green'))
-            print(_colored(level['fn'](level['goal']), 'yellow'))
-            print(_colored(level['answer'], 'red'))
+            print(_colored(level['fn'](level['goal']), 'red'))
+            print(_colored(level['answer'], 'yellow'))
 
         if 'answer' in level:
             assert level['fn'](level['answer']) == level['goal'], f"'{level['fn'](level['answer'])}'"
