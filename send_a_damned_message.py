@@ -27,6 +27,11 @@ _COLORS_END = "\033[0m"
 def _colored(t, color):
     return _COLORS[color] + t + _COLORS_END
 
+"""
+- Maybe something based on factorization?
+- accumulate sum within word?
+- solving equations?
+"""
 levels = [
     dict(
         name='Id',
@@ -64,17 +69,25 @@ levels = [
         goal='Damn it',
         answer='DDDDammmmmmmmmmmmmnnnnnnnnnnnnnn iiiiiiiiitttttttttttttttttttt',
     ),
+    # dict(
+    #     name='Check',
+    #     fn=checksum,
+    #     goal='a damned message',
+    #     answer='aa damnedo messageq',
+    # ),
     dict(
-        name='Check',
-        fn=checksum,
-        goal='a damned message',
-        answer='aa damnedo messageq',
+        name='Corrupt',  # TODO: make this level better
+        fn=corrupt,
+        goal='damn',
+        # answer='a damned message',
+        # answer='z damned messagea',
+        # answer='a damned message ',
     ),
     dict(
-        name='Cancer',
-        fn=cancerous_vowels,
-        goal='a damned message...',
-        answer='a d.a.mn.e.d m.e.ss.a.g.e....',
+        name='Crypt',  # 'Why',  # Lonely?
+        fn=lonely_death,
+        goal='a damned message',
+        answer='ay dyamneyd myessaygey',
     ),
     dict(
         name='Lap',  # fold?
@@ -83,16 +96,10 @@ levels = [
         answer='a damned messageegassem denmad a',
     ),
     dict(
-        name='Corrupt',
-        fn=corrupt,
+        name='Cancer',
+        fn=cancerous_vowels,
         goal='a damned message',
-        answer='z damned messagea',
-    ),
-    dict(
-        name='Crypt',  # 'Why',  # Lonely?
-        fn=lonely_death,
-        goal='a damned message',
-        answer='ay dyamneyd myessaygey',
+        answer='a  d a mn e d m e ss a g e ',
     ),
     dict(
         name='Reflect',
@@ -154,9 +161,9 @@ def smart_input(x, color=None):
 
 
 def main(one_player=True, skip=0, dev=False):
-    for level in levels:
+    for i, level in enumerate(levels):
         if dev:
-            print('=' * 20 + level['name'] + '=' * 20)
+            print('=' * 20 + str(i) + ' ' + level['name'] + '=' * 20)
             print(_colored(level['goal'], 'green'))
             print(_colored(level['fn'](level['goal']), 'red'))
             print(_colored(level['answer'], 'yellow'))

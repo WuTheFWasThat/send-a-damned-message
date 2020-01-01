@@ -6,13 +6,13 @@ def cancerous_vowels(x):
     for vowel in cancerous:
         for i, l in enumerate(chars):
             if l.lower() == vowel:
-                if i != 0 and newchars[i-1] != ' ' and chars[i-1].lower() not in cancerous:
-                    if newchars[i-1] == '.':
+                if i != 0 and chars[i-1].lower() not in cancerous:
+                    if newchars[i-1] == ' ':
                         newchars[i-1] = None
                     else:
                         newchars[i-1] = l
-                if i != len(chars) - 1 and newchars[i+1] != ' ' and chars[i+1].lower() not in cancerous:
-                    if newchars[i+1] == '.':
+                if i != len(chars) - 1 and chars[i+1].lower() not in cancerous:
+                    if newchars[i+1] == ' ':
                         newchars[i+1] = None
                     else:
                         newchars[i+1] = l
