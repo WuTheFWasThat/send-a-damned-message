@@ -16,6 +16,7 @@ from levels.codebook import codebook
 from levels.explode import explode
 from levels.reflect import reflect
 from levels.checksum import checksum
+from levels.sandwiched import cut_sandwiched
 
 _COLORS = dict(
     green="\033[92m",
@@ -30,6 +31,9 @@ def _colored(t, color):
 """
 - Maybe something based on factorization?
 - accumulate sum within word?
+
+- delete in between all double letters?
+  - some ordering to make it possible?
 """
 levels = [
     dict(
@@ -39,7 +43,7 @@ levels = [
         answer='a damned message',
     ),
     dict(
-        name='Cut',
+        name='Trim',
         fn=lambda x: x[:-len(x.split(' '))],
         goal='a damned message',
         answer='a damned message...',
@@ -69,6 +73,12 @@ levels = [
         answer='DDDDammmmmmmmmmmmmnnnnnnnnnnnnnn iiiiiiiiitttttttttttttttttttt',
     ),
     # dict(
+    #     name='One',
+    #     fn=count_words_unimplemented,
+    #     goal='1 damned message',
+    #     answer='a1a 1d1a1m1n1e1d1 1m1e1s1s1a1g1e',
+    # ),
+    # dict(
     #     name='Check',
     #     fn=checksum,
     #     goal='a damned message',
@@ -87,6 +97,12 @@ levels = [
         answer='a  d a mn e d m e ss a g e ',
     ),
     dict(
+        name='Cut',
+        fn=cut_sandwiched,
+        goal='a damned message',
+        answer='axx damneyyd meszzsage',
+    ),
+    dict(
         name='Reflect',
         fn=reflect,
         goal='a damned message',
@@ -98,6 +114,12 @@ levels = [
         goal='a damned message',
         answer='adamnedmessage a bcdefg hijklmn',
     ),
+    # dict(
+    #     name='Book',
+    #     fn=book_unimplemented,
+    #     goal='a damned message',
+    #     answer='a a b damned c message abc',
+    # ),
     dict(
         name='Crypt',  # 'Why',  # Lonely?
         fn=lonely_death,
@@ -135,8 +157,8 @@ levels = [
     dict(
         name='Quote',  # TODO: make this level better / less confusing?
         fn=quote_hell,
-        goal='"Send a damned message", I said',
-        answer='", I said"""Send a damned message""'
+        goal='"Send a damned message", I demanded',
+        answer='", I demanded"""Send a damned message""'
     ),
     # dict(
     #     name='Quote',
