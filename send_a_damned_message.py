@@ -30,7 +30,6 @@ def _colored(t, color):
 """
 - Maybe something based on factorization?
 - accumulate sum within word?
-- solving equations?
 """
 levels = [
     dict(
@@ -76,20 +75,6 @@ levels = [
     #     answer='aa damnedo messageq',
     # ),
     dict(
-        name='Corrupt',  # TODO: make this level better
-        fn=corrupt,
-        goal='damn',
-        # answer='a damned message',
-        # answer='z damned messagea',
-        # answer='a damned message ',
-    ),
-    dict(
-        name='Crypt',  # 'Why',  # Lonely?
-        fn=lonely_death,
-        goal='a damned message',
-        answer='ay dyamneyd myessaygey',
-    ),
-    dict(
         name='Lap',  # fold?
         fn=needs_palindromic_redundancy,
         goal='a damned message',
@@ -114,6 +99,20 @@ levels = [
         answer='adamnedmessage a bcdefg hijklmn',
     ),
     dict(
+        name='Crypt',  # 'Why',  # Lonely?
+        fn=lonely_death,
+        goal='a damned message',
+        answer='ay dyamneyd myessaygey',
+    ),
+    dict(
+        name='Corrupt',
+        fn=corrupt,
+        goal='a damned messaaage',
+        answer='a damned messaalge',
+        # goal='a damnn msg plz',
+        # answer='l damnn msg plz',
+    ),
+    dict(
         name='Group',  # 'Trippy',
         fn=explode,
         goal='please, just a short damned message',
@@ -134,7 +133,7 @@ levels = [
         # answer="Send a daklpocdbc meqrutage"
     ),
     dict(
-        name='Quote',  # TODO: make this level better
+        name='Quote',  # TODO: make this level better / less confusing?
         fn=quote_hell,
         goal='"Send a damned message", I said',
         answer='", I said"""Send a damned message""'
