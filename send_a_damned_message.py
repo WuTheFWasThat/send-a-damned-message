@@ -114,9 +114,16 @@ levels = [
         answer=' ( please, ( just ( a ( short ( damned message'
     ),
     dict(
+        name='Hike',  # W
+        fn=paths,
+        goal='a damned message',
+        answer='a dcbabcdefghijklmmnmlkjihgfeed mlkjihgfefghijklmnopqrssrqponmlkjihgfedcbabcdefgfe',
+        # answer="Send a daklpocdbc meqrutage"
+    ),
+    dict(
         name='Quote',
         fn=quote_hell,
-        goal='"Send a damned message", it said',
+        goal='"Send a damned message", I said',
         answer='", it said"""Send a damned message""'
     ),
     # dict(
@@ -130,18 +137,7 @@ levels = [
     #     # '", he said'"'"'Send a damned message'"'"'"She said, '
     #     # """.strip(),
     # ),
-    dict(
-        name='Hike',  # W
-        fn=paths,
-        goal='a damned message',
-        answer='a dcbabcdefghijklmmnmlkjihgfeed mlkjihgfefghijklmnopqrssrqponmlkjihgfedcbabcdefgfe',
-        # answer="Send a daklpocdbc meqrutage"
-    ),
 ]
-
-for level in levels:
-    print(level['name'])
-    print(level['fn'](level['goal']))
 
 def smart_input(x, color=None):
     if color is None:
@@ -151,8 +147,14 @@ def smart_input(x, color=None):
     return y
 
 
-def main(one_player=True, skip=0):
+def main(one_player=True, skip=0, dev=False):
     for level in levels:
+        if dev:
+            print('=' * 20 + level['name'] + '=' * 20)
+            print(_colored(level['goal'], 'green'))
+            print(_colored(level['fn'](level['goal']), 'yellow'))
+            print(_colored(level['answer'], 'red'))
+
         if 'answer' in level:
             assert level['fn'](level['answer']) == level['goal'], f"'{level['fn'](level['answer'])}'"
 
