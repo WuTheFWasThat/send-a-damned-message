@@ -25,15 +25,21 @@ def corrupt(x):
     return x[:index] + new + x[index + 1:]
 
 if 0:
+    startword = 'darn'
+    wantdiff = 22
+    startword = 'damn'
+    wantdiff = 5
+    indexdiff = 3
+
     # search for good sums
     for offset in range(7):
         for addlength in range(14):
-            total_length = offset + 4 + addlength
-            for total_sum in range(offset + 3, total_length * 22, total_length):
-                remaining_sum = total_sum - sum([num(l) for l in 'damn'])
+            total_length = offset + len(startword) + addlength
+            for total_sum in range(offset + indexdiff, total_length * 22, total_length):
+                remaining_sum = total_sum - sum([num(l) for l in startword])
                 if remaining_sum <= 0:
                     continue
-                if not total_sum % 27 == 5:
+                if not total_sum % 27 == wantdiff:
                     continue
                 # now make sure a corruption exists
                 for corrupt_amt in range(1, 26):
@@ -69,11 +75,13 @@ if 0:
 # print(corrupt('a damned messaaage'))
 # print(corrupt('a damned message b'))
 # print(corrupt('daaaaaamn yoou!'))
+# print(corrupt('a darn messaga'))
 
 if 0:
     goal = 'this damned message'
     goal = 'a damnn msg plz'
     goal = 'a damned messaaage'
+    goal = 'a darn massage'
     print('DAMN', corrupt(goal))
     s = set()
     for i in range(len(goal)):

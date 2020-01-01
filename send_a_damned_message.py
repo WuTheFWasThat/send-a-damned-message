@@ -17,6 +17,7 @@ from levels.explode import explode
 from levels.reflect import reflect
 from levels.checksum import checksum
 from levels.sandwiched import cut_sandwiched
+from levels.end import end
 
 _COLORS = dict(
     green="\033[92m",
@@ -127,10 +128,14 @@ levels = [
         answer='ay dyamneyd myessaygey',
     ),
     dict(
-        name='Corrupt',
+        name='Darn',  # 'Corrupt',
         fn=corrupt,
-        goal='a damned messaaage',
-        answer='a damned messaalge',
+        goal='a damned message b',
+        answer='a damned messagp b',
+        # goal='a damned messaaage',
+        # answer='a damned messaalge',
+        # goal='a darn massage',
+        # answer='a darn bassage',
         # goal='a damnn msg plz',
         # answer='l damnn msg plz',
     ),
@@ -159,6 +164,12 @@ levels = [
         fn=quote_hell,
         goal='"Send a damned message", I demanded',
         answer='", I demanded"""Send a damned message""'
+    ),
+    dict(
+        name='End',
+        fn=end,
+        goal='end all the damned messages',
+        answer='send all the damned messages',
     ),
     # dict(
     #     name='Quote',
