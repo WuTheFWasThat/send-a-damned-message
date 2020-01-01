@@ -13,6 +13,7 @@ from levels.cycle3 import ordered_cyclic_permute_3
 from levels.lonely import lonely_death
 from levels.corrupt import corrupt
 from levels.codebook import codebook
+from levels.explode import explode
 
 _COLORS = dict(
     green="\033[92m",
@@ -106,6 +107,13 @@ levels = [
         answer='aylet liaryylae elalryglee laare  laurydle  lmardyloe  lasrygllarsylpe lladrynle  lnarmylse e',
     ),
     dict(
+        name='Trippy',
+        fn=explode,
+        goal='please, just a short damned message',
+        # answer=' ( please, ( just a)) ( short ( damned message))',
+        answer=' ( please, ( just ( a ( short ( damned message'
+    ),
+    dict(
         name='Quote',
         fn=quote_hell,
         goal='"Send a damned message", it said',
@@ -131,6 +139,9 @@ levels = [
     ),
 ]
 
+for level in levels:
+    print(level['name'])
+    print(level['fn'](level['goal']))
 
 def smart_input(x, color=None):
     if color is None:
