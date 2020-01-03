@@ -8,28 +8,28 @@ def cut_sandwiched(x):
             if x[i] == x[j]:
                 pairs.append((i, j))
 
-    is_inner = [True for _ in pairs]
+    is_outer = [False for _ in pairs]
     for pi, (i1, j1) in enumerate(pairs):
         # make sure no endpoint is contained within i1
         for (i2, j2) in pairs:
-            if (i2 > i1 and i2 < j1) or (j2 > i1 and j2 < j1):
-                is_inner[pi] = False
+            if (i2 > i1 and i2 < j1) and (j2 > i1 and j2 < j1):
+                is_outer[pi] = True
                 break
 
     deleted = [False for _ in range(n)]
-    for v, (i, j) in zip(is_inner, pairs):
-        if v:
+    for v, (i, j) in zip(is_outer, pairs):
+        if not v:
             for k in range(i, j+1):
                 deleted[k] = True
     return ''.join([l for k, l in enumerate(x) if not deleted[k]])
 
 assert cut_sandwiched('abba') == 'aa'
 assert cut_sandwiched('baab') == 'bb'
-assert cut_sandwiched('abab') == 'abab'
+assert cut_sandwiched('abab') == ''
 assert cut_sandwiched('sand') == 'sand'
 assert cut_sandwiched('sanadweeb') == 'sdwb'
-assert cut_sandwiched('sanadweneb') == 'sanadweneb'
-assert cut_sandwiched('sanadnweeb') == 'sanadnwb'
+assert cut_sandwiched('sanadweneb') == 'sb'
+assert cut_sandwiched('sanadnweeb') == 'swb'
 
 # OLD VERSION
 # def cut_sandwiched(x):
