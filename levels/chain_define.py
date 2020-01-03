@@ -1,14 +1,22 @@
 def chain_define(x):
     words = x.split(' ')
+    # NOTE: without this section, this puzzle is impossible, i think
+    while len(words) and words[-1] == '':
+        words.pop()
+    while '' in words:
+        i = words.index('')
+        assert i != len(words) - 1
+        words[i + 1] = ' ' + words[i + 1]
+        words = words[:i] + words[i+1:]
+    # end section
+
     i = 0
     defs = []
     def apply_defs(s):
-        print('applying defs', s, defs)
+        # print('applying defs', s, defs)
         for (k, v) in reversed(defs):
-            if not k:
-                s = v.join(list(s))
-            else:
-                s = v.join(s.split(k))
+            assert len(k)
+            s = v.join(s.split(k))
             # s = s.replace(k, v)
         return s
 
@@ -23,3 +31,15 @@ def chain_define(x):
         assert i == len(words) - 1
         return apply_defs(words[i])
     return ''
+
+
+assert chain_define('') == ''
+assert chain_define('b a c b c') == 'a'
+assert chain_define('b  a c b c') == ' a'
+assert chain_define('b a c b cab') == 'aaa'
+assert chain_define('b c c b cab') == 'cac'
+assert chain_define('b  a c  b abc') == 'a a  a'
+assert chain_define(' b  a c  b abc') == 'ab a'
+assert chain_define(' b  a b') == 'b'
+assert chain_define('a b') == ''
+assert chain_define('a b  ') == ''

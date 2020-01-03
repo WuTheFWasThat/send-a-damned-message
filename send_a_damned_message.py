@@ -140,10 +140,10 @@ levels = [
         answer='k caunadqmmskabe',
     ),
     dict(
-        name='Def',  # 'Corrupt',
+        name='Def',
         fn=chain_define,
-        goal='a damned message',
-        answer='q message d damned  z adq',
+        goal='a damned b message abc',
+        answer='x  d y  b z  m w  a axamnedyzessagewbc',
     ),
     dict(
         name='Darn',  # 'Corrupt',
