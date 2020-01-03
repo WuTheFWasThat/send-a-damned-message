@@ -1,4 +1,3 @@
-import fire
 import readline
 
 from levels.rot_word import rot_word
@@ -279,4 +278,8 @@ def main(one_player=True, skip=0, dev=False):
             print()
 
 if __name__ == "__main__":
-    fire.Fire(main)
+    try:
+        import fire
+        fire.Fire(main)
+    except ModuleNotFoundError:
+        main()
