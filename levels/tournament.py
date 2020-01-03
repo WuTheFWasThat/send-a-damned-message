@@ -15,33 +15,20 @@
 from utils import rotate_alphabet, a2num
 
 def tournament(x):
-    vals = [None for _ in range(len(x))]
+    vals = [0 for _ in range(len(x))]
 
-    def get_val(i):
-        if vals[i] is not None:
-            return vals[i]
+    def parent(i):
         if i == 0:
-            val = 0
+            return None
         else:
             pow2 = 1
             while i % (pow2 * 2) == 0:
                 pow2 *= 2
-            val = (a2num(x[i - pow2], with_spaces=True) + get_val(i - pow2)) % 27
-        vals[i] = val
-        return val
-    return ''.join(rotate_alphabet(l, get_val(i), with_spaces=True) for i, l in enumerate(x))
+            return i - pow2
 
-
-if 1:
-    def print_cycle(cur):
-        all_ms = set()
-        while True:
-            print(cur)
-            if cur in all_ms:
-                break
-            all_ms.add(cur)
-            cur = tournament(cur)
-        print(len(all_ms))
-    # interesting that this cycles, there some funny thing going on with capitalization too
-    cur = 'a damned message'
-    print_cycle(cur)
+    for i, l in enumerate(x):
+        j = parent(i)
+        while j is not None:
+            vals[j] += a2num(l, with_spaces=True)
+            j = parent(j)
+    return ''.join(rotate_alphabet(l, vals[i], with_spaces=True) for i, l in enumerate(x))

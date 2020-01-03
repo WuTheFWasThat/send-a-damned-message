@@ -18,6 +18,7 @@ from levels.reflect import reflect
 from levels.checksum import checksum
 from levels.sandwiched import cut_sandwiched
 from levels.end import end
+from levels.tournament import tournament
 
 _COLORS = dict(
     green="\033[92m",
@@ -135,7 +136,7 @@ levels = [
         name='Tree',
         fn=tournament,
         goal='a damned message',
-        # answer='a               ',
+        answer='k caunadqmmskabe',
     ),
     dict(
         name='Darn',  # 'Corrupt',
