@@ -1,9 +1,11 @@
 def needs_palindromic_redundancy(x):
-    n = len(x)
     recovered = []
-    for i in range(n // 2):
-        if x[i] == x[n-i-1]:
-            recovered.append(x[i])
+    letters = list(x)
+    while len(letters) > 1:
+        start = letters.pop(0)
+        end = letters.pop(-1)
+        if start == end:
+            recovered.append(start)
         else:
             break
     return ''.join(recovered)

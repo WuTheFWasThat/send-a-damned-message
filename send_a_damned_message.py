@@ -113,7 +113,8 @@ levels = [
         name='Book',
         fn=codebook,
         goal='a damned message',
-        answer='adamnedmessage a bcdefg hijklmn',
+        # answer='adamnedmessage a bcdefg hijklmn',
+        answer='abcdefghijklmnopqrs a damned message',
     ),
     # dict(
     #     name='Book',
