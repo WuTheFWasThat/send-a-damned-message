@@ -1,10 +1,4 @@
-from utils import alphabet
-
-
-def num(l):
-    if l.lower() not in alphabet:
-        return 0
-    return (ord(l.lower()) - ord('a') + 1) % 27
+from utils import alphabet, a2num, rotate_alphabet
 
 
 def corrupt(x):
@@ -15,13 +9,9 @@ def corrupt(x):
     """
     if not len(x):
         return x
-    total = sum([num(l) for l in x])
+    total = sum([a2num(l, with_spaces=True) for l in x])
     index = (total - 1) % len(x)
-    new_num = (num(x[index]) + total) % 27
-    if new_num == 0:
-        new = ' '
-    else:
-        new = chr(new_num - 1 + ord('a'))
+    new = rotate_alphabet(x[index], total, with_spaces=True)
     return x[:index] + new + x[index + 1:]
 
 if 0:
@@ -36,7 +26,7 @@ if 0:
         for addlength in range(14):
             total_length = offset + len(startword) + addlength
             for total_sum in range(offset + indexdiff, total_length * 22, total_length):
-                remaining_sum = total_sum - sum([num(l) for l in startword])
+                remaining_sum = total_sum - sum([a2num(l, with_spaces=True) for l in startword])
                 if remaining_sum <= 0:
                     continue
                 if not total_sum % 27 == wantdiff:

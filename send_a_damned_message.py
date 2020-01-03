@@ -132,6 +132,12 @@ levels = [
         answer='ay dyamneyd myessaygey',
     ),
     dict(
+        name='Tree',
+        fn=tournament,
+        goal='a damned message',
+        # answer='a               ',
+    ),
+    dict(
         name='Darn',  # 'Corrupt',
         fn=corrupt,
         goal='a damned message b',
