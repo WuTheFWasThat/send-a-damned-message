@@ -19,6 +19,7 @@ from levels.checksum import checksum
 from levels.sandwiched import cut_sandwiched
 from levels.end import end
 from levels.tournament import tournament
+from levels.chain_define import chain_define
 
 _COLORS = dict(
     green="\033[92m",
@@ -139,10 +140,16 @@ levels = [
         answer='k caunadqmmskabe',
     ),
     dict(
+        name='Def',  # 'Corrupt',
+        fn=chain_define,
+        goal='a damned message',
+        answer='q message d damned  z adq',
+    ),
+    dict(
         name='Darn',  # 'Corrupt',
         fn=corrupt,
-        goal='a damned message b',
-        answer='a damned messagp b',
+        goal='a damned b message',
+        answer='a damned b messlge',
         # goal='a damned messaaage',
         # answer='a damned messaalge',
         # goal='a darn massage',
