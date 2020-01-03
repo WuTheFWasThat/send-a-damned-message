@@ -167,8 +167,8 @@ levels = [
     dict(
         name='Tricky',
         fn=ordered_cyclic_permute_3,
-        goal='a really really really really really really really really really stupidly damned long message, damned again and again',
-        answer='adleorl lrs lga  yameydlegslnprnllad ina  yaneymlesrlelrd lna  yaaty iedylgarnelrl lga eyaaey,learlelra liu ada  yame',
+        goal='a really very unnecessarily stupidly long, damned (adverb) confusing, damned (adjective) message, damned (past participle) by the damned (noun)',
+        answer=ordered_cyclic_permute_3(ordered_cyclic_permute_3('a really very unnecessarily stupidly long, damned (adverb) confusing, damned (adjective) message, damned (past participle) by the damned (noun)')),
     ),
     dict(
         name='Hike',  # W
