@@ -35,6 +35,9 @@ def _colored(t, color):
 
 - delete in between all double letters?
   - some ordering to make it possible?
+
+- something tree-like
+- something using fact that 'a damned message' length is power of two
 """
 levels = [
     dict(
@@ -104,10 +107,10 @@ levels = [
         answer='axx damneyyd meszzsage',
     ),
     dict(
-        name='Reflect',
+        name='Milk',  # Reflect
         fn=reflect,
         goal='a damned message',
-        answer='egs dma danemesa',
+        answer='easmdna adme esg',
     ),
     dict(
         name='Book',
