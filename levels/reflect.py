@@ -16,6 +16,11 @@
 #     res = ''.join(reversed(res))
 #     return res
 
+
+def milk(x):
+    if not x: return x
+    return x[0] + reflect(x[1:][::-1])
+
 def reflect(x):
     if not x: return x
     return reflect(x[1:][::-1]) + x[0]
@@ -40,7 +45,7 @@ if 0:
             assert inv_reflect(reflect(cur)) == cur, f'{inv_reflect(cur)} != {cur}'
             cur = reflect(cur)
         print(len(all_ms))
-    cur = 'a damned message'
+    cur = 'yet another damned message'
     print_cycle(cur)
 
     # cycle of the "milk shuffle", see http://oeis.org/A003558

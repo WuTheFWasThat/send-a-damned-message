@@ -109,8 +109,8 @@ levels = [
     dict(
         name='Milk',  # Reflect
         fn=reflect,
-        goal='a damned message',
-        answer='easmdna adme esg',
+        goal='yet another damned message',
+        answer='easmdna etn eytaohrdme esg',
     ),
     dict(
         name='Book',
@@ -153,8 +153,8 @@ levels = [
     dict(
         name='Tricky',
         fn=ordered_cyclic_permute_3,
-        goal='a really really really really really really really really really stupidly damned long message',
-        answer='aylet liaryylae elalryglee laare  laurydle  lmardyloe  lasrygllarsylpe lladrynle  lnarmylse e',
+        goal='a really really really really really really really really really stupidly damned long message, damned again and again',
+        answer='adleorl lrs lga  yameydlegslnprnllad ina  yaneymlesrlelrd lna  yaaty iedylgarnelrl lga eyaaey,learlelra liu ada  yame',
     ),
     dict(
         name='Hike',  # W
