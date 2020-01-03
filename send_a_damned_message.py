@@ -133,12 +133,12 @@ levels = [
         goal='a damned message',
         answer='ay dyamneyd myessaygey',
     ),
-    dict(
-        name='Tree',
-        fn=tournament,
-        goal='a damned message',
-        answer='k caunadqmmskabe',
-    ),
+    # dict(
+    #     name='Tree',
+    #     fn=tournament,
+    #     goal='a damned message',
+    #     answer='k caunadqmmskabe',
+    # ),
     dict(
         name='Def',
         fn=chain_define,
