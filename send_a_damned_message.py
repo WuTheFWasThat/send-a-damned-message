@@ -127,11 +127,11 @@ levels = [
         answer='ay dyamneyd myessaygey',
     ),
     dict(
-        name='Cut',
-        fn=reverse_sandwiched,
+        name='Hike',  # W
+        fn=paths,
         goal='a damned message',
-        # answer='a damned message',
-        answer='ad aged mnemasse',
+        answer='a dcbabcdefghijklmmnmlkjihgfeed mlkjihgfefghijklmnopqrssrqponmlkjihgfedcbabcdefgfe',
+        # answer="Send a daklpocdbc meqrutage"
     ),
     # dict(
     #     name='Tree',
@@ -170,18 +170,18 @@ levels = [
         goal='a really very unnecessarily stupidly long, damned (adverb) confusing, damned (adjective) message, damned (past participle) by the damned (noun)',
         answer=ordered_cyclic_permute_3(ordered_cyclic_permute_3('a really very unnecessarily stupidly long, damned (adverb) confusing, damned (adjective) message, damned (past participle) by the damned (noun)')),
     ),
+    # dict(
+    #     name='Quote',  # TODO: make this level better / less confusing?
+    #     fn=quote_hell,
+    #     goal='"Send a damned message", I demanded',
+    #     answer='", I demanded"""Send a damned message""'
+    # ),
     dict(
-        name='Hike',  # W
-        fn=paths,
+        name='Cut',
+        fn=reverse_sandwiched,
         goal='a damned message',
-        answer='a dcbabcdefghijklmmnmlkjihgfeed mlkjihgfefghijklmnopqrssrqponmlkjihgfedcbabcdefgfe',
-        # answer="Send a daklpocdbc meqrutage"
-    ),
-    dict(
-        name='Quote',  # TODO: make this level better / less confusing?
-        fn=quote_hell,
-        goal='"Send a damned message", I demanded',
-        answer='", I demanded"""Send a damned message""'
+        # answer='a damned message',
+        answer='ad aged mnemasse',
     ),
     dict(
         name='End',
