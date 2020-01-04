@@ -1,35 +1,41 @@
 from utils import alphabet
 
-def cut_sandwiched(x):
+def reverse_sandwiched(x):
     n = len(x)
-    pairs = []
-    for i in range(n):
+    i = 0
+    while i < n:
         for j in range(i + 1, n):
             if x[i] == x[j]:
-                pairs.append((i, j))
-
-    is_outer = [False for _ in pairs]
-    for pi, (i1, j1) in enumerate(pairs):
-        # make sure no endpoint is contained within i1
-        for (i2, j2) in pairs:
-            if (i2 > i1 and i2 < j1) and (j2 > i1 and j2 < j1):
-                is_outer[pi] = True
+                x = x[:i] + x[i:j + 1][::-1] + x[j + 1:]
+                # NOTE: this makes it way easier i = j
                 break
+        i += 1
+    return x
 
-    deleted = [False for _ in range(n)]
-    for v, (i, j) in zip(is_outer, pairs):
-        if not v:
-            for k in range(i, j+1):
-                deleted[k] = True
-    return ''.join([l for k, l in enumerate(x) if not deleted[k]])
+assert reverse_sandwiched('abba') == 'abba'
+assert reverse_sandwiched('baab') == 'baab'
+assert reverse_sandwiched('abab') == 'abab'
+assert reverse_sandwiched('sand') == 'sand'
+assert reverse_sandwiched('sanadweeb') == 'sanadweeb'
+assert reverse_sandwiched('sanadweneb') == 'sanenadweb'
+assert reverse_sandwiched('sanadnweeb') == 'sandanweeb'
+assert reverse_sandwiched('sanmadnweeb') == 'samndanweeb'
+assert reverse_sandwiched('bsanmadnweeb') == 'beewnmandasb'
+assert reverse_sandwiched('bsanmadnweebanb') == 'beewnmanasbndab'
+assert reverse_sandwiched('eeabea') == 'eebaea'
 
-assert cut_sandwiched('abba') == 'aa'
-assert cut_sandwiched('baab') == 'bb'
-assert cut_sandwiched('abab') == ''
-assert cut_sandwiched('sand') == 'sand'
-assert cut_sandwiched('sanadweeb') == 'sdwb'
-assert cut_sandwiched('sanadweneb') == 'sb'
-assert cut_sandwiched('sanadnweeb') == 'swb'
+if 0:
+    def print_cycle(cur):
+        all_ms = set()
+        while True:
+            print(cur)
+            if cur in all_ms:
+                break
+            all_ms.add(cur)
+            cur = reverse_sandwiched(cur)
+        print(len(all_ms))
+    cur = 'a damned message'
+    print_cycle(cur)
 
 # OLD VERSION
 # def cut_sandwiched(x):

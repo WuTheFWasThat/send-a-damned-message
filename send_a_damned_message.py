@@ -15,7 +15,7 @@ from levels.codebook import codebook
 from levels.explode import explode
 from levels.reflect import reflect
 from levels.checksum import checksum
-from levels.sandwiched import cut_sandwiched
+from levels.sandwiched import reverse_sandwiched
 from levels.end import end
 from levels.tournament import tournament
 from levels.chain_define import chain_define
@@ -102,12 +102,6 @@ levels = [
         answer='a  d a mn e d m e ss a g e ',
     ),
     dict(
-        name='Cut',
-        fn=cut_sandwiched,
-        goal='a damned message',
-        answer='axx damneyyd meszzsage',
-    ),
-    dict(
         name='Milk',  # Reflect
         fn=reflect,
         goal='yet another damned message',
@@ -131,6 +125,13 @@ levels = [
         fn=lonely_death,
         goal='a damned message',
         answer='ay dyamneyd myessaygey',
+    ),
+    dict(
+        name='Cut',
+        fn=reverse_sandwiched,
+        goal='a damned message',
+        # answer='a damned message',
+        answer='ad aged mnemasse',
     ),
     # dict(
     #     name='Tree',
