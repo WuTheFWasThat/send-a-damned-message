@@ -52,3 +52,20 @@ if 0:
 #                 new_pieces.append(piece)
 #         pieces = new_pieces
 #     return ''.join(pieces)
+
+
+"""
+key: swaps happen in order of output messgae
+a damees
+working backwards
+
+a damned message
+ssage --> want this before swapping S, gives "ssage"
+egasse --> want this before swapping E, gives "essage"
+em1'egasse --> want this before swapping E, gives "e1message"
+menm1'egasse --> want this before swapping M, gives "mne1message"
+age1mnemasse --> want this before swapping A, gives "amne1message"
+degad mnemasse --> want this before swapping D, gives "damned message"
+ daged mnemasse --> want this before swapping space, gives "damned message"
+ad aged mnemasse --> want this before swapping space, gives "damned message"
+"""

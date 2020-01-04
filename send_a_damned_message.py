@@ -167,8 +167,12 @@ levels = [
     dict(
         name='Tricky',
         fn=ordered_cyclic_permute_3,
-        goal='a really very unnecessarily stupidly long, damned (adverb) confusing, damned (adjective) message, damned (past participle) by the damned (noun)',
-        answer=ordered_cyclic_permute_3(ordered_cyclic_permute_3('a really very unnecessarily stupidly long, damned (adverb) confusing, damned (adjective) message, damned (past participle) by the damned (noun)')),
+        goal=(
+            'a damned message which contains as many usages of "damned" as possible, was damned by the damned over and over, and was deliberately constructed to be unnecessarily damned long (and confusing)'
+        ),
+        answer=ordered_cyclic_permute_3(ordered_cyclic_permute_3(
+            'a damned message which contains as many usages of "damned" as possible, was damned by the damned over and over, and was deliberately constructed to be unnecessarily damned long (and confusing)'
+        )),
     ),
     # dict(
     #     name='Quote',  # TODO: make this level better / less confusing?
@@ -180,7 +184,6 @@ levels = [
         name='Cut',
         fn=reverse_sandwiched,
         goal='a damned message',
-        # answer='a damned message',
         answer='ad aged mnemasse',
     ),
     dict(
