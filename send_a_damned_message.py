@@ -255,6 +255,7 @@ def main(one_player=True, skip=0, dev=False):
         print('=' * 40)
         # print(f'Level {i}')
         while True:
+            print('-' * 40)
             print('GOAL IS TO SEND:')
             print(_colored(level["goal"], 'green'))
             print()
@@ -279,7 +280,6 @@ def main(one_player=True, skip=0, dev=False):
             # yesno('Decode?')
             print('Received damned message:')
             print(_colored(y, 'red'))
-            print()
 
 if __name__ == "__main__":
     try:
