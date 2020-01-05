@@ -14,7 +14,7 @@ def chain_define(x):
     defs = []
     def apply_defs(s):
         # print('applying defs', s, defs)
-        for (k, v) in reversed(defs):
+        for (k, v) in defs:
             assert len(k)
             s = v.join(s.split(k))
             # s = s.replace(k, v)

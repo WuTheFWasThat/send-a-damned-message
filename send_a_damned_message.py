@@ -18,6 +18,7 @@ from levels.checksum import checksum
 from levels.sandwiched import reverse_sandwiched
 from levels.end import end
 from levels.tournament import tournament
+from levels.caps import caps
 from levels.chain_define import chain_define
 
 _COLORS = dict(
@@ -52,6 +53,12 @@ levels = [
         fn=lambda x: x[:-len(x.split(' '))],
         goal='a damned message',
         answer='a damned message...',
+    ),
+    dict(
+        name='Caps',
+        fn=caps,
+        goal='A DAMNED MESSAGE',
+        answer='A dAmnEd MesSagE',
     ),
     dict(
         name='Rot',
@@ -268,7 +275,8 @@ def main(one_player=True, skip=0, dev=False):
                 break
             y = level['fn'](x)
             if y == level['goal']:
-                smart_input('Passed level!  Enter to continue')
+                print()
+                print(_colored('Passed level!', color='green'))
                 clear_screen()
                 i += 1
                 break
