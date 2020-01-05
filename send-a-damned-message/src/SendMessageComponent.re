@@ -21,24 +21,35 @@ type action =
 
 let initialState = {message: "", attempts: []};
 
-let reducer = (state, action) => {
-  switch (action) {
-    | SetMessage(msg) => { ...state, message: msg }
-    | SendMessage => {
-      let message = state.message;
-      let damned_message = message;
-      let attempt = {
-        message: message, damned: damned_message
-      };
-      {attempts: List.concat([state.attempts, [attempt]]), message: ""};
-    }
-  };
-};
-
 [@react.component]
-let make = () => {
+let make = (~fn) => {
+  let reducer = (state, action) => {
+    switch (action) {
+      | SetMessage(msg) => { ...state, message: msg }
+      | SendMessage => {
+        let message = state.message;
+        let damned_message = fn(message);
+        let attempt = {
+          message: message, damned: damned_message
+        };
+        {attempts: List.concat([state.attempts, [attempt]]), message: ""};
+      }
+    };
+  };
+
   let (state, dispatch) = React.useReducer(reducer, initialState);
 
+  <div className="container">
+
+  <div className="containerTitle">
+    {React.string("Send A ")}
+    <span className="damnedmessage">
+    {React.string("Damned")}
+    </span>
+    {React.string(" Message")}
+  </div>
+
+  <div className="containerContent">
   <div
     style={ReactDOMRe.Style.make(~display="flex", ~alignItems="center", ~justifyContent="space-between", ())}>
     <div>
@@ -47,10 +58,14 @@ let make = () => {
           ReasonReact.array(Array.of_list(List.mapi((i: int, attempt: attempt) => {
             <div key={string_of_int(i)}>
               <div>
-                {React.string(attempt.message)}
+                <span className="undamnedmessage">
+                  {React.string(attempt.message)}
+                </span>
               </div>
               <div>
-                {React.string(attempt.damned)}
+                <span className="damnedmessage">
+                  {React.string(attempt.damned)}
+                </span>
               </div>
             </div>
           }, state.attempts)))
@@ -64,6 +79,8 @@ let make = () => {
       <input type_="text" value={state.message} onChange={event => dispatch(SetMessage(event->ReactEvent.Form.target##value))}>
       </input>
       </form>
+    </div>
+    </div>
     </div>
   </div>;
 };

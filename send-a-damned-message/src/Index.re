@@ -10,24 +10,14 @@ document##head##appendChild(style);
 style##innerHTML #= Styles.style;
 
 let makeContainer = text => {
-  let container = document##createElement("div");
-  container##className #= "container";
-
-  let title = document##createElement("div");
-  title##className #= "containerTitle";
-  title##innerText #= text;
-
-  let content = document##createElement("div");
-  content##className #= "containerContent";
-
-  let () = container##appendChild(title);
-  let () = container##appendChild(content);
-  let () = document##body##appendChild(container);
-
-  content;
+  let div = document##createElement("div");
+  let () = document##body##appendChild(div);
+  div;
 };
 
+let fn = (x) => x
+let fn = (x) => String.sub(x, 0, max(0, String.length(x) - 3))
 ReactDOMRe.render(
-  <SendMessageComponent />,
+  <SendMessageComponent fn={fn}/>,
   makeContainer("Send A Damned Message"),
 );

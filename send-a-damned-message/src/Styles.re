@@ -41,4 +41,13 @@ let style = {j|
     padding: 16px;
     border-radius: 0px 0px 12px 12px;
   }
+  .damnedmessage {
+    // background-color: rgb(256, 224, 224);
+    color: rgb(256, 128, 128);
+    display: inline-block;
+  }
+  .undamnedmessage {
+    // background-color: rgb(256, 256, 224);
+    display: inline-block;
+  }
 |j};
