@@ -7,7 +7,7 @@
 // time through the examples later.
 let style = document##createElement("style");
 document##head##appendChild(style);
-style##innerHTML #= ExampleStyles.style;
+style##innerHTML #= Styles.style;
 
 let makeContainer = text => {
   let container = document##createElement("div");
