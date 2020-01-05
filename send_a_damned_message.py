@@ -35,9 +35,6 @@ def _colored(t, color):
 - Maybe something based on factorization?
 - accumulate sum within word?
 
-- delete in between all double letters?
-  - some ordering to make it possible?
-
 - something tree-like
 - something using fact that 'a damned message' length is power of two
 """
@@ -55,16 +52,16 @@ levels = [
         answer='a damned message...',
     ),
     dict(
-        name='Caps',
-        fn=caps,
-        goal='A DAMNED MESSAGE',
-        answer='A dAmnEd MesSagE',
-    ),
-    dict(
         name='Rot',
         fn=rot_word,
         goal='a damned message',
         answer='amnedd essagem a',
+    ),
+    dict(
+        name='Caps',  # 'Case', 'Upper'
+        fn=caps,
+        goal='A DAMNED MESSAGE',
+        answer='A dAmnEd MesSagE',
     ),
     # dict(
     #     name='Sub',
@@ -97,7 +94,7 @@ levels = [
     #     answer='aa damnedo messageq',
     # ),
     dict(
-        name='Lap',  # fold?
+        name='Mum',  # Lap',  # fold?
         fn=needs_palindromic_redundancy,
         goal='a damned message',
         answer='a damned messageegassem denmad a',
@@ -184,7 +181,7 @@ levels = [
     # dict(
     #     name='Quote',  # TODO: make this level better / less confusing?
     #     fn=quote_hell,
-    #     goal='"Send a damned message", I demanded',
+    #     goal='I received a demand to "Send a damned message"',
     #     answer='", I demanded"""Send a damned message""'
     # ),
     dict(

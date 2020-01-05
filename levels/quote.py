@@ -1,5 +1,5 @@
 def quote_hell(x):
-    "Ternary flip operator, abc -> CbA.  Quotes group"
+    "Ternary flip operator, abc -> bca.  Quotes group"
     i = 0
 
     def read_expr():
@@ -22,13 +22,13 @@ def quote_hell(x):
 
     result = read_expr()
     while i < len(x):
-        z = x[i]
+        b = x[i]
         i += 1
-        b = read_expr().swapcase()
-        result = b + z + result.swapcase()
+        c = read_expr()
+        result = b + c + result
     return result
 
-assert quote_hell('abcde') == 'EdcBa'
-assert quote_hell('abcdef') == 'feDCbA'
-assert quote_hell('ab"cd"ef') == 'FecdBa'
-assert quote_hell('a"bc"def') == 'DEFcb"a'
+# assert quote_hell('abcde') == 'bdaec'
+# assert quote_hell('abcdef') == 'acebfd'
+# assert quote_hell('ab"cd"ef') == 'FecdBa'
+# assert quote_hell('a"bc"def') == 'DEFcb"a'
