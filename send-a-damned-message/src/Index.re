@@ -15,9 +15,17 @@ let makeContainer = text => {
   div;
 };
 
-let fn = (x) => x
-let fn = (x) => String.sub(x, 0, max(0, String.length(x) - 3))
+let level: Types.level = {
+  name: "id",
+  goal: "a damned message",
+  fn: (x) => x,
+}
+let level: Types.level = {
+  name: "trim",
+  goal: "a damned message",
+  fn: (x) => String.sub(x, 0, max(0, String.length(x) - 3)),
+}
 ReactDOMRe.render(
-  <SendMessageComponent fn={fn}/>,
+  <SendMessageComponent level={level}/>,
   makeContainer("Send A Damned Message"),
 );

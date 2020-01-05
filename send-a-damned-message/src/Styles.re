@@ -46,6 +46,10 @@ let style = {j|
     color: rgb(256, 128, 128);
     display: inline-block;
   }
+  .goodmessage {
+    color: rgb(64, 222, 64);
+    display: inline-block;
+  }
   .undamnedmessage {
     // background-color: rgb(256, 256, 224);
     display: inline-block;

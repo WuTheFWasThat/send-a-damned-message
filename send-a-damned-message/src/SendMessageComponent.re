@@ -22,13 +22,13 @@ type action =
 let initialState = {message: "", attempts: []};
 
 [@react.component]
-let make = (~fn) => {
+let make = (~level: Types.level) => {
   let reducer = (state, action) => {
     switch (action) {
       | SetMessage(msg) => { ...state, message: msg }
       | SendMessage => {
         let message = state.message;
-        let damned_message = fn(message);
+        let damned_message = level.fn(message);
         let attempt = {
           message: message, damned: damned_message
         };
@@ -53,6 +53,12 @@ let make = (~fn) => {
   <div
     style={ReactDOMRe.Style.make(~display="flex", ~alignItems="center", ~justifyContent="space-between", ())}>
     <div>
+      <div>
+        {React.string("Goal is to send ")}
+        <span className="goodmessage">
+        {React.string(level.goal)}
+        </span>
+      </div>
       <ul>
         {
           ReasonReact.array(Array.of_list(List.mapi((i: int, attempt: attempt) => {
