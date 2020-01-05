@@ -13,7 +13,7 @@ Don't look at the source, it can spoil gameplay.
 
 For now just read the code, there are no dependencies really.
 
-TODO: port to web, maybe try reason instead of typescript?
+WIP: porting to Reason-React at `send-a-damn-message`
 
 # Game ideas
 
