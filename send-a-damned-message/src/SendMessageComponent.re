@@ -12,32 +12,38 @@ type attempt = {
 // Record and variant need explicit declarations.
 type state = {
   message: string,
-  attempts: list(attempt)
+  attempts: list(attempt),
+  savestate: Types.savestate,
 };
 
 type action =
   SendMessage
   | SetMessage(string);
 
-let initialState = {message: "", attempts: []};
-
 [@react.component]
-let make = (~level: Types.level) => {
+let make = (~levels: array(Types.level), ~savestate: Types.savestate) => {
   let reducer = (state, action) => {
     switch (action) {
       | SetMessage(msg) => { ...state, message: msg }
       | SendMessage => {
         let message = state.message;
+        let level = levels[state.savestate.level];
         let damned_message = level.fn(message);
         let attempt = {
           message: message, damned: damned_message
         };
-        {attempts: List.concat([state.attempts, [attempt]]), message: ""};
+        {
+          ...state,
+          attempts: List.concat([state.attempts, [attempt]]), message: ""
+        };
       }
     };
   };
+  let initialState = { message: "", attempts: [], savestate: savestate, };
 
   let (state, dispatch) = React.useReducer(reducer, initialState);
+  let level = levels[state.savestate.level];
+
 
   <div className="container">
 
@@ -69,7 +75,7 @@ let make = (~level: Types.level) => {
                 </span>
               </div>
               <div>
-                <span className="damnedmessage">
+                <span className={(attempt.damned === level.goal) ? "goodmessage" : "damnedmessage"}>
                   {React.string(attempt.damned)}
                 </span>
               </div>
