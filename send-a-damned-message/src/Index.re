@@ -47,7 +47,6 @@ let saveLocalState: (Types.savestate) => unit = save_state => switch (Js.Json.st
     )
 };
 
-
 [@bs.scope "JSON"] [@bs.val]
 external parseIntoMyData : string => Types.savestate = "parse";
 

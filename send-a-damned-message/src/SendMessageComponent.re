@@ -12,6 +12,7 @@ type attempt = {
 // Record and variant need explicit declarations.
 type state = {
   message: string,
+  // TODO: keep a list per level?
   attempts: list(attempt),
   savedstate: Types.savestate,
 };
@@ -20,6 +21,23 @@ type action =
   SendMessage
   | SetMessage(string)
   | SetLevel(int);
+
+let focusInput = [%raw {|
+  function() {
+    let input = document.getElementById('main-input');
+    input.focus();
+    input.select();
+  }
+|}];
+
+[%raw {|
+  window.onload = function () {
+    focusInput()
+    // setInterval(() => {
+    //   focusInput();
+    // }, 1000);
+  }
+|}];
 
 [@react.component]
 let make = (~levels: array(Types.level), ~savedstate: Types.savestate, ~savestate: (Types.savestate) => unit) => {
@@ -40,6 +58,7 @@ let make = (~levels: array(Types.level), ~savedstate: Types.savestate, ~savestat
       }
       | SetLevel(level) => {
         Js.log("setting level: " ++ levels[level].name);
+        focusInput();
         {
           ...state,
           attempts: [],
@@ -120,7 +139,7 @@ let make = (~levels: array(Types.level), ~savedstate: Types.savestate, ~savestat
         dispatch(SendMessage);
       }}>
       <div>
-        <input className="fullwidth" type_="text" value={state.message} onChange={event => dispatch(SetMessage(event->ReactEvent.Form.target##value))}>
+        <input id="main-input" className="fullwidth" type_="text" value={state.message} onChange={event => dispatch(SetMessage(event->ReactEvent.Form.target##value))}>
         </input>
       </div>
       </form>
