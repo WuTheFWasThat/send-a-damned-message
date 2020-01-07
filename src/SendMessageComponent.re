@@ -22,7 +22,7 @@ type action =
   | SetMessage(string)
   | SetLevel(int);
 
-let focusInput = [%raw {|
+let focusInput: (unit) => unit = [%raw {|
   function() {
     let input = document.getElementById('main-input');
     input.focus();

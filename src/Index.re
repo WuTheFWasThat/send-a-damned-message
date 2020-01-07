@@ -9,7 +9,7 @@ let style = document##createElement("style");
 document##head##appendChild(style);
 style##innerHTML #= Styles.style;
 
-let makeContainer = text => {
+let makeContainer = () => {
   let div = document##createElement("div");
   div##className #= "react-main";
   let () = document##body##appendChild(div);
@@ -64,5 +64,5 @@ let loadLocalState: (unit) => Types.savestate = () => {
 
 ReactDOMRe.render(
   <SendMessageComponent levels={levels} savedstate={loadLocalState()} savestate={saveLocalState}/>,
-  makeContainer("Send A Damned Message"),
+  makeContainer(),
 );
