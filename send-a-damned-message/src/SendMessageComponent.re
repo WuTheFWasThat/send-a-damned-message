@@ -13,7 +13,7 @@ type attempt = {
 type state = {
   message: string,
   attempts: list(attempt),
-  savestate: Types.savestate,
+  savedstate: Types.savestate,
 };
 
 type action =
@@ -22,13 +22,13 @@ type action =
   | SetLevel(int);
 
 [@react.component]
-let make = (~levels: array(Types.level), ~savestate: Types.savestate) => {
+let make = (~levels: array(Types.level), ~savedstate: Types.savestate, ~savestate: (Types.savestate) => unit) => {
   let reducer = (state, action) => {
-    switch (action) {
+    let newstate = switch (action) {
       | SetMessage(msg) => { ...state, message: msg }
       | SendMessage => {
         let message = state.message;
-        let level = levels[state.savestate.level];
+        let level = levels[state.savedstate.level];
         let damned_message = level.fn(message);
         let attempt = {
           message: message, damned: damned_message
@@ -43,19 +43,21 @@ let make = (~levels: array(Types.level), ~savestate: Types.savestate) => {
         {
           ...state,
           attempts: [],
-          savestate: {
-            ...state.savestate,
+          savedstate: {
+            ...state.savedstate,
             level: level
           }
         }
       }
     };
+    savestate(newstate.savedstate);
+    newstate
   };
-  let initialState = { message: "", attempts: [], savestate: savestate, };
+  let initialState = { message: "", attempts: [], savedstate: savedstate, };
 
   let (state, dispatch) = React.useReducer(reducer, initialState);
   Js.log("state: " ++ switch (Js.Json.stringifyAny(state)) { | None => "?" | Some(x) => x } );
-  let level = levels[state.savestate.level];
+  let level = levels[state.savedstate.level];
 
 
   <div className="container">
@@ -76,7 +78,7 @@ let make = (~levels: array(Types.level), ~savestate: Types.savestate) => {
         ReasonReact.array(Array.mapi((i: int, level: Types.level) => {
           <div
             key={string_of_int(i)}
-            className={"levelitem" ++ ((i == state.savestate.level) ? " selectedlevel" : "") }
+            className={"levelitem" ++ ((i == state.savedstate.level) ? " selectedlevel" : "") }
             onClick={(_ev) => dispatch(SetLevel(i))}
           >
             <div>
@@ -88,7 +90,7 @@ let make = (~levels: array(Types.level), ~savestate: Types.savestate) => {
     </div>
     <div style={ReactDOMRe.Style.make(~flexGrow="1", ~padding="20px", ())}>
       <h3 className="center">
-        {React.string("Level " ++ string_of_int(state.savestate.level) ++ ": " ++ level.name)}
+        {React.string("Level " ++ string_of_int(state.savedstate.level) ++ ": " ++ level.name)}
       </h3>
       {
         ReasonReact.array(Array.of_list(List.mapi((i: int, attempt: attempt) => {

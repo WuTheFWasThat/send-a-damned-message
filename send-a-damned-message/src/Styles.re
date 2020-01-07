@@ -1,6 +1,8 @@
 let reasonReactBlue = "#48a9dc";
 let lightgray = "rgb(222, 222, 222)";
 let darkgray = "rgb(111, 111, 111)";
+// let selected_color = "rgb(222, 222, 111)";
+let good_color = "rgb(64, 222, 64)";
 
 // The {j|...|j} feature is just string interpolation, from
 // bucklescript.github.io/docs/en/interop-cheatsheet#string-unicode-interpolation
@@ -30,8 +32,15 @@ let style = {j|
   .levelselect .levelitem {
     border: 1px solid $darkgray;
     background-color: $lightgray;
-    border-radius: 5px;
+    border-radius: 10px;
     text-align: center;
+    padding: 5px;
+  }
+  .selectedlevel.levelitem {
+    border-width: 3px !important;
+  }
+  .levelitem.beaten {
+    background-color: $good_color !important;
   }
   button {
     background-color: white;
@@ -70,7 +79,7 @@ let style = {j|
     display: inline-block;
   }
   .goodmessage {
-    color: rgb(64, 222, 64);
+    color: $good_color;
     // color: rgb(256, 64, 64);
     display: inline-block;
   }

@@ -20,14 +20,24 @@ let levels: array(Types.level) = [|
   {
     name: "id",
     goal: "a damned message",
+    answer: "a damned message",
     fn: (x) => x,
   },
   {
     name: "trim",
     goal: "a damned message",
+    answer: "a damned message...",
     fn: (x) => String.sub(x, 0, max(0, String.length(x) - 3)),
   },
 |]
+
+Array.map((level: Types.level) => {
+  let result = level.fn(level.answer);
+  (result == level.goal) ? "" : {
+    Js.log(level.name ++ ": " ++ result);
+    Js.Exn.raiseError("Level answer error")
+  }
+}, levels);
 
 let saveLocalState: (Types.savestate) => unit = save_state => switch (Js.Json.stringifyAny(save_state)) {
   | None => ()
@@ -54,6 +64,6 @@ let loadLocalState: (unit) => Types.savestate = () => {
 }
 
 ReactDOMRe.render(
-  <SendMessageComponent levels={levels} savestate={loadLocalState()}/>,
+  <SendMessageComponent levels={levels} savedstate={loadLocalState()} savestate={saveLocalState}/>,
   makeContainer("Send A Damned Message"),
 );
