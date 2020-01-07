@@ -1,4 +1,6 @@
 let reasonReactBlue = "#48a9dc";
+let lightgray = "rgb(222, 222, 222)";
+let darkgray = "rgb(111, 111, 111)";
 
 // The {j|...|j} feature is just string interpolation, from
 // bucklescript.github.io/docs/en/interop-cheatsheet#string-unicode-interpolation
@@ -6,10 +8,30 @@ let reasonReactBlue = "#48a9dc";
 // constructing a string
 let style = {j|
   body {
-    background-color: rgb(224, 226, 229);
+    background-color: $darkgray;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 20px 40px;
+  }
+  .center {
+    text-align: center;
+    align-items: center;
+  }
+  .react-main {
+    width: 100%;
+  }
+  .fullwidth {
+    width: 100%;
+  }
+  .levelselect {
+    width: 100px;
+  }
+  .levelselect .levelitem {
+    border: 1px solid $darkgray;
+    background-color: $lightgray;
+    border-radius: 5px;
+    text-align: center;
   }
   button {
     background-color: white;
@@ -26,15 +48,16 @@ let style = {j|
   .container {
     margin: 12px 0px;
     box-shadow: 0px 4px 16px rgb(200, 200, 200);
-    width: 720px;
     border-radius: 12px;
     font-family: sans-serif;
   }
   .containerTitle {
+    text-align: center;
     background-color: rgb(242, 243, 245);
     border-radius: 12px 12px 0px 0px;
     padding: 12px;
     font-weight: bold;
+    font-size: 24px;
   }
   .containerContent {
     background-color: white;
@@ -48,6 +71,7 @@ let style = {j|
   }
   .goodmessage {
     color: rgb(64, 222, 64);
+    // color: rgb(256, 64, 64);
     display: inline-block;
   }
   .undamnedmessage {

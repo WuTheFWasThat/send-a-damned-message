@@ -3,6 +3,7 @@ type level = {
   fn: string => string,
   goal: string,
 };
+
 type savestate = {
   solved: Js.Dict.t(string),
   level: int

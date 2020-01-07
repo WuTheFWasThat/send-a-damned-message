@@ -18,7 +18,8 @@ type state = {
 
 type action =
   SendMessage
-  | SetMessage(string);
+  | SetMessage(string)
+  | SetLevel(int);
 
 [@react.component]
 let make = (~levels: array(Types.level), ~savestate: Types.savestate) => {
@@ -37,11 +38,23 @@ let make = (~levels: array(Types.level), ~savestate: Types.savestate) => {
           attempts: List.concat([state.attempts, [attempt]]), message: ""
         };
       }
+      | SetLevel(level) => {
+        Js.log("setting level: " ++ levels[level].name);
+        {
+          ...state,
+          attempts: [],
+          savestate: {
+            ...state.savestate,
+            level: level
+          }
+        }
+      }
     };
   };
   let initialState = { message: "", attempts: [], savestate: savestate, };
 
   let (state, dispatch) = React.useReducer(reducer, initialState);
+  Js.log("state: " ++ switch (Js.Json.stringifyAny(state)) { | None => "?" | Some(x) => x } );
   let level = levels[state.savestate.level];
 
 
@@ -58,38 +71,56 @@ let make = (~levels: array(Types.level), ~savestate: Types.savestate) => {
   <div className="containerContent">
   <div
     style={ReactDOMRe.Style.make(~display="flex", ~alignItems="center", ~justifyContent="space-between", ())}>
-    <div>
-      <div>
-        {React.string("Goal is to send ")}
+    <div className="levelselect">
+      {
+        ReasonReact.array(Array.mapi((i: int, level: Types.level) => {
+          <div
+            key={string_of_int(i)}
+            className={"levelitem" ++ ((i == state.savestate.level) ? " selectedlevel" : "") }
+            onClick={(_ev) => dispatch(SetLevel(i))}
+          >
+            <div>
+              {React.string(string_of_int(i) ++ ": " ++ level.name)}
+            </div>
+          </div>
+        }, levels))
+      }
+    </div>
+    <div style={ReactDOMRe.Style.make(~flexGrow="1", ~padding="20px", ())}>
+      <h3 className="center">
+        {React.string("Level " ++ string_of_int(state.savestate.level) ++ ": " ++ level.name)}
+      </h3>
+      {
+        ReasonReact.array(Array.of_list(List.mapi((i: int, attempt: attempt) => {
+          <div key={string_of_int(i)}>
+            <div>
+              <span className="undamnedmessage">
+                {React.string(attempt.message)}
+              </span>
+            </div>
+            <div>
+              <span className={(attempt.damned === level.goal) ? "goodmessage" : "damnedmessage"}>
+                {React.string(attempt.damned)}
+              </span>
+            </div>
+          </div>
+        }, state.attempts)))
+      }
+      <div style={ReactDOMRe.Style.make(~fontWeight="bold", ())}>
+        {React.string("Goal is to send: ")}
         <span className="goodmessage">
         {React.string(level.goal)}
         </span>
       </div>
-      <ul>
-        {
-          ReasonReact.array(Array.of_list(List.mapi((i: int, attempt: attempt) => {
-            <div key={string_of_int(i)}>
-              <div>
-                <span className="undamnedmessage">
-                  {React.string(attempt.message)}
-                </span>
-              </div>
-              <div>
-                <span className={(attempt.damned === level.goal) ? "goodmessage" : "damnedmessage"}>
-                  {React.string(attempt.damned)}
-                </span>
-              </div>
-            </div>
-          }, state.attempts)))
-        }
-      </ul>
-      <form onSubmit={event => {
+      <form className="fullwidth" onSubmit={event => {
         Js.log("sending message: " ++ state.message);
         ReactEvent.Form.preventDefault(event);
         dispatch(SendMessage);
       }}>
-      <input type_="text" value={state.message} onChange={event => dispatch(SetMessage(event->ReactEvent.Form.target##value))}>
-      </input>
+      <div>
+        <input className="fullwidth" type_="text" value={state.message} onChange={event => dispatch(SetMessage(event->ReactEvent.Form.target##value))}>
+        </input>
+      </div>
       </form>
     </div>
     </div>

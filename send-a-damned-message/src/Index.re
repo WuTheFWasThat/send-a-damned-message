@@ -11,6 +11,7 @@ style##innerHTML #= Styles.style;
 
 let makeContainer = text => {
   let div = document##createElement("div");
+  div##className #= "react-main";
   let () = document##body##appendChild(div);
   div;
 };
