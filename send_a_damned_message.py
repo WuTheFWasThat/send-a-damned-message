@@ -94,6 +94,7 @@ levels = [
         answer='a damned messageegassem denmad a',
     ),
     dict(
+        # TODO: yang translate this level
         name='Caps',  # 'Case', 'Upper'
         fn=caps,
         goal='A DAMNED MESSAGE',
