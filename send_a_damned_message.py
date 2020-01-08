@@ -57,12 +57,6 @@ levels = [
         goal='a damned message',
         answer='amnedd essagem a',
     ),
-    dict(
-        name='Caps',  # 'Case', 'Upper'
-        fn=caps,
-        goal='A DAMNED MESSAGE',
-        answer='A dAmnEd MesSagE',
-    ),
     # dict(
     #     name='Sub',
     #     fn=substitution,
@@ -98,6 +92,12 @@ levels = [
         fn=needs_palindromic_redundancy,
         goal='a damned message',
         answer='a damned messageegassem denmad a',
+    ),
+    dict(
+        name='Caps',  # 'Case', 'Upper'
+        fn=caps,
+        goal='A DAMNED MESSAGE',
+        answer='A dAmnEd MesSagE',
     ),
     dict(
         name='Cancer',

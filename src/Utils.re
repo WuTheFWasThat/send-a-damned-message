@@ -9,6 +9,17 @@ let a2num = (~with_spaces=false, x) => {
 
 let is_alphabet = (l) => String.contains(alphabet, Char.lowercase_ascii(l))
 
+let assert_true = (~msg="Assertion error", x) => {
+  x ? "" : {
+    Js.log("Assertion error: " ++ msg);
+    Js.Exn.raiseError("Assertion error: " ++ msg)
+  };
+}
+
+let assert_eq = (~msg="", x, y) => {
+  assert_true(x == y, ~msg="expected '" ++ x ++ "' == '" ++ y ++ "'");
+}
+
 /*
 def is_vowel(l):
     return l.lower() in 'aeiou'
