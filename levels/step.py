@@ -1,4 +1,4 @@
-from utils import rotate_alphabet
+from utils import rotate_alphabet, is_alphabet
 
 def extend_sequences(x):
     prev = None
@@ -19,5 +19,5 @@ def extend_sequences(x):
             if direction is None and new_direction is None:
                 result.append(prev)
             direction = new_direction
-        prev = cur
+        prev = cur if is_alphabet(cur) or cur == ' ' else None
     return ''.join(result)

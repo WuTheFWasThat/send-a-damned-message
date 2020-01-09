@@ -30,6 +30,7 @@ let levels: array(Types.level) = [|
     fn: (x) => String.sub(x, 0, max(0, String.length(x) - 3)),
   },
   Rotate.level,
+  Extend.level,
   Book.level,
 |]
 

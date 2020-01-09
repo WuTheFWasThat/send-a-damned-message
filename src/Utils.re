@@ -17,6 +17,8 @@ let assert_eq: (~msg: string=?, 'a, 'a) => unit = (~msg="", x, y) => {
   assert_true(x == y, ~msg=msg ++ "expected '" ++ unwrap(Js.Json.stringifyAny(x)) ++ "' == '" ++ unwrap(Js.Json.stringifyAny(y)) ++ "'");
 }
 
+let char_list: (string) => list(char) = (s) => List.init(String.length(s), String.get(s));
+
 let alphabet = "abcdefghijklmnopqrstuvwxyz"
 
 let is_alphabet = (l) => String.contains(alphabet, Char.lowercase_ascii(l))
@@ -51,11 +53,16 @@ assert_eq(num2a(26, ~with_spaces=true), 'z');
 assert_eq(num2a(25, ~with_spaces=false), 'z');
 assert_eq(num2a(0, ~with_spaces=true), ' ');
 
+let positive_mod = (a, b) => {
+  ((a mod b) + b) mod b
+};
+
 let rotate_alphabet = (~with_spaces=false, x: char, direction: int) => {
-    let is_upper = x == Char.uppercase_ascii(x)
-    let new_x = num2a((a2num(x, ~with_spaces=with_spaces) + direction) mod (with_spaces ? 27 : 26), ~with_spaces=with_spaces)
-    is_upper ? Char.uppercase_ascii(new_x) : new_x;
-}
+  let is_upper = x == Char.uppercase_ascii(x)
+  let new_num = positive_mod(a2num(x, ~with_spaces=with_spaces) + direction, with_spaces ? 27 : 26)
+  let new_x = num2a(new_num, ~with_spaces=with_spaces)
+  is_upper ? Char.uppercase_ascii(new_x) : new_x;
+};
 
 assert_eq(rotate_alphabet('a', 25), 'z');
 assert_eq(rotate_alphabet('A', 25), 'Z');
@@ -65,3 +72,16 @@ assert_eq(rotate_alphabet('A', 26), 'A');
 assert_eq(rotate_alphabet('a', 27), 'b');
 assert_eq(rotate_alphabet('A', 27), 'B');
 assert_eq(rotate_alphabet(' ', 3, ~with_spaces=true), 'C');
+
+let first_true: ('a => bool, list('a)) => option('a) = (f, l) => {
+  List.fold_left(
+    (result, cur) => {
+      switch (result) {
+        | Some(x) => Some(x)
+        | None => f(cur) ? Some(cur) : None
+        }
+    },
+    None,
+    l,
+  )
+}
