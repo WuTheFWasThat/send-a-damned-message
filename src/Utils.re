@@ -1,24 +1,38 @@
+let unwrap_or = (x: option('a), default: 'a) => {
+  switch (x) { | None => default | Some(y) => y }
+}
+
+let unwrap = (x: option('a)) => {
+  switch (x) { | None => Js.Exn.raiseError("Failed to unwrap!") | Some(y) => y }
+}
+
+let assert_true: (~msg: string=?, bool) => unit = (~msg="Assertion error", x) => {
+  x ? () : {
+    Js.log("Assertion error: " ++ msg);
+    Js.Exn.raiseError("Assertion error: " ++ msg)
+  };
+}
+
+let assert_eq: (~msg: string=?, 'a, 'a) => unit = (~msg="", x, y) => {
+  assert_true(x == y, ~msg=msg ++ "expected '" ++ unwrap(Js.Json.stringifyAny(x)) ++ "' == '" ++ unwrap(Js.Json.stringifyAny(y)) ++ "'");
+}
+
 let alphabet = "abcdefghijklmnopqrstuvwxyz"
 
-let a2num = (~with_spaces=false, x) => {
+let a2num: (~with_spaces: bool=?, char) => int = (~with_spaces=false, x) => {
   switch (with_spaces && (x == ' ')) {
     | true => 0
     | false => String.index(alphabet, Char.lowercase_ascii(x)) + (with_spaces ? 1 : 0)
   }
 }
 
+assert_eq(a2num('A', ~with_spaces=true), 1);
+assert_eq(a2num('A', ~with_spaces=false), 0);
+assert_eq(a2num('z', ~with_spaces=true), 26);
+assert_eq(a2num('z', ~with_spaces=false), 25);
+assert_eq(a2num(' ', ~with_spaces=true), 0);
+
 let is_alphabet = (l) => String.contains(alphabet, Char.lowercase_ascii(l))
-
-let assert_true = (~msg="Assertion error", x) => {
-  x ? "" : {
-    Js.log("Assertion error: " ++ msg);
-    Js.Exn.raiseError("Assertion error: " ++ msg)
-  };
-}
-
-let assert_eq = (~msg="", x, y) => {
-  assert_true(x == y, ~msg="expected '" ++ x ++ "' == '" ++ y ++ "'");
-}
 
 /*
 def is_vowel(l):
