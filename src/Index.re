@@ -69,3 +69,18 @@ ReactDOMRe.render(
   <SendMessageComponent levels={levels} savedstate={loadLocalState()} savestate={saveLocalState}/>,
   makeContainer(),
 );
+
+// TODO: make this less ugly
+[%raw {|
+  window.onerror = function (message, file, line, col, error) {
+     alert("Error occurred!  Please file a github issue with the level and string entered!\n" + error.message)
+     return false
+  }
+|}];
+
+[%raw {|
+  window.addEventListener("error", function (e) {
+     alert("Error occurred!  Please file a github issue with the level and string entered!\n" + e.error.message)
+     return false
+  })
+|}];
