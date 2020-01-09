@@ -78,7 +78,7 @@ let make = (~levels: array(Types.level), ~savedstate: Types.savestate, ~savestat
   Js.log("state: " ++ switch (Js.Json.stringifyAny(state)) { | None => "?" | Some(x) => x } );
   let level = levels[state.savedstate.level];
 
-
+  <div>
   <div className="container">
 
   <div className="containerTitle">
@@ -146,5 +146,7 @@ let make = (~levels: array(Types.level), ~savedstate: Types.savestate, ~savestat
     </div>
     </div>
     </div>
+  </div>
+  <a href="https://github.com/WuTheFWasThat/send-a-damned-message">{React.string("View code on Github")}</a>
   </div>;
 };
