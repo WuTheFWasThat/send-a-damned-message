@@ -34,4 +34,5 @@ let level: Types.level = {
   answer: "DDDDammmmmmmmmmmmmnnnnnnnnnnnnnn iiiiiiiiitttttttttttttttttttt",
 }
 
+Utils.assert_eq(fn(""), "")
 Utils.assert_eq(fn("b AA  cc"), "a B  b")

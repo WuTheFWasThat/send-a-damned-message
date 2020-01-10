@@ -32,6 +32,7 @@ let levels: array(Types.level) = [|
   Rotate.level,
   Extend.level,
   Unary.level,
+  Cancer.level,
   Book.level,
 |]
 

@@ -31,6 +31,7 @@ let fn = (x) => {
   ).result;
 }
 
+Utils.assert_eq(fn(""), "")
 Utils.assert_eq(fn("blah"), "blah")
 Utils.assert_eq(fn("bah abz"), "zh cz")
 Utils.assert_eq(fn("messsssagess"), "mesages")

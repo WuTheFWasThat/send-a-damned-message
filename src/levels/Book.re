@@ -1,4 +1,9 @@
 let fn = (x) => {
+  /*
+     first word is codebook
+     next words are codes which do lookups
+     */
+
   switch (String.contains(x, ' ')) {
   | false => ""
   | true =>

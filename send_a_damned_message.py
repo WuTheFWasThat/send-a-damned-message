@@ -3,7 +3,6 @@ import readline
 from levels.rot_word import rot_word
 from levels.substitution import substitution
 from levels.cancer import cancerous_vowels
-from levels.quote import quote_hell
 from levels.step import extend_sequences
 from levels.paths import paths
 from levels.unary import count_words
@@ -88,19 +87,6 @@ levels = [
     #     answer='aa damnedo messageq',
     # ),
     dict(
-        name='Mum',  # Lap',  # fold?
-        fn=needs_palindromic_redundancy,
-        goal='a damned message',
-        answer='a damned messageegassem denmad a',
-    ),
-    dict(
-        # TODO: yang translate this level
-        name='Caps',  # 'Case', 'Upper'
-        fn=caps,
-        goal='A DAMNED MESSAGE',
-        answer='A dAmnEd MesSagE',
-    ),
-    dict(
         name='Cancer',
         fn=cancerous_vowels,
         goal='a damned message',
@@ -111,6 +97,19 @@ levels = [
         fn=reflect,
         goal='yet another damned message',
         answer='easmdna etn eytaohrdme esg',
+    ),
+    dict(
+        # TODO: yang translate this level
+        name='Caps',  # 'Case', 'Upper'
+        fn=caps,
+        goal='A DAMNED MESSAGE',
+        answer='A dAmnEd MesSagE',
+    ),
+    dict(
+        name='Lap',  # Lap',  # fold?  # crossorads?  # common?
+        fn=needs_palindromic_redundancy,
+        goal='a damned message',
+        answer='a damned messageegassem denmad a',
     ),
     dict(
         name='Book',

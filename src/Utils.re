@@ -19,13 +19,17 @@ let assert_eq: (~msg: string=?, 'a, 'a) => unit = (~msg="", x, y) => {
 
 let char_list: (string) => list(char) = (s) => List.init(String.length(s), String.get(s));
 
+let filter_none: (list(option('a))) => list('a) = (l) => List.map((x) => unwrap(x), List.filter((x) => x != None, l));
+
 let alphabet = "abcdefghijklmnopqrstuvwxyz"
 
 let is_alphabet = (l) => String.contains(alphabet, Char.lowercase_ascii(l))
 
-let is_vowel = (l) => String.contains("aeiou", Char.lowercase_ascii(l))
+let vowels = "aeiou"
+let is_vowel = (l) => String.contains(vowels, Char.lowercase_ascii(l))
 
-let is_consonant = (l) => String.contains("bcdfghjklmnpqrstvwxyz", Char.lowercase_ascii(l))
+let consonants = "bcdfghjklmnpqrstvwxyz"
+let is_consonant = (l) => String.contains(consonants, Char.lowercase_ascii(l))
 
 let a2num = (~with_spaces=false, x: char) => {
   switch (with_spaces && (x == ' ')) {
@@ -62,11 +66,11 @@ let cased_like = (x, y) => {
 }
 
 let rotate_alphabet = (~with_spaces=false, x: char, direction: int) => {
-  Js.log("rotating " ++ Char.escaped(x));
-  Js.log(direction);
-    let new_num = positive_mod(a2num(x, ~with_spaces=with_spaces) + direction, with_spaces ? 27 : 26)
-    let new_x = num2a(new_num, ~with_spaces=with_spaces)
-    cased_like(new_x, x)
+  // Js.log("rotating " ++ Char.escaped(x));
+  // Js.log(direction);
+  let new_num = positive_mod(a2num(x, ~with_spaces=with_spaces) + direction, with_spaces ? 27 : 26)
+  let new_x = num2a(new_num, ~with_spaces=with_spaces)
+  cased_like(new_x, x)
 };
 
 assert_eq(rotate_alphabet('a', 25), 'z');
