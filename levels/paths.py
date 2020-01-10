@@ -1,4 +1,4 @@
-from utils import rotate_alphabet, is_alphabet
+from utils import rotate_alphabet, is_alphabet, a2num
 
 def _reduce_path(path):
     if not len(path):
@@ -9,7 +9,7 @@ def _reduce_path(path):
     segment = []
     for cur in path:
         if last is not None:
-            new_dir = ord(cur.lower()) - ord(last.lower())
+            new_dir = a2num(cur) - a2num(last)
             if abs(new_dir) > 1:  # jump
                 sign = 1 if new_dir > 0 else -1
                 segments.append((segment + [last], cur_dir or 0))
