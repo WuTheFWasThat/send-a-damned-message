@@ -18,6 +18,8 @@ let assert_eq: (~msg: string=?, 'a, 'a) => unit = (~msg="", x, y) => {
 }
 
 let char_list: (string) => list(char) = (s) => List.init(String.length(s), String.get(s));
+let join_char_list: (list(char)) => string = (l) => l |> Array.of_list |> Array.map((x) => Char.escaped(x)) |>  Js.Array.joinWith("");
+let reverse_str = (x: string) => { x |> char_list |> List.rev |> join_char_list }
 
 let filter_none: (list(option('a))) => list('a) = (l) => List.map((x) => unwrap(x), List.filter((x) => x != None, l));
 

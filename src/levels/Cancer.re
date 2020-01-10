@@ -28,8 +28,7 @@ let fn = (x) => {
     }
   }, Utils.char_list(x)))
 
-   maybe_chars |> Array.to_list |> Utils.filter_none |> Array.of_list
-   |> Array.map((x) => Char.escaped(x)) |>  Js.Array.joinWith("")
+   maybe_chars |> Array.to_list |> Utils.filter_none |> Utils.join_char_list
 }
 
 let level: Types.level = {
