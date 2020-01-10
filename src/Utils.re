@@ -17,6 +17,12 @@ let assert_eq: (~msg: string=?, 'a, 'a) => unit = (~msg="", x, y) => {
   assert_true(x == y, ~msg=msg ++ "expected '" ++ unwrap(Js.Json.stringifyAny(x)) ++ "' == '" ++ unwrap(Js.Json.stringifyAny(y)) ++ "'");
 }
 
+// let safe_get = (l: list('a), i: int): option('a) => {
+let safe_get = (l: string, i: int): option(char) => {
+  let n = String.length(l);
+  if (i < n && i >= 0) { Some(String.get(l, i)) } else { None }
+}
+
 let char_list: (string) => list(char) = (s) => List.init(String.length(s), String.get(s));
 let join_char_list: (list(char)) => string = (l) => l |> Array.of_list |> Array.map((x) => Char.escaped(x)) |>  Js.Array.joinWith("");
 let reverse_str = (x: string) => { x |> char_list |> List.rev |> join_char_list }

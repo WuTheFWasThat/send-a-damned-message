@@ -16,14 +16,14 @@ let fn = (x) => {
     switch (Utils.is_vowel(char)) {
       | false => ignore()
       | true => {
-        switch (i != 0 && !Utils.is_vowel(String.get(x, i-1))) {
-          | true => Array.set(maybe_chars, i-1, if (String.get(x, i-1) == ' ') None else Some(char));
-          | false => ignore()
-        }
-        switch (i != String.length(x) - 1 && !Utils.is_vowel(String.get(x, i+1))) {
-          | true => Array.set(maybe_chars, i+1, if (String.get(x, i+1) == ' ') None else Some(char));
-          | false => ignore()
-        }
+        ignore(List.map(
+          (dir) => {
+            if (Belt.Option.map(Utils.safe_get(x, i+dir), (x) => Utils.is_vowel(x)) == Some(false)) {
+              Array.set(maybe_chars, i+dir, if (String.get(x, i+dir) == ' ') None else Some(char))
+            }
+          },
+          [-1, 1]
+        ))
       }
     }
   }, Utils.char_list(x)))
