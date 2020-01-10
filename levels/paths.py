@@ -1,4 +1,4 @@
-from utils import rotate_alphabet, alphabet, is_alphabet
+from utils import rotate_alphabet, is_alphabet
 
 def _reduce_path(path):
     if not len(path):

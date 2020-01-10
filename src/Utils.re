@@ -96,3 +96,23 @@ let first_true: ('a => bool, list('a)) => option('a) = (f, l) => {
     l,
   )
 }
+
+type _map_words_state = {
+  word: string,
+  result: string,
+};
+let map_words = (f, x) => {
+  let s = List.fold_left(
+    (s, char) => {
+      if (is_alphabet(char)) {
+        { result: s.result ++ f(s.word) ++ Char.escaped(char), word: "" }
+      } else {
+        { result: s.result, word: s.word ++ Char.escaped(char) }
+      }
+    },
+    { word: "", result: "" },
+    char_list(x)
+  );
+  s.result ++ f(s.word)
+}
+

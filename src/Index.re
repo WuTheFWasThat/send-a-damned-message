@@ -34,7 +34,17 @@ let levels: array(Types.level) = [|
   Unary.level,
   Cancer.level,
   Milk.level,
+  // Caps.level
+  // Lap.level
   Book.level,
+  // Crypt.level
+  Hike.level
+  // Def.level
+  // Darn.level
+  // Group.level
+  // Tricky.level
+  // Cut.level
+  // End.level
 |]
 
 Array.map((level: Types.level) => {
