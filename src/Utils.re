@@ -1,3 +1,11 @@
+let rec range = (start: int, end_: int) => {
+  if (start >= end_) {
+    [];
+  } else {
+    [start, ...range(start + 1, end_)];
+  };
+}
+
 let unwrap_or = (x: option('a), default: 'a) => {
   switch (x) { | None => default | Some(y) => y }
 }
@@ -21,6 +29,10 @@ let assert_eq: (~msg: string=?, 'a, 'a) => unit = (~msg="", x, y) => {
 let safe_get = (l: string, i: int): option(char) => {
   let n = String.length(l);
   if (i < n && i >= 0) { Some(String.get(l, i)) } else { None }
+}
+let safe_get_array = (l: array('a), i: int): option('a) => {
+  let n = Array.length(l);
+  if (i < n && i >= 0) { Some(Array.get(l, i)) } else { None }
 }
 
 let char_list: (string) => list(char) = (s) => List.init(String.length(s), String.get(s));

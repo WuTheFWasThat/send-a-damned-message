@@ -1,8 +1,12 @@
 
 type segment = list(char);
 type direction = Continue(int) | Jump;
+type _segment_and_dir = {
+  segment: segment,
+  direction: direction
+}
 type segments_state = {
-  segments: list((segment, direction)),
+  segments: list(_segment_and_dir),
   cur_dir: option(int),
   last: option(char),
   segment: segment,
@@ -20,80 +24,121 @@ let reduce_path = (x) => {
           let last = Utils.unwrap(s.last);
           let new_dir = Utils.a2num(cur) - Utils.a2num(last);
           if (abs(new_dir) > 1) {
+            // CASE 1: jump
             let sign = (new_dir > 0) ? 1 : -1;
             {
               segments: List.append(
                 s.segments,
                 [
-                  (List.append(s.segment, [last]), Continue(Utils.unwrap_or(s.cur_dir, 0))),
-                  ([Utils.rotate_alphabet(last, sign), Utils.rotate_alphabet(cur, -sign)], Jump),
+                  {
+                    segment: List.append(s.segment, [last]),
+                    direction: Continue(Utils.unwrap_or(s.cur_dir, 0))
+                  },
+                  {
+                    segment: [Utils.rotate_alphabet(last, sign), Utils.rotate_alphabet(cur, -sign)],
+                    direction: Jump,
+                  }
                 ]
               ),
               cur_dir: None,
               segment: [],
               last: Some(cur),
             }
+          } else if (s.cur_dir == None || s.cur_dir == Some(new_dir)) {
+            // CASE 2: continue
+            {
+              segments: s.segments,
+              cur_dir: Some(new_dir),
+              segment: List.append(s.segment, [last]),
+              last: Some(cur),
+            }
+          } else if (new_dir == 0) {
+            // CASE 3: sloped to flat
+            let new_segment = { segment: s.segment, direction: Continue(Utils.unwrap(s.cur_dir)) };
+            {
+              segments: List.append(s.segments, [new_segment]),
+              cur_dir: Some(new_dir),
+              segment: [last],
+              last: Some(cur),
+            }
+          } else if (s.cur_dir == Some(0)) {
+            // CASE 4: flat to sloped
+            let new_segment = { segment: List.append(s.segment, [last]), direction: Continue(Utils.unwrap(s.cur_dir)) };
+            {
+              segments: List.append(s.segments, [new_segment]),
+              cur_dir: Some(new_dir),
+              segment: [],
+              last: Some(cur),
+            }
           } else {
-            s
+            // CASE 5: V or ^ shape
+            let new_segment1 = { segment: s.segment, direction: Continue(Utils.unwrap(s.cur_dir))};
+            let new_segment2 = { segment: [last], direction: Continue(0)};
+            {
+              segments: List.append(s.segments, [new_segment1, new_segment2]),
+              cur_dir: Some(new_dir),
+              segment: [],
+              last: Some(cur),
+            }
+            /*
+            {
+              segments: s.segments,
+              cur_dir: Some(new_dir),
+              segment: s.segment,
+              last: Some(cur),
+            }
+            */
           }
         }
-    /*
-              if abs(new_dir) > 1:  # jump
-                  sign = 1 if new_dir > 0 else -1
-                  segments.append((segment + [last], cur_dir or 0))
-                  segments.append(([Utils.rotate_alphabet(last, sign), Utils.rotate_alphabet(cur, -sign)], 'Jump'))
-                  segment = []
-                  new_dir = None
-              elif cur_dir is None or new_dir == cur_dir:  # continue
-                  segment.append(last)
-              elif new_dir == 0:  # sloped to flat
-                  segments.append((segment, cur_dir))
-                  segment = [last]
-              elif cur_dir == 0:  # go from flat to sloped
-                  segments.append((segment + [last], cur_dir))
-                  segment = []
-              else:  # V or ^ shape
-                  segments.append((segment, cur_dir))
-                  segments.append(([last], 0))
-                  segment = []
-              cur_dir = new_dir
-          */
       },
       { segments: [], cur_dir: None, last: None, segment: [] },
       Utils.char_list(x),
     );
 
-    let segments = List.append(res.segments, [(
-        List.append(res.segment, [Utils.unwrap(res.last)]),
-        Continue(Utils.unwrap_or(res.cur_dir, 0))
-    )])
+    let segments = Array.of_list(List.append(res.segments, [{
+        segment: List.append(res.segment, [Utils.unwrap(res.last)]),
+        direction: Continue(Utils.unwrap_or(res.cur_dir, 0))
+    }]))
+    let nsegments = Array.length(segments);
 
     let result = List.fold_left(
-      (s, cur) => {
-        s
-      /*
-        # print('segments', segments)
-        for i, (segment, dir) in enumerate(segments):
-            assert dir in [-1, 1, 0, 'Jump'], dir
-            if dir == 0:
-                if i > 0 and i < len(segments) - 1 and segments[i-1][1] == segments[i+1][1] and segments[i-1][1] != 'Jump':  # 1,0,1 or -1,0,-1 pattern
-                    segment = segment[1:]
-            if dir in [-1, 1]:
-                if (i == 0 or segments[i-1][1] != 'Jump') and (i == len(segments) - 1 or segments[i+1][1] != 'Jump'):  # chain breaks
-                    if i == 0:
-                        result.append(segment[0])
-                    if i == len(segments) - 1:
-                        result.append(segment[-1])
-                    segment = []
-            result.extend(segment)
-            # print('segment', segment, 'new result', result)
-        # print('final result', result)
-        */
+      (result, i) => {
+        let {segment: segment, direction: dir} = segments[i];
+        let prev = Utils.safe_get_array(segments, i-1);
+        let next = Utils.safe_get_array(segments, i-1);
+        let segment = if (
+          dir == Continue(0) && prev != None && next != None &&
+          (Utils.unwrap(prev).direction == Utils.unwrap(next).direction) &&
+          Utils.unwrap(prev).direction == Jump
+        ) {
+          List.tl(segment)
+        } else {
+          segment
+        };
+        let (segment, result) = if (dir == Continue(-1) || dir == Continue(1)) {
+          if ((i == 0 || Array.get(segments, i-1).direction != Jump) &&
+              (i == nsegments - 1 || Array.get(segments, i+1).direction != Jump)) {
+            let first = (i == 0) ? [List.hd(segment)] : [];
+            let last = (i == nsegments - 1) ? [List.nth(segment, nsegments - 1)] : [];
+            ([], List.concat([result, first, last]))
+          } else {
+            (segment, result)
+          }
+        } else {
+          (segment, result)
+        }
+
+        // Js.log(
+        //   "segment: " ++ (segment |> Utils.join_char_list) ++ " result " ++ (result |> Utils.join_char_list)
+        // );
+        List.append(result, segment)
         },
-      [],
-      Utils.char_list(x),
+        [],
+        Utils.range(0, Array.length(segments)),
     );
-    result |> Utils.join_char_list
+    let ret = result |> Utils.join_char_list
+    // Js.log("final result: " ++ ret)
+    ret
   }
 }
 
