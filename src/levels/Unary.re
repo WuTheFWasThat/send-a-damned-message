@@ -10,13 +10,17 @@ let fn = (x) => {
       switch (s.prev == Some(cur)) {
         | true => { result: s.result, prev: s.prev, count: s.count + 1 }
         | false => {
-          let result = s.count > 0
-            ? s.result ++ Char.escaped(Utils.cased_like(Utils.num2a(min(s.count, 26) - 1), Utils.unwrap(s.prev)))
-            : s.result;
+          let result = if (s.count > 0) {
+            s.result ++ Char.escaped(Utils.cased_like(Utils.num2a(min(s.count, 26) - 1), Utils.unwrap(s.prev)))
+          } else {
+            s.result
+          }
 
-          (cur == ' ')
-            ? { result: result ++ Char.escaped(' '), count: 0, prev: None }
-            : { result: result, count: 1, prev: Some(cur) }
+          if (cur == ' ') {
+            { result: result ++ Char.escaped(' '), count: 0, prev: None }
+          } else {
+            { result: result, count: 1, prev: Some(cur) }
+          }
         }
       }
     },

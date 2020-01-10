@@ -64,7 +64,7 @@ let positive_mod = (a, b) => {
 };
 
 let cased_like = (x, y) => {
-  (y == Char.uppercase_ascii(y)) ? Char.uppercase_ascii(x) : x;
+  if (y == Char.uppercase_ascii(y)) { Char.uppercase_ascii(x) } else { x };
 }
 
 let rotate_alphabet = (~with_spaces=false, x: char, direction: int) => {
@@ -90,7 +90,7 @@ let first_true: ('a => bool, list('a)) => option('a) = (f, l) => {
       switch (result) {
         | Some(x) => Some(x)
         | None => f(cur) ? Some(cur) : None
-        }
+      }
     },
     None,
     l,

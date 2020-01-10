@@ -3,7 +3,11 @@ let fn = (x) => {
   let words = Array.map(
     part => {
       let l = String.length(part);
-      l == 0 ? part : String.sub(part, l-1, 1) ++ String.sub(part, 0, l-1)
+      if (l == 0) {
+        part
+      } else {
+        String.sub(part, l-1, 1) ++ String.sub(part, 0, l-1)
+      }
     }
   , parts)
 

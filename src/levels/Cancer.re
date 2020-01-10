@@ -17,11 +17,11 @@ let fn = (x) => {
       | false => ignore()
       | true => {
         switch (i != 0 && !Utils.is_vowel(String.get(x, i-1))) {
-          | true => Array.set(maybe_chars, i-1, (String.get(x, i-1) == ' ') ? None : Some(char));
+          | true => Array.set(maybe_chars, i-1, if (String.get(x, i-1) == ' ') None else Some(char));
           | false => ignore()
         }
         switch (i != String.length(x) - 1 && !Utils.is_vowel(String.get(x, i+1))) {
-          | true => Array.set(maybe_chars, i+1, (String.get(x, i+1) == ' ') ? None : Some(char));
+          | true => Array.set(maybe_chars, i+1, if (String.get(x, i+1) == ' ') None else Some(char));
           | false => ignore()
         }
       }

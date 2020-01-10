@@ -9,18 +9,32 @@ let fn = (x) => {
     (s: state, cur) => {
       switch (s.prev) {
         | Some(prev) => {
-          let new_result = Utils.is_alphabet(prev) ? switch (s.direction) {
-            | Some(d) => {
-              let target = Utils.rotate_alphabet(prev, d);
-              cur == target ? s.result : (s.result ++ Char.escaped(target))
+          let new_result = if (Utils.is_alphabet(prev)) {
+            switch (s.direction) {
+              | Some(d) => {
+                let target = Utils.rotate_alphabet(prev, d);
+                if (cur == target) { s.result } else { s.result ++ Char.escaped(target) }
+              }
+              | None => s.result
             }
-            | None => s.result
-            } : s.result;
-          let new_direction = Utils.is_alphabet(prev) ? Utils.first_true(
-            (possible_dir => cur == Utils.rotate_alphabet(prev, possible_dir)),
-            [1, 0, -1]
-          ) : None;
-          let new_result = (s.direction == None && new_direction == None) ? (new_result ++ Char.escaped(prev)) : new_result;
+          } else {
+            s.result
+          }
+          let new_direction = if (Utils.is_alphabet(prev)) {
+            Utils.first_true(
+              (possible_dir => cur == Utils.rotate_alphabet(prev, possible_dir)),
+              [1, 0, -1]
+            )
+          } else {
+            None;
+          };
+
+          let new_result = if (s.direction == None && new_direction == None) {
+            new_result ++ Char.escaped(prev)
+          } else {
+            new_result;
+          };
+
           { direction: new_direction, result: new_result, prev: Some(cur) }
         }
         | None => { direction: s.direction, result: s.result, prev: Some(cur) }
