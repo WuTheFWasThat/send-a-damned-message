@@ -1,8 +1,8 @@
-let rec range = (start: int, end_: int) => {
+let rec range = (~incr: int=1, start: int, end_: int) => {
   if (start >= end_) {
     [];
   } else {
-    [start, ...range(start + 1, end_)];
+    [start, ...range(start + incr, end_, ~incr=incr)];
   };
 }
 
@@ -138,3 +138,15 @@ let map_words = (f, x) => {
   s.result ++ f(s.word)
 }
 
+let replace_all = (x: string, y: string, z: string) => {
+  let i = Js.String.indexOf(y, x);
+  if (i === -1) {
+    x
+  } else {
+    Js.String.slice(x, ~from=0, ~to_=i) ++ z ++ Js.String.slice(x, ~from=i+String.length(y), ~to_=String.length(x))
+  }
+}
+
+assert_eq(replace_all("blah", "a", "aa") == "blaah")
+assert_eq(replace_all("blah", "a", "blam") == "blblamh")
+assert_eq(replace_all("blah hah", "ah", "ow") == "blow ow")

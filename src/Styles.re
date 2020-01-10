@@ -2,7 +2,7 @@ let reasonReactBlue = "#48a9dc";
 let lightgray = "rgb(222, 222, 222)";
 let darkgray = "rgb(111, 111, 111)";
 // let selected_color = "rgb(222, 222, 111)";
-let good_color = "rgb(64, 222, 64)";
+let good_color = "rgb(64, 128, 64)";
 
 // The {j|...|j} feature is just string interpolation, from
 // bucklescript.github.io/docs/en/interop-cheatsheet#string-unicode-interpolation

@@ -1,20 +1,17 @@
 def chain_define(x):
-    words = x.split(' ')
-    # NOTE: without this section, this puzzle is impossible, i think
-    while len(words) and words[-1] == '':
-        words.pop()
-    while '' in words:
-        # i = words.index('')
-        # use last index to avoid merging two ''
-        i = len(words) - words[::-1].index('') - 1
-        assert i != len(words) - 1
-        assert words[i + 1] != ''
-        words[i + 1] = ' ' + words[i + 1]
-        words = words[:i] + words[i+1:]
-    # end section
-    # print(words)
+    words = []
+    word = ''
+    for char in x:
+        if char == ' ' and word.strip():
+            words.append(word)
+            word = ''
+        else:
+            word += char
+    words.append(word)
 
-    i = 0
+    if len(words) % 2 == 0:
+        return ''
+
     defs = []
     def apply_defs(s):
         # print('applying defs', s, defs)
@@ -24,6 +21,7 @@ def chain_define(x):
             # s = s.replace(k, v)
         return s
 
+    i = 0
     while i < len(words) - 1:
         key = words[i]
         i += 1
@@ -31,10 +29,8 @@ def chain_define(x):
         i += 1
         defs.append((key, val))
 
-    if i < len(words):
-        assert i == len(words) - 1
-        return apply_defs(words[i])
-    return ''
+    assert i == len(words) - 1
+    return apply_defs(words[i])
 
 
 assert chain_define('') == ''
@@ -45,5 +41,9 @@ assert chain_define('b c c b cab') == 'cac'
 assert chain_define('b  a c  b abc') == 'a a  a'
 assert chain_define(' b  a c  b abc') == 'ab a'
 assert chain_define(' b  a b') == 'b'
+assert chain_define('a b c') == 'c'
+assert chain_define('a b c ') == ''
+assert chain_define('a  ') == ''
 assert chain_define('a b') == ''
-assert chain_define('a b  ') == ''
+assert chain_define('a b ') == ''
+assert chain_define('a b  ') == ' '

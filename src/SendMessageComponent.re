@@ -115,23 +115,23 @@ let make = (~levels: array(Types.level), ~savedstate: Types.savestate, ~savestat
         ReasonReact.array(Array.of_list(List.mapi((i: int, attempt: attempt) => {
           <div key={string_of_int(i)}>
             <div>
-              <span className="undamnedmessage">
+              <pre className="undamnedmessage">
                 {React.string(attempt.message)}
-              </span>
+              </pre>
             </div>
             <div>
-              <span className={(attempt.damned === level.goal) ? "goodmessage" : "damnedmessage"}>
+              <pre className={(attempt.damned === level.goal) ? "goodmessage" : "damnedmessage"}>
                 {React.string(attempt.damned)}
-              </span>
+              </pre>
             </div>
           </div>
         }, state.attempts)))
       }
       <div style={ReactDOMRe.Style.make(~fontWeight="bold", ())}>
         {React.string("Goal is to send: ")}
-        <span className="goodmessage">
+        <pre className="goodmessage">
         {React.string(level.goal)}
-        </span>
+        </pre>
       </div>
       <form className="fullwidth" onSubmit={event => {
         Js.log("sending message: " ++ state.message);

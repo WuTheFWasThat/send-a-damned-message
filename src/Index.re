@@ -39,19 +39,19 @@ let levels: array(Types.level) = [|
   Book.level,
   Crypt.level,
   Hike.level,
-  // Def.level
-  // Darn.level
-  // Group.level
-  // Tricky.level
-  // Cut.level
-  // End.level
+  Def.level,
+  // Darn.level,
+  // Group.level,
+  // Tricky.level,
+  // Cut.level,
+  // End.level,
 |]
 
 Array.map((level: Types.level) => {
   let result = level.fn(level.answer);
   (result == level.goal) ? "" : {
     Js.log(level.name ++ ": " ++ result);
-    Js.Exn.raiseError("Level answer error")
+    Js.Exn.raiseError("Level '" ++ level.name ++ "' answer error")
   }
 }, levels);
 
