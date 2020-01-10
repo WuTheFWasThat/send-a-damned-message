@@ -57,11 +57,16 @@ let positive_mod = (a, b) => {
   ((a mod b) + b) mod b
 };
 
+let cased_like = (x, y) => {
+  (y == Char.uppercase_ascii(y)) ? Char.uppercase_ascii(x) : x;
+}
+
 let rotate_alphabet = (~with_spaces=false, x: char, direction: int) => {
-  let is_upper = x == Char.uppercase_ascii(x)
-  let new_num = positive_mod(a2num(x, ~with_spaces=with_spaces) + direction, with_spaces ? 27 : 26)
-  let new_x = num2a(new_num, ~with_spaces=with_spaces)
-  is_upper ? Char.uppercase_ascii(new_x) : new_x;
+  Js.log("rotating " ++ Char.escaped(x));
+  Js.log(direction);
+    let new_num = positive_mod(a2num(x, ~with_spaces=with_spaces) + direction, with_spaces ? 27 : 26)
+    let new_x = num2a(new_num, ~with_spaces=with_spaces)
+    cased_like(new_x, x)
 };
 
 assert_eq(rotate_alphabet('a', 25), 'z');

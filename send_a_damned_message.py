@@ -70,7 +70,7 @@ levels = [
         answer="a daklngfd meqrutage"
     ),
     dict(
-        name='Un',
+        name='Unwary',
         fn=count_words,
         goal='Damn it',
         answer='DDDDammmmmmmmmmmmmnnnnnnnnnnnnnn iiiiiiiiitttttttttttttttttttt',
