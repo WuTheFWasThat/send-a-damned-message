@@ -120,7 +120,7 @@ levels = [
         answer='abcdefghijklmnopqrs a damned message',
     ),
     # dict(
-    #     name='Book',
+    #     name='Book (Alt)',
     #     fn=book_unimplemented,
     #     goal='a damned message',
     #     answer='a a b damned c message abc',
@@ -191,17 +191,6 @@ levels = [
         goal='end all the damned messages',
         answer='send all the damned messages',
     ),
-    # dict(
-    #     name='Quote',
-    #     fn=quote_hell_old,
-    #     goal='"She said, \'Send a damned message\'", he said',
-    #     answer="""
-    #     '"She said, '"message' damned a 'Send"'", he said'
-    #     """.strip(),
-    #     # answer="""
-    #     # '", he said'"'"'Send a damned message'"'"'"She said, '
-    #     # """.strip(),
-    # ),
 ]
 
 def smart_input(x, color=None):
