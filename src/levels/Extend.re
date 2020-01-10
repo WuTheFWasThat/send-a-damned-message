@@ -41,7 +41,7 @@ let fn = (x) => {
       }
     },
   { result: "", prev: None, direction: None },
-  List.concat([Utils.char_list(x), [' ']]),
+  List.append(Utils.char_list(x), [' ']),
   ).result;
 }
 

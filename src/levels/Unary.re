@@ -25,7 +25,7 @@ let fn = (x) => {
       }
     },
   { result: "", prev: None, count: 0 },
-  List.concat([Utils.char_list(x), [' ']]),
+  List.append(Utils.char_list(x), [' ']),
   ).result;
 
   String.sub(result, 0, String.length(result) - 1)

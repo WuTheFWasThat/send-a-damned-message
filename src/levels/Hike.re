@@ -13,8 +13,13 @@ let reduce_path = (x) => {
       s
     },
   { segments: [], cur_dir: None, last: None, segment: [] },
-  List.concat([Utils.char_list(x), [' ']]),
+  List.append(Utils.char_list(x), [' ']),
   );
+
+  let segments = List.append(res.segments, [(
+      List.append(res.segment, [Utils.unwrap(res.last)]),
+      if (res.cur_dir == None) {0} else {Utils.unwrap(res.cur_dir)}
+  )])
   // |> Utils.join_char_list
   x
 }
@@ -70,7 +75,6 @@ def _reduce_path(path):
 
 */
 
-/*
 Utils.assert_eq(reduce_path(""), "")
 Utils.assert_eq(reduce_path("m"), "m")
 Utils.assert_eq(reduce_path("jklmz"), "jklmnyz")
@@ -93,7 +97,6 @@ Utils.assert_eq(reduce_path("abababa"), "abababa")
 Utils.assert_eq(reduce_path("abbc"), "abc")
 Utils.assert_eq(reduce_path("abcdeffedcbabccd"), "affacd")
 Utils.assert_eq(reduce_path("tabcdeffedcbabccd"), "tsbabcdeffacd")
-*/
 
 type state = {
   word: string,

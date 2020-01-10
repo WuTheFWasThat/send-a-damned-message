@@ -53,7 +53,7 @@ let make = (~levels: array(Types.level), ~savedstate: Types.savestate, ~savestat
         };
         {
           ...state,
-          attempts: List.concat([state.attempts, [attempt]]), message: ""
+          attempts: List.append(state.attempts, [attempt]), message: ""
         };
       }
       | SetLevel(level) => {
