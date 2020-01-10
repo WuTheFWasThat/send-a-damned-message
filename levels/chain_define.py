@@ -12,7 +12,7 @@ def chain_define(x):
         words[i + 1] = ' ' + words[i + 1]
         words = words[:i] + words[i+1:]
     # end section
-    print(words)
+    # print(words)
 
     i = 0
     defs = []
