@@ -12,6 +12,15 @@ type segments_state = {
   segment: segment,
 }
 
+let segment_str = (segment: _segment_and_dir) => {
+  (segment.segment |> Utils.join_char_list) ++ " " ++ {
+    switch (segment.direction) {
+      | Continue(x) => { string_of_int(x) }
+      | Jump => "jump"
+      }
+  }
+}
+
 let reduce_path = (x) => {
   if (String.length(x) == 0) {
     x
@@ -99,17 +108,25 @@ let reduce_path = (x) => {
         segment: List.append(res.segment, [Utils.unwrap(res.last)]),
         direction: Continue(Utils.unwrap_or(res.cur_dir, 0))
     }]))
+
     let nsegments = Array.length(segments);
+
+    // // Js.log(segments |> Js.Json.stringifyAny)
+    // for (i in 0 to nsegments - 1) {
+    //   let segment = segments[i];
+    //   "Segment " ++ string_of_int(i) ++ ": " ++ segment_str(segment)  |> Js.log;
+    // }
 
     let result = List.fold_left(
       (result, i) => {
         let {segment: segment, direction: dir} = segments[i];
+        // segment |> Utils.join_char_list |> Js.log;
         let prev = Utils.safe_get_array(segments, i-1);
-        let next = Utils.safe_get_array(segments, i-1);
+        let next = Utils.safe_get_array(segments, i+1);
         let segment = if (
           dir == Continue(0) && prev != None && next != None &&
           (Utils.unwrap(prev).direction == Utils.unwrap(next).direction) &&
-          Utils.unwrap(prev).direction == Jump
+          Utils.unwrap(prev).direction != Jump
         ) {
           List.tl(segment)
         } else {
@@ -119,7 +136,7 @@ let reduce_path = (x) => {
           if ((i == 0 || Array.get(segments, i-1).direction != Jump) &&
               (i == nsegments - 1 || Array.get(segments, i+1).direction != Jump)) {
             let first = (i == 0) ? [List.hd(segment)] : [];
-            let last = (i == nsegments - 1) ? [List.nth(segment, nsegments - 1)] : [];
+            let last = (i == nsegments - 1) ? [List.nth(segment, List.length(segment) - 1)] : [];
             ([], List.concat([result, first, last]))
           } else {
             (segment, result)
@@ -176,8 +193,7 @@ let level: Types.level = {
   name: "hike",
   fn: fn,
   goal: "a damned message",
-  // answer: "a dcbabcdefghijklmmnmlkjihgfeed mlkjihgfefghijklmnopqrssrqponmlkjihgfedcbabcdefgfe"
-  answer: "a damned message"
+  answer: "a dcbabcdefghijklmmnmlkjihgfeed mlkjihgfefghijklmnopqrssrqponmlkjihgfedcbabcdefgfe"
 }
 
 Utils.assert_eq(fn(""), "")

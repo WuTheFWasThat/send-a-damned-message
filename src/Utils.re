@@ -123,9 +123,9 @@ let map_words = (f, x) => {
   let s = List.fold_left(
     (s, char) => {
       if (is_alphabet(char)) {
-        { result: s.result ++ f(s.word) ++ Char.escaped(char), word: "" }
-      } else {
         { result: s.result, word: s.word ++ Char.escaped(char) }
+      } else {
+        { result: s.result ++ f(s.word) ++ Char.escaped(char), word: "" }
       }
     },
     { word: "", result: "" },
