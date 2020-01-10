@@ -34,6 +34,10 @@ let safe_get_array = (l: array('a), i: int): option('a) => {
   let n = Array.length(l);
   if (i < n && i >= 0) { Some(Array.get(l, i)) } else { None }
 }
+let safe_get_list = (l: list('a), i: int): option('a) => {
+  let n = List.length(l);
+  if (i < n && i >= 0) { Some(List.nth(l, i)) } else { None }
+}
 
 let char_list: (string) => list(char) = (s) => List.init(String.length(s), String.get(s));
 let join_char_list: (list(char)) => string = (l) => l |> Array.of_list |> Array.map((x) => Char.escaped(x)) |>  Js.Array.joinWith("");
