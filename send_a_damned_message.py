@@ -165,9 +165,9 @@ levels = [
     dict(
         name='Group',  # 'Trippy',
         fn=explode,
-        goal='please, just a short damned message',
-        # answer=' ( please, ( just a)) ( short ( damned message))',
-        answer=' ( please, ( just ( a ( short ( damned message'
+        goal='(please) send a short "damned" message wouldn\'t you?',
+        answer='() \'(please) send a short "damned" message\' "wouldn\'t you?"',
+        # answer=""" ( please, ( just ( a ( short ( damned message"""
     ),
     dict(
         name='Tricky',
@@ -179,12 +179,6 @@ levels = [
             'a damned message which contains as many usages of "damned" as possible, was damned by the damned over and over, and was deliberately constructed to be unnecessarily damned long (and confusing)'
         )),
     ),
-    # dict(
-    #     name='Quote',  # TODO: make this level better / less confusing?
-    #     fn=quote_hell,
-    #     goal='I received a demand to "Send a damned message"',
-    #     answer='", I demanded"""Send a damned message""'
-    # ),
     dict(
         name='Cut',
         fn=reverse_sandwiched,
