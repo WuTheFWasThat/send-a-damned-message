@@ -4,11 +4,15 @@ def chain_define(x):
     while len(words) and words[-1] == '':
         words.pop()
     while '' in words:
-        i = words.index('')
+        # i = words.index('')
+        # use last index to avoid merging two ''
+        i = len(words) - words[::-1].index('') - 1
         assert i != len(words) - 1
+        assert words[i + 1] != ''
         words[i + 1] = ' ' + words[i + 1]
         words = words[:i] + words[i+1:]
     # end section
+    print(words)
 
     i = 0
     defs = []
