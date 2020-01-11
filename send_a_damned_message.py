@@ -9,7 +9,7 @@ from levels.unary import count_words
 from levels.palindrome import needs_palindromic_redundancy
 from levels.cycle3 import ordered_cyclic_permute_3
 from levels.lonely import lonely_death
-from levels.corrupt import corrupt
+from levels.corrupt import corrupt_final as corrupt
 from levels.codebook import codebook
 from levels.explode import explode
 from levels.reflect import reflect
@@ -152,8 +152,10 @@ levels = [
     dict(
         name='Darn',  # 'Corrupt',
         fn=corrupt,
-        goal='a damned b message',
-        answer='a damned b messlge',
+        goal='a damned message',
+        answer='a damned messagp',
+        # goal='a damned b message',
+        # answer='a damned b messlge',
         # goal='a damned messaaage',
         # answer='a damned messaalge',
         # goal='a darn massage',
