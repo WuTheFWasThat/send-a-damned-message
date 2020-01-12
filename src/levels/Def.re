@@ -50,7 +50,7 @@ let fn = (x) => {
       let k = words[i];
       let v = apply_defs(defs, words[i+1]);
       List.append(defs, [{k: k, v: v}])
-    }, [], Array.of_list(Utils.range(0, n-1, ~incr=2)));
+    }, [], Array.of_list(Utils.range(n-1, ~incr=2)));
 
     apply_defs(defs, words[n-1]);
   }

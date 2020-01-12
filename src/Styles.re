@@ -1,3 +1,4 @@
+let verylightgray = "rgb(242, 242, 242)";
 let lightgray = "rgb(222, 222, 222)";
 let darkgray = "rgb(111, 111, 111)";
 // let selected_color = "rgb(222, 222, 111)";
@@ -15,6 +16,23 @@ let style = {j|
     flex-direction: column;
     align-items: center;
     padding: 20px 40px;
+  }
+  .unselectable {
+    -webkit-user-select: none; /* Chrome/Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+
+    /* Rules below not implemented in browsers yet */
+    -o-user-select: none;
+    user-select: none;
+  }
+  // pre span {
+  //   background-color: $verylightgray;
+  // }
+  pre {
+    white-space: pre-wrap;
+    word-break: keep-all;
+    margin: 0px;
   }
   .center {
     text-align: center;
@@ -82,7 +100,7 @@ let style = {j|
     overflow-y: scroll;
   }
   .message_pair {
-    line-height: 0px;
+    margin-bottom: 10px;
   }
   .damnedmessage {
     // background-color: rgb(256, 224, 224);

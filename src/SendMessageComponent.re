@@ -177,17 +177,17 @@ let make = (
             <h3 className="center">
               {React.string("Level " ++ string_of_int(state.savedstate.level) ++ ": " ++ level.name)}
             </h3>
-            <div style={ReactDOMRe.Style.make(~overflowY= "scroll", ~boxSizing= "content-box", ())} className="messages_container">
+            <div className="messages_container">
               {
                 ReasonReact.array(Array.of_list(List.mapi((i: int, attempt: attempt) => {
                   <div className="message_pair" key={string_of_int(i)} >
-                    <pre className="undamnedmessage">
+                    <pre className="undamnedmessage"><span>
                       {React.string(attempt.message)}
-                    </pre>
+                    </span></pre>
                     <br/>
-                    <pre className={(attempt.damned === level.goal) ? "goodmessage" : "damnedmessage"}>
+                    <pre className={(attempt.damned === level.goal) ? "goodmessage" : "damnedmessage"}><span>
                       {React.string(attempt.damned)}
-                    </pre>
+                    </span></pre>
                   </div>
                 }, state.attempts)))
               }
@@ -199,10 +199,10 @@ let make = (
                 </button>
               } else {
                 <div>
-                  <div style={ReactDOMRe.Style.make(~fontWeight="bold", ())}>
-                    {React.string("Goal is to send: ")}
+                  <div style={ReactDOMRe.Style.make(~fontWeight="bold", ~marginBottom="10px", ())}>
+                    <span className="unselectable">{React.string("Goal is to send: ")}</span>
                     <pre className="goodmessage">
-                    {React.string(level.goal)}
+                    <span>{React.string(level.goal)}</span>
                     </pre>
                   </div>
                   <form className="fullwidth" onSubmit={event => {

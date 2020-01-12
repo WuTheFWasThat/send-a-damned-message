@@ -1,8 +1,8 @@
-let rec range = (~incr: int=1, start: int, end_: int) => {
+let rec range = (~incr: int=1, ~start: int=0, end_: int) => {
   if (start >= end_) {
     [];
   } else {
-    [start, ...range(start + incr, end_, ~incr=incr)];
+    [start, ...range(~start=start + incr, end_, ~incr=incr)];
   };
 }
 
@@ -29,6 +29,10 @@ let assert_eq: (~msg: string=?, 'a, 'a) => unit = (~msg="", x, y) => {
   assert_true(x == y, ~msg=msg ++ "expected '" ++ unwrap(Js.Json.stringifyAny(x)) ++ "' == '" ++ unwrap(Js.Json.stringifyAny(y)) ++ "'");
 }
 
+let rand_string: (int) => string = [%raw {|
+  function(n) { return (new Array(n)).fill().map((x) => Math.random().toString(36)[2]).join(''); }
+|}];
+
 let safe_index = (~from: int=0, s: string, c: char): option(int) => {
   "Checking " ++ Char.escaped(c) ++ " in " ++ s ++ " from " ++ string_of_int(from) |> Js.log;
   if (String.contains_from(s, from, c)) { String.index_from(s, from, c) |> Js.log; Some(String.index_from(s, from, c)); } else { None }
@@ -48,7 +52,8 @@ let safe_get_list = (l: list('a), i: int): option('a) => {
 }
 
 let char_list: (string) => list(char) = (s) => List.init(String.length(s), String.get(s));
-let join_char_list: (list(char)) => string = (l) => l |> Array.of_list |> Array.map((x) => Char.escaped(x)) |>  Js.Array.joinWith("");
+let join_char_array: (array(char)) => string = (l) => l |> Array.map((x) => Char.escaped(x)) |>  Js.Array.joinWith("");
+let join_char_list: (list(char)) => string = (l) => l |> Array.of_list |> join_char_array
 let reverse_str = (x: string) => { x |> char_list |> List.rev |> join_char_list }
 
 let filter_none: (list(option('a))) => list('a) = (l) => List.map((x) => unwrap(x), List.filter((x) => x != None, l));

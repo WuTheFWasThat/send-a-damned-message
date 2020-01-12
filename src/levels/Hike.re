@@ -135,7 +135,7 @@ let reduce_path = (x) => {
         List.append(result, segment)
         },
         [],
-        Utils.range(0, Array.length(segments)),
+        Utils.range(Array.length(segments)),
     );
     let ret = result |> Utils.join_char_list
     // Js.log("final result: " ++ ret)
