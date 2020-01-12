@@ -71,8 +71,7 @@ let make = (
         Js.log("setting level: " ++ levels[level].name);
         focusInput();
         {
-          ...state,
-          attempts: [], justsolved: false,
+          message: "", attempts: [], justsolved: false,
           savedstate: { ...state.savedstate, level: level }
         }
       }
@@ -96,11 +95,21 @@ let make = (
     }
   });
 
+  let set_cheat: ((unit) => unit) => unit = [%raw {|
+    function(fn) { window.cheat = fn }
+  |}];
+
+  let level = levels[state.savedstate.level];
+  set_cheat(() => dispatch(SetMessage(level.answer)));
+
   let level_state = level_solved |> Array.mapi((i, solved) => {
     if (solved) {
       Solved;
     } else {
-      if ((i == 0) || Utils.safe_get_array(level_solved, i-1) == Some(true)) {
+      if ((i == 0) ||
+          Utils.safe_get_array(level_solved, i-1) == Some(true) ||
+          Utils.safe_get_array(level_solved, i-2) == Some(true)
+         ) {
         Unlocked;
       } else {
         Locked;
@@ -159,8 +168,6 @@ let make = (
             {React.string("Congratulations!  No more damned messages!")}
           </div>
         } else {
-          let level = levels[state.savedstate.level];
-
           <div>
             <h3 className="center">
               {React.string("Level " ++ string_of_int(state.savedstate.level) ++ ": " ++ level.name)}
