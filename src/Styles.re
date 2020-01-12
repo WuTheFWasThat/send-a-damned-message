@@ -3,6 +3,7 @@ let lightgray = "rgb(222, 222, 222)";
 let darkgray = "rgb(111, 111, 111)";
 // let selected_color = "rgb(222, 222, 111)";
 let good_color = "rgb(64, 128, 64)";
+let good_color_light = "rgb(96, 192, 96)";
 
 // The {j|...|j} feature is just string interpolation, from
 // bucklescript.github.io/docs/en/interop-cheatsheet#string-unicode-interpolation
@@ -41,11 +42,11 @@ let style = {j|
     background-color: $darkgray;
     pointer-events: none;
   }
+  .levelselect .levelitem.levelsolved {
+    background-color: $good_color_light;
+  }
   .selectedlevel.levelitem {
     border-width: 3px !important;
-  }
-  .levelitem.beaten {
-    background-color: $good_color !important;
   }
   button {
     background-color: white;

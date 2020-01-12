@@ -43,7 +43,9 @@ let focusInput: (unit) => unit = [%raw {|
 |}];
 
 [@react.component]
-let make = (~levels: array(Types.level), ~savedstate: Types.savestate, ~savestate: (Types.savestate) => unit) => {
+let make = (
+  ~levels: array(Types.level), ~savedstate: Types.savestate, ~savestate: (Types.savestate) => unit,
+) => {
   let reducer = (state, action) => {
     let newstate = switch (action) {
       | SetMessage(msg) => { ...state, message: msg }
@@ -51,12 +53,22 @@ let make = (~levels: array(Types.level), ~savedstate: Types.savestate, ~savestat
         let message = state.message;
         let level = levels[state.savedstate.level];
         let damned_message = level.fn(message);
-        let attempt = {
-          message: message, damned: damned_message
+        let solved = damned_message == level.goal;
+        let level_i = if (solved) {
+          Js.Dict.set(state.savedstate.answers, level.name, message);
+          state.savedstate.level + 1
+        } else {
+          state.savedstate.level
+        }
+
+        let attempts = if (solved) { [] } else {
+          List.append(state.attempts, [{
+            message: message, damned: damned_message
+          }])
         };
         {
-          ...state,
-          attempts: List.append(state.attempts, [attempt]), message: ""
+          attempts: attempts, message: solved ? "" : message,
+          savedstate: { ...state.savedstate, level: level_i }
         };
       }
       | SetLevel(level) => {
@@ -65,10 +77,7 @@ let make = (~levels: array(Types.level), ~savedstate: Types.savestate, ~savestat
         {
           ...state,
           attempts: [],
-          savedstate: {
-            ...state.savedstate,
-            level: level
-          }
+          savedstate: { ...state.savedstate, level: level }
         }
       }
     };
