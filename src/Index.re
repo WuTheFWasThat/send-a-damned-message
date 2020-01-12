@@ -44,7 +44,7 @@ let levels: array(Types.level) = [|
   Please.level,
   Tricky.level,
   Cut.level,
-  // End.level,
+  End.level,
 |]
 
 Array.map((level: Types.level) => {
