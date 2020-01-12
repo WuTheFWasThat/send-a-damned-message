@@ -107,7 +107,7 @@ levels = [
         answer='A dAmnEd MesSagE',
     ),
     dict(
-        name='Lap',  # Lap',  # fold?  # crossorads?  # common?
+        name='Mum',  # Lap',  # fold?  # crossorads?  # common?
         fn=needs_palindromic_redundancy,
         goal='a damned message',
         answer='a damned messageegassem denmad a',

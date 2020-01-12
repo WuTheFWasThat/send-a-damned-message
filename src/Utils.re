@@ -98,6 +98,10 @@ let positive_mod = (a, b) => {
   ((a mod b) + b) mod b
 };
 
+let is_upper = (l) => (Char.uppercase_ascii(l) == l);
+let is_lower = (l) => (Char.lowercase_ascii(l) == l);
+let swap_case = (l) => (is_upper(l) ? Char.lowercase_ascii(l) : Char.uppercase_ascii(l));
+
 let cased_like = (x, y) => {
   if (y == Char.uppercase_ascii(y)) { Char.uppercase_ascii(x) } else { x };
 }

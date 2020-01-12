@@ -34,8 +34,8 @@ let fn = (x) => {
 let level: Types.level = {
   name: "unwary",
   fn: fn,
-  goal: "Damn it",
-  answer: "DDDDammmmmmmmmmmmmnnnnnnnnnnnnnn iiiiiiiiitttttttttttttttttttt",
+  goal: "a dam msg",
+  answer: "a ddddammmmmmmmmmmmm mmmmmmmmmmmmmsssssssssssssssssssggggggg",
 }
 
 Utils.assert_eq(fn(""), "")
