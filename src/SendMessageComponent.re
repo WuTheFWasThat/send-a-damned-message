@@ -18,6 +18,8 @@ type state = {
   savedstate: Types.savestate,
 };
 
+type levelmenustate = Solved | Unlocked | Locked;
+
 type action =
   SendMessage
   | SetMessage(string)
@@ -79,6 +81,26 @@ let make = (~levels: array(Types.level), ~savedstate: Types.savestate, ~savestat
   Js.log("state: " ++ switch (Js.Json.stringifyAny(state)) { | None => "?" | Some(x) => x } );
   let level = levels[state.savedstate.level];
 
+  let level_solved = levels |> Array.map((level: Types.level) => {
+    switch (Js.Dict.get(state.savedstate.answers, level.name)) {
+      | None => false
+      // re-verify answer
+      | Some(answer) => { level.fn(answer) == level.goal }
+    }
+  });
+
+  let level_state = level_solved |> Array.mapi((i, solved) => {
+    if (solved) {
+      Solved;
+    } else {
+      if ((i == 0) || Utils.safe_get_array(level_solved, i-1) == Some(true)) {
+        Unlocked;
+      } else {
+        Locked;
+      }
+    }
+  });
+
   <div>
   <div style={ReactDOMRe.Style.make(
      ~textAlign="right", ()
@@ -103,9 +125,16 @@ let make = (~levels: array(Types.level), ~savedstate: Types.savestate, ~savestat
     <div className="levelselect">
       {
         ReasonReact.array(Array.mapi((i: int, level: Types.level) => {
+          let levelstate = Array.get(level_state, i);
+          let className = "levelitem";
+          let className = className ++ ((i == state.savedstate.level) ? " selectedlevel" : "");
+          let className = className ++ ((levelstate == Locked) ? " levellocked" : "");
+          let className = className ++ ((levelstate == Unlocked) ? " levelunlocked" : "");
+          let className = className ++ ((levelstate == Solved) ? " levelsolved" : "");
+
           <div
             key={string_of_int(i)}
-            className={"levelitem" ++ ((i == state.savedstate.level) ? " selectedlevel" : "") }
+            className={className }
             onClick={(_ev) => dispatch(SetLevel(i))}
           >
             <div>

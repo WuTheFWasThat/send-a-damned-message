@@ -7,6 +7,6 @@ type level = {
 
 type savestate = {
   // mapping from levels to solutions
-  solved: Js.Dict.t(string),
+  answers: Js.Dict.t(string),
   level: int
 }

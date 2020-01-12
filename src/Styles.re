@@ -36,6 +36,11 @@ let style = {j|
     text-align: center;
     padding: 5px;
   }
+  .levelselect .levelitem.levellocked {
+    border: 1px solid $lightgray;
+    background-color: $darkgray;
+    pointer-events: none;
+  }
   .selectedlevel.levelitem {
     border-width: 3px !important;
   }

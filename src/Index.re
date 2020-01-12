@@ -68,12 +68,12 @@ external parseIntoMyData : string => Types.savestate = "parse";
 
 let loadLocalState: (unit) => Types.savestate = () => {
   switch (Dom.Storage.(localStorage |> getItem("state"))) {
-    | None => { solved: Js.Dict.empty(), level: 0, }
+    | None => { answers: Js.Dict.empty(), level: 0, }
     | Some(save_state) => parseIntoMyData(save_state)
     // try (
     // parseIntoMyData(save_state)
     //   ) {
-    //   | _ -> { solved: Js.Dict.empty(), level: 0 }
+    //   | _ -> { answers: Js.Dict.empty(), level: 0 }
     // }
   }
 }
