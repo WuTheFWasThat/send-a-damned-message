@@ -29,6 +29,10 @@ let assert_eq: (~msg: string=?, 'a, 'a) => unit = (~msg="", x, y) => {
   assert_true(x == y, ~msg=msg ++ "expected '" ++ unwrap(Js.Json.stringifyAny(x)) ++ "' == '" ++ unwrap(Js.Json.stringifyAny(y)) ++ "'");
 }
 
+let safe_index = (~from: int=0, s: string, c: char): option(int) => {
+  "Checking " ++ Char.escaped(c) ++ " in " ++ s ++ " from " ++ string_of_int(from) |> Js.log;
+  if (String.contains_from(s, from, c)) { String.index_from(s, from, c) |> Js.log; Some(String.index_from(s, from, c)); } else { None }
+}
 // let safe_get = (l: list('a), i: int): option('a) => {
 let safe_get = (l: string, i: int): option(char) => {
   let n = String.length(l);

@@ -55,6 +55,8 @@ let style = {j|
     padding: 8px;
     font-size: 16px;
   }
+  pre {
+  }
   .container {
     margin: 12px 0px;
     box-shadow: 0px 4px 16px rgb(200, 200, 200);

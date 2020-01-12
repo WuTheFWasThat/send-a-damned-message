@@ -41,7 +41,7 @@ let levels: array(Types.level) = [|
   Hike.level,
   Def.level,
   Darn.level,
-  // Group.level,
+  Please.level,
   // Tricky.level,
   // Cut.level,
   // End.level,
