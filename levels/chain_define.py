@@ -35,6 +35,7 @@ def chain_define(x):
 
 assert chain_define('') == ''
 assert chain_define('b a c b c') == 'a'
+assert chain_define('b a  c b c') == 'c'
 assert chain_define('b  a c b c') == ' a'
 assert chain_define('b a c b cab') == 'aaa'
 assert chain_define('b c c b cab') == 'cac'

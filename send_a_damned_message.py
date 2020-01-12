@@ -146,8 +146,8 @@ levels = [
     dict(
         name='Def',
         fn=chain_define,
-        goal='a damned b message   abc',
-        answer='x  d y  b z  m w    a axamnedyzessagewbc',
+        goal='a damned  message',
+        answer='x  d z   m axamnedzessage',
     ),
     dict(
         name='Darn',  # 'Corrupt',
