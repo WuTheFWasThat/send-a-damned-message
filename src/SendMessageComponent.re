@@ -165,7 +165,8 @@ let make = (
         }, levels))
       }
     </div>
-    <div style={ReactDOMRe.Style.make(~flexGrow="1", ~paddingLeft="20px", ~overflowX="scroll", ())}>
+    <div style={ReactDOMRe.Style.make(~flexGrow="1", ~paddingLeft="20px", ~overflow="hidden"
+, ())}>
       {
         if (state.justsolved && (state.savedstate.level == nlevels - 1)) {
           <div style={ReactDOMRe.Style.make(~textAlign="center", ())}>
@@ -176,7 +177,7 @@ let make = (
             <h3 className="center">
               {React.string("Level " ++ string_of_int(state.savedstate.level) ++ ": " ++ level.name)}
             </h3>
-            <div className="messages_container">
+            <div style={ReactDOMRe.Style.make(~overflowY= "scroll", ~boxSizing= "content-box", ())} className="messages_container">
               {
                 ReasonReact.array(Array.of_list(List.mapi((i: int, attempt: attempt) => {
                   <div className="message_pair" key={string_of_int(i)} >
@@ -209,7 +210,7 @@ let make = (
                     ReactEvent.Form.preventDefault(event);
                     dispatch(SendMessage);
                   }}>
-                    <div>
+                    <div style={ReactDOMRe.Style.make(~paddingRight="10px", ())}>
                       <input id="main-input" className="fullwidth" type_="text" value={state.message} onChange={event => dispatch(SetMessage(event->ReactEvent.Form.target##value))}>
                       </input>
                     </div>
