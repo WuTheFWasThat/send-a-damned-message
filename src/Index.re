@@ -40,7 +40,7 @@ let levels: array(Types.level) = [|
   Crypt.level,
   Hike.level,
   Def.level,
-  // Darn.level,
+  Darn.level,
   // Group.level,
   // Tricky.level,
   // Cut.level,

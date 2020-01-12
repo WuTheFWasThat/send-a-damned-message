@@ -6,6 +6,10 @@ let rec range = (~incr: int=1, start: int, end_: int) => {
   };
 }
 
+let rec sum = (l: list(int)): int => {
+  switch (l) { | [] => 0 | [x, ...rest] => x + sum(rest) };
+}
+
 let unwrap_or = (x: option('a), default: 'a) => {
   switch (x) { | None => default | Some(y) => y }
 }
