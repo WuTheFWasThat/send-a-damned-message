@@ -102,11 +102,15 @@ let make = (
   let level = levels[state.savedstate.level];
   set_cheat(() => dispatch(SetMessage(level.answer)));
 
+  let nlevels = Array.length(levels);
   let level_state = level_solved |> Array.mapi((i, solved) => {
     if (solved) {
       Solved;
     } else {
-      if ((i == 0) ||
+      if (i == nlevels - 1) {
+        let all_but_last_solved = Array.sub(level_solved, 0, nlevels-1) |> Array.fold_left((x, y) => x && y, true);
+        all_but_last_solved ? Unlocked : Locked;
+      } else if ((i == 0) ||
           Utils.safe_get_array(level_solved, i-1) == Some(true) ||
           Utils.safe_get_array(level_solved, i-2) == Some(true)
          ) {
@@ -163,7 +167,7 @@ let make = (
     </div>
     <div style={ReactDOMRe.Style.make(~flexGrow="1", ~paddingLeft="20px", ())}>
       {
-        if (state.justsolved && (state.savedstate.level == Array.length(levels) - 1)) {
+        if (state.justsolved && (state.savedstate.level == nlevels - 1)) {
           <div style={ReactDOMRe.Style.make(~textAlign="center", ())}>
             {React.string("Congratulations!  No more damned messages!")}
           </div>
