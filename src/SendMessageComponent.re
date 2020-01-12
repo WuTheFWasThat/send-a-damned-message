@@ -2,8 +2,9 @@
 // https://reactjs.org/docs/hooks-reference.html#usereducer
 
 // A little extra we've put, because the ReactJS example has no styling
-let leftButtonStyle = ReactDOMRe.Style.make(~borderRadius="4px 0px 0px 4px", ~width="48px", ());
-let rightButtonStyle = ReactDOMRe.Style.make(~borderRadius="0px 4px 4px 0px", ~width="48px", ());
+let githubLinkStyle = ReactDOMRe.Style.make(
+  ~color="white", ~fontSize="18 px", ~textDecoration="none", ()
+);
 
 type attempt = {
   message: string,
@@ -79,6 +80,13 @@ let make = (~levels: array(Types.level), ~savedstate: Types.savestate, ~savestat
   let level = levels[state.savedstate.level];
 
   <div>
+  <div style={ReactDOMRe.Style.make(
+     ~textAlign="right", ()
+  )}>
+    <a href="https://github.com/WuTheFWasThat/send-a-damned-message" style={githubLinkStyle}>
+      {React.string("View on Github")}
+    </a>
+  </div>
   <div className="container">
 
   <div className="containerTitle">
@@ -91,7 +99,7 @@ let make = (~levels: array(Types.level), ~savedstate: Types.savestate, ~savestat
 
   <div className="containerContent">
   <div
-    style={ReactDOMRe.Style.make(~display="flex", ~alignItems="center", ~justifyContent="space-between", ())}>
+    style={ReactDOMRe.Style.make(~display="flex", ())}>
     <div className="levelselect">
       {
         ReasonReact.array(Array.mapi((i: int, level: Types.level) => {
@@ -101,32 +109,32 @@ let make = (~levels: array(Types.level), ~savedstate: Types.savestate, ~savestat
             onClick={(_ev) => dispatch(SetLevel(i))}
           >
             <div>
-              {React.string(string_of_int(i) ++ ": " ++ level.name)}
+              // {React.string(string_of_int(i) ++ ": " ++ level.name)}
+              {React.string(level.name)}
             </div>
           </div>
         }, levels))
       }
     </div>
-    <div style={ReactDOMRe.Style.make(~flexGrow="1", ~padding="20px", ())}>
+    <div style={ReactDOMRe.Style.make(~flexGrow="1", ~paddingLeft="20px", ())}>
       <h3 className="center">
         {React.string("Level " ++ string_of_int(state.savedstate.level) ++ ": " ++ level.name)}
       </h3>
-      {
-        ReasonReact.array(Array.of_list(List.mapi((i: int, attempt: attempt) => {
-          <div key={string_of_int(i)}>
-            <div>
+      <div className="messages_container">
+        {
+          ReasonReact.array(Array.of_list(List.mapi((i: int, attempt: attempt) => {
+            <div className="message_pair" key={string_of_int(i)} >
               <pre className="undamnedmessage">
                 {React.string(attempt.message)}
               </pre>
-            </div>
-            <div>
+              <br/>
               <pre className={(attempt.damned === level.goal) ? "goodmessage" : "damnedmessage"}>
                 {React.string(attempt.damned)}
               </pre>
             </div>
-          </div>
-        }, state.attempts)))
-      }
+          }, state.attempts)))
+        }
+      </div>
       <div style={ReactDOMRe.Style.make(~fontWeight="bold", ())}>
         {React.string("Goal is to send: ")}
         <pre className="goodmessage">
@@ -147,6 +155,5 @@ let make = (~levels: array(Types.level), ~savedstate: Types.savestate, ~savestat
     </div>
     </div>
   </div>
-  <a href="https://github.com/WuTheFWasThat/send-a-damned-message">{React.string("View code on Github")}</a>
   </div>;
 };

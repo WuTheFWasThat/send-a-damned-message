@@ -73,6 +73,13 @@ let style = {j|
     padding: 16px;
     border-radius: 0px 0px 12px 12px;
   }
+  .message_container {
+    max-height: 500px;
+    overflow-y: scroll;
+  }
+  .message_pair {
+    line-height: 0px;
+  }
   .damnedmessage {
     // background-color: rgb(256, 224, 224);
     color: rgb(256, 128, 128);
