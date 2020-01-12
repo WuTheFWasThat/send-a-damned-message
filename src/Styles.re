@@ -71,6 +71,7 @@ let style = {j|
     background-color: rgb(242, 243, 245);
     border-radius: 12px 12px 0px 0px;
     padding: 12px;
+    padding-left: 120px;
     font-weight: bold;
     font-size: 24px;
   }

@@ -28,8 +28,10 @@ type action =
 let focusInput: (unit) => unit = [%raw {|
   function() {
     let input = document.getElementById('main-input');
-    input.focus();
-    input.select();
+    if (input) {
+      input.focus();
+      input.select();
+    }
   }
 |}];
 
@@ -88,7 +90,6 @@ let make = (
 
   let (state, dispatch) = React.useReducer(reducer, initialState);
   Js.log("state: " ++ switch (Js.Json.stringifyAny(state)) { | None => "?" | Some(x) => x } );
-  let level = levels[state.savedstate.level];
 
   let level_solved = levels |> Array.map((level: Types.level) => {
     switch (Js.Dict.get(state.savedstate.answers, level.name)) {
@@ -155,40 +156,52 @@ let make = (
       }
     </div>
     <div style={ReactDOMRe.Style.make(~flexGrow="1", ~paddingLeft="20px", ())}>
-      <h3 className="center">
-        {React.string("Level " ++ string_of_int(state.savedstate.level) ++ ": " ++ level.name)}
-      </h3>
-      <div className="messages_container">
-        {
-          ReasonReact.array(Array.of_list(List.mapi((i: int, attempt: attempt) => {
-            <div className="message_pair" key={string_of_int(i)} >
-              <pre className="undamnedmessage">
-                {React.string(attempt.message)}
-              </pre>
-              <br/>
-              <pre className={(attempt.damned === level.goal) ? "goodmessage" : "damnedmessage"}>
-                {React.string(attempt.damned)}
+      {
+        if (state.savedstate.level == Array.length(levels)) {
+          <div style={ReactDOMRe.Style.make(~textAlign="center", ())}>
+            {React.string("Congratulations!  No more damned messages!")}
+          </div>
+        } else {
+          let level = levels[state.savedstate.level];
+
+          <div>
+            <h3 className="center">
+              {React.string("Level " ++ string_of_int(state.savedstate.level) ++ ": " ++ level.name)}
+            </h3>
+            <div className="messages_container">
+              {
+                ReasonReact.array(Array.of_list(List.mapi((i: int, attempt: attempt) => {
+                  <div className="message_pair" key={string_of_int(i)} >
+                    <pre className="undamnedmessage">
+                      {React.string(attempt.message)}
+                    </pre>
+                    <br/>
+                    <pre className={(attempt.damned === level.goal) ? "goodmessage" : "damnedmessage"}>
+                      {React.string(attempt.damned)}
+                    </pre>
+                  </div>
+                }, state.attempts)))
+              }
+            </div>
+            <div style={ReactDOMRe.Style.make(~fontWeight="bold", ())}>
+              {React.string("Goal is to send: ")}
+              <pre className="goodmessage">
+              {React.string(level.goal)}
               </pre>
             </div>
-          }, state.attempts)))
+            <form className="fullwidth" onSubmit={event => {
+              Js.log("sending message: " ++ state.message);
+              ReactEvent.Form.preventDefault(event);
+              dispatch(SendMessage);
+            }}>
+            <div>
+              <input id="main-input" className="fullwidth" type_="text" value={state.message} onChange={event => dispatch(SetMessage(event->ReactEvent.Form.target##value))}>
+              </input>
+            </div>
+            </form>
+          </div>
         }
-      </div>
-      <div style={ReactDOMRe.Style.make(~fontWeight="bold", ())}>
-        {React.string("Goal is to send: ")}
-        <pre className="goodmessage">
-        {React.string(level.goal)}
-        </pre>
-      </div>
-      <form className="fullwidth" onSubmit={event => {
-        Js.log("sending message: " ++ state.message);
-        ReactEvent.Form.preventDefault(event);
-        dispatch(SendMessage);
-      }}>
-      <div>
-        <input id="main-input" className="fullwidth" type_="text" value={state.message} onChange={event => dispatch(SetMessage(event->ReactEvent.Form.target##value))}>
-        </input>
-      </div>
-      </form>
+      }
     </div>
     </div>
     </div>
