@@ -1,4 +1,3 @@
-let reasonReactBlue = "#48a9dc";
 let lightgray = "rgb(222, 222, 222)";
 let darkgray = "rgb(111, 111, 111)";
 // let selected_color = "rgb(222, 222, 111)";
@@ -49,16 +48,12 @@ let style = {j|
     border-width: 3px !important;
   }
   button {
-    background-color: white;
-    color: $reasonReactBlue;
-    box-shadow: 0 0 0 1px $reasonReactBlue;
+    background-color: $lightgray;
+    box-shadow: 0 0 0 1px $darkgray;
     border: none;
+    border-radius: 10px;
     padding: 8px;
     font-size: 16px;
-  }
-  button:active {
-    background-color: $reasonReactBlue;
-    color: white;
   }
   .container {
     margin: 12px 0px;

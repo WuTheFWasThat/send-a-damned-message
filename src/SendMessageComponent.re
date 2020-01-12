@@ -16,6 +16,7 @@ type state = {
   // TODO: keep a list per level?
   attempts: list(attempt),
   savedstate: Types.savestate,
+  justsolved: bool,
 };
 
 type levelmenustate = Solved | Unlocked | Locked;
@@ -27,11 +28,13 @@ type action =
 
 let focusInput: (unit) => unit = [%raw {|
   function() {
-    let input = document.getElementById('main-input');
-    if (input) {
-      input.focus();
-      input.select();
-    }
+    setTimeout(() => {
+      let input = document.getElementById('main-input');
+      if (input) {
+        input.focus();
+        input.select();
+      }
+    }, 0)
   }
 |}];
 
@@ -56,29 +59,20 @@ let make = (
         let level = levels[state.savedstate.level];
         let damned_message = level.fn(message);
         let solved = damned_message == level.goal;
-        let level_i = if (solved) {
+        if (solved) {
           Js.Dict.set(state.savedstate.answers, level.name, message);
-          state.savedstate.level + 1
-        } else {
-          state.savedstate.level
-        }
-
-        let attempts = if (solved) { [] } else {
-          List.append(state.attempts, [{
+        };
+        let attempts = List.append(state.attempts, [{
             message: message, damned: damned_message
-          }])
-        };
-        {
-          attempts: attempts, message: solved ? "" : message,
-          savedstate: { ...state.savedstate, level: level_i }
-        };
+        }]);
+        { ...state, attempts: attempts, message: message, justsolved: solved };
       }
       | SetLevel(level) => {
         Js.log("setting level: " ++ levels[level].name);
         focusInput();
         {
           ...state,
-          attempts: [],
+          attempts: [], justsolved: false,
           savedstate: { ...state.savedstate, level: level }
         }
       }
@@ -86,7 +80,10 @@ let make = (
     savestate(newstate.savedstate);
     newstate
   };
-  let initialState = { message: "", attempts: [], savedstate: savedstate, };
+  let initialState = {
+    message: "", attempts: [], savedstate: savedstate,
+    justsolved: false,
+  };
 
   let (state, dispatch) = React.useReducer(reducer, initialState);
   Js.log("state: " ++ switch (Js.Json.stringifyAny(state)) { | None => "?" | Some(x) => x } );
@@ -157,7 +154,7 @@ let make = (
     </div>
     <div style={ReactDOMRe.Style.make(~flexGrow="1", ~paddingLeft="20px", ())}>
       {
-        if (state.savedstate.level == Array.length(levels)) {
+        if (state.justsolved && (state.savedstate.level == Array.length(levels) - 1)) {
           <div style={ReactDOMRe.Style.make(~textAlign="center", ())}>
             {React.string("Congratulations!  No more damned messages!")}
           </div>
@@ -183,22 +180,32 @@ let make = (
                 }, state.attempts)))
               }
             </div>
-            <div style={ReactDOMRe.Style.make(~fontWeight="bold", ())}>
-              {React.string("Goal is to send: ")}
-              <pre className="goodmessage">
-              {React.string(level.goal)}
-              </pre>
-            </div>
-            <form className="fullwidth" onSubmit={event => {
-              Js.log("sending message: " ++ state.message);
-              ReactEvent.Form.preventDefault(event);
-              dispatch(SendMessage);
-            }}>
-            <div>
-              <input id="main-input" className="fullwidth" type_="text" value={state.message} onChange={event => dispatch(SetMessage(event->ReactEvent.Form.target##value))}>
-              </input>
-            </div>
-            </form>
+            {
+              if (state.justsolved) {
+                <button onClick={(_ev) => dispatch(SetLevel(state.savedstate.level + 1))} autoFocus=true>
+                  {React.string("Next level!")}
+                </button>
+              } else {
+                <div>
+                  <div style={ReactDOMRe.Style.make(~fontWeight="bold", ())}>
+                    {React.string("Goal is to send: ")}
+                    <pre className="goodmessage">
+                    {React.string(level.goal)}
+                    </pre>
+                  </div>
+                  <form className="fullwidth" onSubmit={event => {
+                    Js.log("sending message: " ++ state.message);
+                    ReactEvent.Form.preventDefault(event);
+                    dispatch(SendMessage);
+                  }}>
+                    <div>
+                      <input id="main-input" className="fullwidth" type_="text" value={state.message} onChange={event => dispatch(SetMessage(event->ReactEvent.Form.target##value))}>
+                      </input>
+                    </div>
+                  </form>
+                </div>
+              }
+            }
           </div>
         }
       }
