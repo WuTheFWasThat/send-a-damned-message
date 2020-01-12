@@ -12,6 +12,7 @@ from levels.lonely import lonely_death
 from levels.corrupt import corrupt_final as corrupt
 from levels.codebook import codebook
 from levels.explode import explode
+from levels.please import please
 from levels.reflect import reflect
 from levels.checksum import checksum
 from levels.sandwiched import reverse_sandwiched
@@ -164,12 +165,19 @@ levels = [
         # answer='l damnn msg plz',
     ),
     dict(
-        name='Group',  # 'Trippy',
-        fn=explode,
-        goal='(please) send a short "damned" message wouldn\'t you?',
-        answer='() \'(please) send a short "damned" message\' "wouldn\'t you?"',
+        name='Please',  # 'Trippy',
+        fn=please,
+        goal='a (short) damned message, pretty pretty please!!',
+        answer='a (!(short!) (damned (message, (pretty (pretty (please!!!!',
         # answer=""" ( please, ( just ( a ( short ( damned message"""
     ),
+    # dict(
+    #     name='Group',  # 'Trippy',
+    #     fn=explode,
+    #     goal='(please) send a short "damned" message wouldn\'t you?',
+    #     answer='() \'(please) send a short "damned" message\' "wouldn\'t you?"',
+    #     # answer=""" ( please, ( just ( a ( short ( damned message"""
+    # ),
     dict(
         name='Tricky',
         fn=ordered_cyclic_permute_3,

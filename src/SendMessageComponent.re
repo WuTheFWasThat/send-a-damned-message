@@ -165,7 +165,7 @@ let make = (
         }, levels))
       }
     </div>
-    <div style={ReactDOMRe.Style.make(~flexGrow="1", ~paddingLeft="20px", ())}>
+    <div style={ReactDOMRe.Style.make(~flexGrow="1", ~paddingLeft="20px", ~overflowX="scroll", ())}>
       {
         if (state.justsolved && (state.savedstate.level == nlevels - 1)) {
           <div style={ReactDOMRe.Style.make(~textAlign="center", ())}>
