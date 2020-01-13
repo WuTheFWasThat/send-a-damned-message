@@ -38,7 +38,7 @@ List.map(length => {
   Utils.assert_eq(fn(fn(fn(s))), s);
 }, Utils.range(20))
 
-let goal = "a damned message, once damned by the damned over and over, which seems unnecessarily damned long but was constructed to use \"damned\" as an adjective, verb, noun, and adverb";
+let goal = "a damned message which is way too damned long, was damned by the damned over and over, and was written to use \"damned\" as an adjective, verb, noun, and adverb";
 let level: Types.level = {
   name: "tricky",
   fn: fn,

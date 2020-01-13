@@ -29,5 +29,3 @@ let level: Types.level = {
   goal: "a damned message",
   answer: "a damned messagp",
 }
-
-
