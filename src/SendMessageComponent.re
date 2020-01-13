@@ -47,6 +47,10 @@ let focusInput: (unit) => unit = [%raw {|
   }
 |}];
 
+let set_cheat_all: ((unit) => unit) => unit = [%raw {|
+  function(fn) { window.cheat_all = function() { fn(); window.location.reload() }; }
+|}];
+
 [@react.component]
 let make = (
   ~levels: array(Types.level), ~savedstate: Types.savestate, ~savestate: (Types.savestate) => unit,
@@ -101,6 +105,12 @@ let make = (
 
   let level = levels[state.savedstate.level];
   set_cheat(() => dispatch(SetMessage(level.answer)));
+  set_cheat_all(() => {
+    levels |> Array.map((level: Types.level) => {
+      Js.Dict.set(state.savedstate.answers, level.name, level.answer);
+    }) |> ignore;
+    savestate(state.savedstate);
+  });
 
   let nlevels = Array.length(levels);
   let level_state = level_solved |> Array.mapi((i, solved) => {

@@ -20,6 +20,7 @@ from levels.end import end
 from levels.tournament import tournament
 from levels.caps import caps
 from levels.chain_define import chain_define
+from levels.ctrl import ctrl
 
 _COLORS = dict(
     green="\033[92m",

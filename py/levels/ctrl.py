@@ -9,14 +9,11 @@ def codebook(x):
         i = a2num(word[0], with_spaces=False)
         i = min(len(s) - 1, i)
         removed_letter = s[i]
-        print('remove at ', i)
         s = s[:i] + s[i + 1:]
         for l in word[1:]:
             i = a2num(l, with_spaces=False)
             i = min(len(s) - 1, i)
-            print('add at ', i)
             s = s[:i] + removed_letter + s[i:]
-    print('return', s)
     return s
 
 assert codebook("") == "abcdefghijklmnopqrstuvwxyz "
