@@ -209,7 +209,7 @@ let make = (
                     Js.log("sending message: " ++ state.message);
                     ReactEvent.Form.preventDefault(event);
                     dispatch(SendMessage);
-                  }}>
+                  }} autoComplete="off">
                     <div style={ReactDOMRe.Style.make(~paddingRight="10px", ())}>
                       <input id="main-input" className="fullwidth" type_="text" value={state.message} onChange={event => dispatch(SetMessage(event->ReactEvent.Form.target##value))}>
                       </input>

@@ -39,6 +39,10 @@ python send_a_damned_message.py
 
 You can type `SKIP` or `BACK` at any time to browse through levels.
 
+## Contributions
+
+New level ideas and UI improvements both welcome!
+
 # History
 
 I was originally thinking to have a two player game, in which the two players can't communicate except through a chat room.  But the chat room is a noisy channel f and you see f(x) for incoming messages.

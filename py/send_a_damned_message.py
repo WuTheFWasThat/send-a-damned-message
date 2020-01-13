@@ -100,7 +100,6 @@ levels = [
         answer='easmdna etn eytaohrdme esg',
     ),
     dict(
-        # TODO: yang translate this level
         name='Caps',  # 'Case', 'Upper'
         fn=caps,
         goal='A DAMNED MESSAGE',
@@ -216,9 +215,8 @@ def main(one_player=True, skip=0, dev=False):
             print('=' * 20 + str(i) + ' ' + level['name'] + '=' * 20)
             print(_colored(level['goal'], 'green'))
             print(_colored(level['fn'](level['goal']), 'red'))
-            print(_colored(level['answer'], 'yellow'))
-
         if 'answer' in level:
+            print(_colored(level['answer'], 'yellow'))
             assert level['fn'](level['answer']) == level['goal'], f"'{level['fn'](level['answer'])}'"
 
     def clear_screen():
