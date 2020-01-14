@@ -11,23 +11,26 @@ let fn = (x) => {
     }
   , parts)
 
-  let l = Array.length(words);
-  Array.concat([
-     Array.sub(words, l-1, 1),
-     Array.sub(words, 0, l-1),
-  ]) |>  Js.Array.joinWith(" ")
+  // let l = Array.length(words);
+  // Array.concat([
+  //    Array.sub(words, l-1, 1),
+  //    Array.sub(words, 0, l-1),
+  // ]) |>  Js.Array.joinWith(" ")
+  words |>  Js.Array.joinWith(" ")
 }
 
 let level: Types.level = {
   name: "pins",
   goal: "a damned message",
-  answer: "amnedd essagem a",
+  answer: "a amnedd essagem",
   fn: fn,
 }
 
 Utils.assert_eq(fn(""), "")
 Utils.assert_eq(fn("  "), "  ")
 Utils.assert_eq(fn("blah"), "hbla")
-Utils.assert_eq(fn("blah "), " hbla")
-Utils.assert_eq(fn("blah ab "), " hbla ba")
-Utils.assert_eq(fn("a$df ab cd ehh"), "heh fa$d ba dc")
+// Utils.assert_eq(fn("blah "), " hbla")
+// Utils.assert_eq(fn("blah ab "), " hbla ba")
+Utils.assert_eq(fn("blah ab "), "hbla ba ")
+// Utils.assert_eq(fn("a$df ab cd ehh"), "heh fa$d ba dc")
+Utils.assert_eq(fn("a$df ab cd ehh"), "fa$d ba dc heh")
