@@ -16,9 +16,32 @@ let makeContainer = () => {
   div;
 };
 
+// SEND
+// Age
+// Dance, (pins)
+// *Ancer
+// Milk
+// Nary (uNwary)
+// Ext
+// Def
+// Mum
+// Emend
+// Super (caps)
+//
+//
+//
+// End
+
+// Book.level,
+// Crypt.level,
+// Hike.level,
+// Tricky.level,
+// Please.level,
+// Cut.level,
+
 let levels: array(Types.level) = [|
   {
-    name: "id",
+    name: "send",
     goal: "a damned message",
     answer: "a damned message",
     fn: (x) => x,
