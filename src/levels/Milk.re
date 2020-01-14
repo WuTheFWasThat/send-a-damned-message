@@ -22,8 +22,8 @@ let inv_fn = (x) => {
 let level: Types.level = {
   name: "milk",
   fn: fn,
-  goal: "another damned message",
-  answer: "easmdna etnaohrdme esg",
+  goal: "a damned message",
+  answer: "easmdna adme esg",
 }
 
 let verify_pair = (x, y) => {

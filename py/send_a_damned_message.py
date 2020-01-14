@@ -36,6 +36,9 @@ def _colored(t, color):
 - Maybe something based on factorization?
 - accumulate sum within word?
 
+- theme.. "demand"
+- massage?
+
 - something tree-like
 - something using fact that 'a damned message' length is power of two
 """
@@ -97,8 +100,8 @@ levels = [
     dict(
         name='Milk',  # Reflect
         fn=reflect,
-        goal='yet another damned message',
-        answer='easmdna etn eytaohrdme esg',
+        goal="a damned message",
+        answer="easmdna adme esg",
     ),
     dict(
         name='Caps',  # 'Case', 'Upper'
