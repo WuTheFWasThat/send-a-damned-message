@@ -56,5 +56,3 @@ assert please('(a b) c d') == 'a b c d d'
 assert please('a b c d') == 'a b c d c d'
 assert please('a (b (c (d') == 'a b c d'
 assert please('() !c !!d') == ' c !d !d'
-# TODO: make this not work?
-assert please('a! b! c') == 'a b c'
