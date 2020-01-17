@@ -19,8 +19,8 @@ let fn = (x) => {
   let chars = Utils.char_list(x);
   chars |> List.mapi(
     (i, char) => {
-      let prev = Utils.unwrap_or(Utils.safe_get_list(chars, i-1), ' ');
-      let next = Utils.unwrap_or(Utils.safe_get_list(chars, i+1), ' ');
+      let prev = Utils.safe_get_list(chars, i-1) |> Utils.unwrap_or(' ');
+      let next = Utils.safe_get_list(chars, i+1) |> Utils.unwrap_or(' ');
       if (!(Utils.is_vowel(char) || Utils.is_consonant(char))) {
         Some(char)
       } else if (saves(prev, char) || saves(next, char)) {

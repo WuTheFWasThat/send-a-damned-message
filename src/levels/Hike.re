@@ -37,7 +37,7 @@ let reduce_path = (x) => {
             let new_segments = [
               {
                 segment: List.append(s.segment, [last]),
-                direction: Continue(Utils.unwrap_or(s.cur_dir, 0))
+                direction: Continue(s.cur_dir |> Utils.unwrap_or(0))
               },
               {
                 segment: [Utils.rotate_alphabet(last, sign), Utils.rotate_alphabet(cur, -sign)],
@@ -91,7 +91,7 @@ let reduce_path = (x) => {
 
     let segments = Array.of_list(List.append(res.segments, [{
         segment: List.append(res.segment, [Utils.unwrap(res.last)]),
-        direction: Continue(Utils.unwrap_or(res.cur_dir, 0))
+        direction: Continue(res.cur_dir |> Utils.unwrap_or(0))
     }]))
 
     let nsegments = Array.length(segments);

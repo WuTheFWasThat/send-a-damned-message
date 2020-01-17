@@ -36,13 +36,22 @@ def _colored(t, color):
 - Maybe something based on factorization?
 - accumulate sum within word?
 
-- theme.. "demand"
+- theme.. "demand" or "madden"
 - massage?
+- madman, madam
 
 - something tree-like
 - something using fact that 'a damned message' length is power of two
+
+https://new.wordsmith.org/anagram/anagram.cgi?anagram=adamnedmessage&t=500&a=n
 """
 levels = [
+    # dict(
+    #     name='Ctrl',
+    #     fn=ctrl,
+    #     goal='a damned message',
+    #     answer='ec gc ac scc ec mc db eb nb mb ab db aa',
+    # ),
     dict(
         name='Id',
         fn=lambda x: x,
@@ -59,7 +68,7 @@ levels = [
         name='Rot',
         fn=rot_word,
         goal='a damned message',
-        answer='amnedd essagem a',
+        # answer='amnedd essagem a',
     ),
     # dict(
     #     name='Sub',
@@ -220,8 +229,9 @@ def main(one_player=True, skip=0, dev=False):
             print(_colored(level['goal'], 'green'))
             print(_colored(level['fn'](level['goal']), 'red'))
         if 'answer' in level:
-            print(_colored(level['answer'], 'yellow'))
-            assert level['fn'](level['answer']) == level['goal'], f"'{level['fn'](level['answer'])}'"
+            if dev:
+                print(_colored(level['answer'], 'yellow'))
+            assert level['fn'](level['answer']) == level['goal'], f"{level['name']} '{level['fn'](level['answer'])}'"
 
     def clear_screen():
         if one_player:

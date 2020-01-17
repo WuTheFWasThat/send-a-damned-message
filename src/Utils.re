@@ -10,7 +10,9 @@ let rec sum = (l: list(int)): int => {
   switch (l) { | [] => 0 | [x, ...rest] => x + sum(rest) };
 }
 
-let unwrap_or = (x: option('a), default: 'a) => {
+let flip = (f, a, b) => f(b, a);
+
+let unwrap_or = (default: 'a, x: option('a)) => {
   switch (x) { | None => default | Some(y) => y }
 }
 

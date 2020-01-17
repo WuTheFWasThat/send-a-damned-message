@@ -29,15 +29,8 @@ open build/index.html
 
 ## Python version
 
-The original version of the game was written in Python, so I kept that version around.
-It can be useful for quick development also.
-
-To play:
-```
-python send_a_damned_message.py
-```
-
-You can type `SKIP` or `BACK` at any time to browse through levels.
+The original version of the game was written in Python, so I kept that version around in the directory [./py](`py/`).
+It can sometimes be useful for quick development.
 
 ## Contributions
 
