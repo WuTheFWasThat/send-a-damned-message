@@ -18,7 +18,7 @@ let makeContainer = () => {
 
 // SEND
 // Age
-// Dance, (pins)
+// Dang
 // *Ancer
 // Milk
 // Nary (uNwary)
@@ -37,7 +37,7 @@ let makeContainer = () => {
 // Hike.level,
 // Tricky.level,
 // Please.level,
-// Cut.level,
+// Madden.level,
 
 let levels: array(Types.level) = [|
   {
@@ -53,19 +53,19 @@ let levels: array(Types.level) = [|
     fn: (x) => String.sub(x, 0, max(0, String.length(x) - 3)),
   },
   Cancer.level,
-  // Pins.level,
-  Dang.level,
   Extend.level,
   Unary.level,
   Milk.level,
   Caps.level,
+  Meme.level,
   Mum.level,
   Book.level,
   Crypt.level,
   Hike.level,
   Def.level,
-  Emend.level,
+  Madden.level,
   Please.level,
+  Emend.level,
   Tricky.level,
   Cut.level,
   End.level,

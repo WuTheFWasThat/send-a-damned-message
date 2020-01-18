@@ -131,6 +131,9 @@ let make = (
     }
   });
 
+  let title_prefix = level.name !== "madden" ? "Send A " : "Needs ";
+  let title_suffix = level.name !== "madden" ? " Message" : " Massage";
+
   <div>
   <div style={ReactDOMRe.Style.make(
      ~textAlign="right", ()
@@ -142,11 +145,11 @@ let make = (
   <div className="container">
 
   <div className="containerTitle">
-    {React.string("Send A ")}
+    {React.string(title_prefix)}
     <span className="damnedmessage">
     {React.string("Damned")}
     </span>
-    {React.string(" Message")}
+    {React.string(title_suffix)}
   </div>
 
   <div className="containerContent">

@@ -171,6 +171,7 @@ let fn = (x) => { Utils.map_words(reduce_path, x) }
 
 let level: Types.level = {
   name: "hike",
+  // wind? wander? meander? fed?
   fn: fn,
   goal: "a damned message",
   answer: "a dcbabcdefghijklmmnmlkjihgfeed mlkjihgfefghijklmnopqrssrqponmlkjihgfedcbabcdefgfe"

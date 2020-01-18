@@ -21,6 +21,7 @@ from levels.tournament import tournament
 from levels.caps import caps
 from levels.chain_define import chain_define
 from levels.ctrl import ctrl
+from levels.madden import fn as madden
 
 _COLORS = dict(
     green="\033[92m",
@@ -52,6 +53,18 @@ levels = [
     #     goal='a damned message',
     #     answer='ec gc ac scc ec mc db eb nb mb ab db aa',
     # ),
+    dict(
+        name='Madden',
+        fn=madden,
+        goal='a damned message demands a sage me',
+        answer='sem denmad aassdnamed eggas a  eem',
+        # goal='a damned message a sage me demands',
+        # answer='sem denmad aassdnamed em egas a eg'
+        # answer='ssem denmad a dneegas',
+        # goal='need dam massage',
+        # answer='',
+        # answer='a damned message',
+    ),
     dict(
         name='Id',
         fn=lambda x: x,

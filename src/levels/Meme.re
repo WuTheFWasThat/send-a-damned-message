@@ -27,10 +27,11 @@ let fn = (x) => {
 }
 
 let level: Types.level = {
-  name: "dang",
+  name: "meme", // "dang", "murmur", "george"
+  // magma, onion, sense, verve
   fn: fn,
   goal: "a danged message",
-  answer: "azz danged messagzze",
+  answer: "a danged messagzzze",
 }
 
 Utils.assert_eq(fn("aa bb"), "aa bb")
