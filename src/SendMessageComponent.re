@@ -51,6 +51,12 @@ let set_cheat_all: ((unit) => unit) => unit = [%raw {|
   function(fn) { window.cheat_all = function() { fn(); window.location.reload() }; }
 |}];
 
+type titleinfo = {
+  prefix: string,
+  damned: string,
+  suffix: string,
+};
+
 [@react.component]
 let make = (
   ~levels: array(Types.level), ~savedstate: Types.savestate, ~savestate: (Types.savestate) => unit,
@@ -131,8 +137,33 @@ let make = (
     }
   });
 
-  let title_prefix = level.name !== "madden" ? "Send A " : "Needs ";
-  let title_suffix = level.name !== "madden" ? " Message" : " Massage";
+
+  // let title_info = (level.name == "madden") ?  {
+  //     prefix: "Needs",
+  //     damned: "Damned",
+  //     suffix: "Massage",
+  //   } : (level.name == "crypt") ? {
+  //     prefix: "Send A",
+  //     damned: "Dayum",
+  //     suffix: "Message",
+  //   } : (level.name == "meme") ? {
+  //     prefix: "Send A",
+  //     damned: "Danged",
+  //     suffix: "Message",
+  //   } : (level.name == "emend") ? {
+  //     prefix: "Send A",
+  //     damned: "Darned",
+  //     suffix: "Message",
+  //   } : {
+  //     prefix: "Send A",
+  //     damned: "Damned",
+  //     suffix: "Message",
+  //   };
+  let title_info = {
+    prefix: "Send A",
+    damned: "Damned",
+    suffix: "Message",
+  };
 
   <div>
   <div style={ReactDOMRe.Style.make(
@@ -145,11 +176,11 @@ let make = (
   <div className="container">
 
   <div className="containerTitle">
-    {React.string(title_prefix)}
+    {React.string(title_info.prefix ++ " ")}
     <span className="damnedmessage">
-    {React.string("Damned")}
+    {React.string(title_info.damned)}
     </span>
-    {React.string(title_suffix)}
+    {React.string(" " ++ title_info.suffix)}
   </div>
 
   <div className="containerContent">

@@ -52,6 +52,7 @@ let levels: array(Types.level) = [|
     answer: "a damned message...",
     fn: (x) => String.sub(x, 0, max(0, String.length(x) - 3)),
   },
+  Pins.level,
   Cancer.level,
   Extend.level,
   Unary.level,

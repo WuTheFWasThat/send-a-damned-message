@@ -1,32 +1,27 @@
-let saves = (x, y) => {
-  /* returns whether x saves y */
-  if (Char.lowercase_ascii(x) == 'y') {
-    true
-  } else if (Char.lowercase_ascii(y) == 'y') {
-    false
-  } else if (Utils.is_vowel(x)) {
-    Utils.is_vowel(y)
-  } else if (Utils.is_consonant(x)) {
-    Utils.is_consonant(y)
-  } else {
-    false
-  }
+let is_consonant = (x) => {
+  (Char.lowercase_ascii(x) == 'y') || Utils.is_consonant(x)
+}
+
+let is_vowel = (x) => {
+  (Char.lowercase_ascii(x) == 'y') || Utils.is_vowel(x)
 }
 
 let fn = (x) => {
-  /* vowels/consonants are enemies.  those surrounded by enemies die.  y's are both
+  /* consonants die unless surrounded by two vowels.  y's are both
      */
   let chars = Utils.char_list(x);
   chars |> List.mapi(
     (i, char) => {
       let prev = Utils.safe_get_list(chars, i-1) |> Utils.unwrap_or(' ');
       let next = Utils.safe_get_list(chars, i+1) |> Utils.unwrap_or(' ');
-      if (!(Utils.is_vowel(char) || Utils.is_consonant(char))) {
-        Some(char)
-      } else if (saves(prev, char) || saves(next, char)) {
-        Some(char)
+      if (is_consonant(char)) {
+        if (is_vowel(prev) && is_vowel(next)) {
+          Some(char)
+        } else {
+          None
+        }
       } else {
-        None
+        Some(char)
       }
     }
   ) |> Utils.filter_none |> Utils.join_char_list;
@@ -36,13 +31,17 @@ let level: Types.level = {
   name: "crypt",
   fn: fn,
   goal: "a damned message",
-  answer: "ay dyamneyd myessaygey",
+  answer: "a ydyamyneydy ymyesysaygye",
 }
 
+// a dayum message
+// a dyayuym myeyssyaygye
 Utils.assert_eq(fn(""), "")
-Utils.assert_eq(fn("aa bb"), "aa bb")
-Utils.assert_eq(fn("ay yb"), "a b")
-Utils.assert_eq(fn("a yy b"), " yy ")
-Utils.assert_eq(fn("aabb"), "aabb")
-Utils.assert_eq(fn("abab"), "")
+Utils.assert_eq(fn("aa bb"), "aa ")
+Utils.assert_eq(fn("abab"), "aba")
+Utils.assert_eq(fn("ay yb"), "a ")
+Utils.assert_eq(fn("a yy b"), "a  ")
+Utils.assert_eq(fn("a yyy b"), "a y ")
+Utils.assert_eq(fn("aabb"), "aa")
+Utils.assert_eq(fn("abbab"), "aa")
 
