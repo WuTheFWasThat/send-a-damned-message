@@ -34,17 +34,13 @@ def _colored(t, color):
     return _COLORS[color] + t + _COLORS_END
 
 """
-- Maybe something based on factorization?
 - accumulate sum within word?
 
-- theme.. "demand" or "madden"
 - massage?
 - madman, madam
 
 - something tree-like
 - something using fact that 'a damned message' length is power of two
-
-https://new.wordsmith.org/anagram/anagram.cgi?anagram=adamnedmessage&t=500&a=n
 """
 levels = [
     # dict(

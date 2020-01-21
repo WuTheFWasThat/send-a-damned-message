@@ -36,7 +36,7 @@ ad aged mnemasse --> want this before swapping space, gives "damned message"
 */
 
 let level: Types.level = {
-  name: "cut",
+  name: "onion", // onion, salsa
   fn: fn,
   goal: "a damned message",
   answer: "ad aged mnemasse",

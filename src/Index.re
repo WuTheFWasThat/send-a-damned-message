@@ -68,7 +68,7 @@ let levels: array(Types.level) = [|
   Please.level,
   Emend.level,
   Tricky.level,
-  Cut.level,
+  Onion.level,
   End.level,
 |]
 

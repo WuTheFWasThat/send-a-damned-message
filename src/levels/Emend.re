@@ -24,7 +24,7 @@ Utils.assert_eq(fn("b"), "d")
 Utils.assert_eq(fn("a damned message"), "a darned message")
 
 let level: Types.level = {
-  name: "emend",
+  name: "emend", // massage, darn
   fn: fn,
   goal: "a damned message",
   answer: "a damned messagp",
