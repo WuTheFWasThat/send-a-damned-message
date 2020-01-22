@@ -1,6 +1,6 @@
 from utils import a2num, is_alphabet
 
-def checksum(x):
+def fn(x):
     words = x.split(' ')
     results = []
     for word in words:
@@ -20,3 +20,10 @@ def checksum(x):
             else:
                 results.append('-' * len(orig))
     return ' '.join(results)
+
+level = dict(
+    name='Check',
+    fn=fn,
+    goal='a damned message',
+    answer='aa damnedo messageq',
+)

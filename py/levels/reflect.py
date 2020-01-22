@@ -1,4 +1,4 @@
-# from utils import is_consonant
+from utils import is_consonant
 
 # def reflect(x):
 #     for i, char in enumerate(x):
@@ -53,3 +53,10 @@ if 0:
     # for ll in range(26):
     #     print(ll, alphabet[:ll])
     #     print_cycle(alphabet[:ll])
+
+level = dict(
+    name='Milk',  # Reflect
+    fn=reflect,
+    goal="a damned message",
+    answer="easmdna adme esg",
+)

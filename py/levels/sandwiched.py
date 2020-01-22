@@ -1,6 +1,6 @@
 from utils import alphabet
 
-def reverse_sandwiched(x):
+def fn(x):
     n = len(x)
     i = 0
     while i < n:
@@ -12,17 +12,17 @@ def reverse_sandwiched(x):
         i += 1
     return x
 
-assert reverse_sandwiched('abba') == 'abba'
-assert reverse_sandwiched('baab') == 'baab'
-assert reverse_sandwiched('abab') == 'abab'
-assert reverse_sandwiched('sand') == 'sand'
-assert reverse_sandwiched('sanadweeb') == 'sanadweeb'
-assert reverse_sandwiched('sanadweneb') == 'sanenadweb'
-assert reverse_sandwiched('sanadnweeb') == 'sandanweeb'
-assert reverse_sandwiched('sanmadnweeb') == 'samndanweeb'
-assert reverse_sandwiched('bsanmadnweeb') == 'beewnmandasb'
-assert reverse_sandwiched('bsanmadnweebanb') == 'beewnmanasbndab'
-assert reverse_sandwiched('eeabea') == 'eebaea'
+assert fn('abba') == 'abba'
+assert fn('baab') == 'baab'
+assert fn('abab') == 'abab'
+assert fn('sand') == 'sand'
+assert fn('sanadweeb') == 'sanadweeb'
+assert fn('sanadweneb') == 'sanenadweb'
+assert fn('sanadnweeb') == 'sandanweeb'
+assert fn('sanmadnweeb') == 'samndanweeb'
+assert fn('bsanmadnweeb') == 'beewnmandasb'
+assert fn('bsanmadnweebanb') == 'beewnmanasbndab'
+assert fn('eeabea') == 'eebaea'
 
 if 0:
     def print_cycle(cur):
@@ -32,13 +32,13 @@ if 0:
             if cur in all_ms:
                 break
             all_ms.add(cur)
-            cur = reverse_sandwiched(cur)
+            cur = fn(cur)
         print(len(all_ms))
     cur = 'a damned message'
     print_cycle(cur)
 
 # OLD VERSION
-# def cut_sandwiched(x):
+# def fn(x):
 #    pieces = [x]
 #     for letter in reversed(alphabet):
 #         new_pieces = []
@@ -69,3 +69,10 @@ degad mnemasse --> want this before swapping D, gives "damned message"
  daged mnemasse --> want this before swapping space, gives "damned message"
 ad aged mnemasse --> want this before swapping space, gives "damned message"
 """
+
+level = dict(
+    name='Cut',
+    fn=fn,
+    goal='a damned message',
+    answer='ad aged mnemasse',
+)

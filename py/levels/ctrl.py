@@ -1,7 +1,7 @@
 from utils import a2num, is_alphabet, rotate_alphabet
 
 """
-def ctrl(x):
+def fn(x):
     print('x', x)
     s = 'abcdefghijklmnopqrstuvwxyz '
     for word in x.split(' '):
@@ -17,16 +17,16 @@ def ctrl(x):
             s = s[:i] + removed_letter + s[i:]
     return s
 
-assert ctrl("") == "abcdefghijklmnopqrstuvwxyz "
-assert ctrl("b") == "acdefghijklmnopqrstuvwxyz "
-assert ctrl("ba") == "bacdefghijklmnopqrstuvwxyz "
-assert ctrl("bb") == "abcdefghijklmnopqrstuvwxyz "
-assert ctrl("a a a a a ") == "fghijklmnopqrstuvwxyz "
+assert fn("") == "abcdefghijklmnopqrstuvwxyz "
+assert fn("b") == "acdefghijklmnopqrstuvwxyz "
+assert fn("ba") == "bacdefghijklmnopqrstuvwxyz "
+assert fn("bb") == "abcdefghijklmnopqrstuvwxyz "
+assert fn("a a a a a ") == "fghijklmnopqrstuvwxyz "
 """
 
 
 """
-def ctrl(x):
+def fn(x):
     # print('x', x)
     s = ''
     for word in x.split(' '):
@@ -44,20 +44,20 @@ def ctrl(x):
         # print(s)
     return s
 
-assert ctrl("") == ""
-assert ctrl("b") == ""
-assert ctrl("ba") == "b"
-assert ctrl("bb") == " b"
-assert ctrl("bc") == "  b"
-assert ctrl("a a a  a a ") == ""
-assert ctrl("abb bcc cdd a a ") == " abccba"
-assert ctrl("za za ua ba za za ia fa") == "fizzbuzz"
-assert ctrl("a damned message") == "md  mdmm d        dd mm"
+assert fn("") == ""
+assert fn("b") == ""
+assert fn("ba") == "b"
+assert fn("bb") == " b"
+assert fn("bc") == "  b"
+assert fn("a a a  a a ") == ""
+assert fn("abb bcc cdd a a ") == " abccba"
+assert fn("za za ua ba za za ia fa") == "fizzbuzz"
+assert fn("a damned message") == "md  mdmm d        dd mm"
 #     goal='a damned message',
 #     answer='ec gc ac scc ec mc db eb nb mb ab db aa',
 """
 
-def ctrl(x):
+def fn(x):
     # print('x', x)
     s = ' '
     offset = 0
@@ -78,14 +78,19 @@ def ctrl(x):
         # print(s)
     return s
 
-assert ctrl("") == " "
-assert ctrl("b") == "b"
-assert ctrl("ba") == "c"
-assert ctrl("bb") == "d"
-assert ctrl("bc") == "e"
-assert ctrl("a a a a a") == "abbbbbbbbbbbbbbb"
-assert ctrl("abb bcc cdd a a ") == "emlqfmlqfmlqfmlqemlqfmlqfmlqfmlq"
-assert ctrl("a damned message") == "aols"
-print(ctrl("a z ca lnac zmarfnba"))
-#     goal='a damned message',
-#     answer='ec gc ac scc ec mc db eb nb mb ab db aa',
+assert fn("") == " "
+assert fn("b") == "b"
+assert fn("ba") == "c"
+assert fn("bb") == "d"
+assert fn("bc") == "e"
+assert fn("a a a a a") == "abbbbbbbbbbbbbbb"
+assert fn("abb bcc cdd a a ") == "emlqfmlqfmlqfmlqemlqfmlqfmlqfmlq"
+assert fn("a damned message") == "aols"
+print(fn("a z ca lnac zmarfnba"))
+
+level = dict(
+    name='ctrl',
+    fn=fn,
+    goal='a damned message',
+    answer='ec gc ac scc ec mc db eb nb mb ab db aa',
+)

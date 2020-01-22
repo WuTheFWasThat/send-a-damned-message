@@ -155,3 +155,17 @@ if 0:
     # a056969 10^n % n
     # a068527 Difference between smallest square >= n and n. (math.ceil(math.sqrt(n))**2 - n)
 
+level = dict(
+    name='Darn',  # 'Corrupt',
+    fn=corrupt_final,
+    goal='a damned message',
+    answer='a damned messagp',
+    # goal='a damned b message',
+    # answer='a damned b messlge',
+    # goal='a damned messaaage',
+    # answer='a damned messaalge',
+    # goal='a darn massage',
+    # answer='a darn bassage',
+    # goal='a damnn msg plz',
+    # answer='l damnn msg plz',
+)

@@ -101,3 +101,11 @@ if 0:
         all_ms.add(cur)
         cur = paths(cur)
     print(len(all_ms))
+
+level = dict(
+    name='Hike',  # W
+    fn=paths,
+    goal='a damned message',
+    answer='a dcbabcdefghijklmmnmlkjihgfeed mlkjihgfefghijklmnopqrssrqponmlkjihgfedcbabcdefgfe',
+    # answer="Send a daklpocdbc meqrutage"
+)

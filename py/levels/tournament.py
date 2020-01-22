@@ -32,3 +32,10 @@ def tournament(x):
             vals[j] += a2num(l, with_spaces=True)
             j = parent(j)
     return ''.join(rotate_alphabet(l, vals[i], with_spaces=True) for i, l in enumerate(x))
+
+level = dict(
+    name='Tree',
+    fn=tournament,
+    goal='a damned message',
+    answer='k caunadqmmskabe',
+)

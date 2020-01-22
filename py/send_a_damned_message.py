@@ -1,16 +1,7 @@
+import os
 import readline
+from importlib import import_module
 
-from levels.substitution import substitution
-from levels.paths import paths
-from levels.corrupt import corrupt_final as corrupt
-from levels.explode import explode
-from levels.please import please
-from levels.reflect import reflect
-from levels.checksum import checksum
-from levels.sandwiched import reverse_sandwiched
-from levels.tournament import tournament
-from levels.ctrl import ctrl
-from levels.madden import fn as madden
 
 _COLORS = dict(
     green="\033[92m",
@@ -31,103 +22,33 @@ def _colored(t, color):
 - something tree-like
 - something using fact that 'a damned message' length is power of two
 """
-levels = [
-    # dict(
-    #     name='Ctrl',
-    #     fn=ctrl,
-    #     goal='a damned message',
-    #     answer='ec gc ac scc ec mc db eb nb mb ab db aa',
-    # ),
-    dict(
-        name='Madden',
-        fn=madden,
-        goal='a damned message demands a sage me',
-        answer='sem denmad aassdnamed eggas a  eem',
-        # goal='a damned message a sage me demands',
-        # answer='sem denmad aassdnamed em egas a eg'
-        # answer='ssem denmad a dneegas',
-        # goal='need dam massage',
-        # answer='',
-        # answer='a damned message',
-    ),
-    # dict(
-    #     name='Sub',
-    #     fn=substitution,
-    #     goal='a damned message',
-    #     answer='t ztyjez yevvtxe',
-    # ),
-    # dict(
-    #     name='One',
-    #     fn=count_words_unimplemented,
-    #     goal='1 damned message',
-    #     answer='a1a 1d1a1m1n1e1d1 1m1e1s1s1a1g1e',
-    # ),
-    # dict(
-    #     name='Check',
-    #     fn=checksum,
-    #     goal='a damned message',
-    #     answer='aa damnedo messageq',
-    # ),
-    dict(
-        name='Milk',  # Reflect
-        fn=reflect,
-        goal="a damned message",
-        answer="easmdna adme esg",
-    ),
-    # dict(
-    #     name='Book (Alt)',
-    #     fn=book_unimplemented,
-    #     goal='a damned message',
-    #     answer='a a b damned c message abc',
-    # ),
-    dict(
-        name='Hike',  # W
-        fn=paths,
-        goal='a damned message',
-        answer='a dcbabcdefghijklmmnmlkjihgfeed mlkjihgfefghijklmnopqrssrqponmlkjihgfedcbabcdefgfe',
-        # answer="Send a daklpocdbc meqrutage"
-    ),
-    # dict(
-    #     name='Tree',
-    #     fn=tournament,
-    #     goal='a damned message',
-    #     answer='k caunadqmmskabe',
-    # ),
-    dict(
-        name='Darn',  # 'Corrupt',
-        fn=corrupt,
-        goal='a damned message',
-        answer='a damned messagp',
-        # goal='a damned b message',
-        # answer='a damned b messlge',
-        # goal='a damned messaaage',
-        # answer='a damned messaalge',
-        # goal='a darn massage',
-        # answer='a darn bassage',
-        # goal='a damnn msg plz',
-        # answer='l damnn msg plz',
-    ),
-    dict(
-        name='Please',  # 'Trippy',
-        fn=please,
-        goal='a (short) damned message, pretty pretty please!!',
-        answer='a (!(short!) (damned (message, (pretty (pretty (please!!!!',
-        # answer=""" ( please, ( just ( a ( short ( damned message"""
-    ),
-    # dict(
-    #     name='Group',  # 'Trippy',
-    #     fn=explode,
-    #     goal='(please) send a short "damned" message wouldn\'t you?',
-    #     answer='() \'(please) send a short "damned" message\' "wouldn\'t you?"',
-    #     # answer=""" ( please, ( just ( a ( short ( damned message"""
-    # ),
-    dict(
-        name='Cut',
-        fn=reverse_sandwiched,
-        goal='a damned message',
-        answer='ad aged mnemasse',
-    ),
-]
+
+# dict(
+#     name='One',
+#     fn=count_words_unimplemented,
+#     goal='1 damned message',
+#     answer='a1a 1d1a1m1n1e1d1 1m1e1s1s1a1g1e',
+# ),
+# dict(
+#     name='Book (Alt)',
+#     fn=book_unimplemented,
+#     goal='a damned message',
+#     answer='a a b damned c message abc',
+# ),
+
+levels = dict()
+
+def register(level):
+    levels[level['name']] = level
+
+for file in os.listdir(os.path.join(os.path.dirname(__file__), "levels")):
+    if file.endswith(".py"):
+        name = file.rstrip(".py")
+        try:
+            module = import_module(f'levels.{name}', package=f'levels.{name}')
+            register(module.level)
+        except AttributeError as e:
+            raise Exception(f"Failed to import {name}") from e
 
 def smart_input(x, color=None):
     if color is None:

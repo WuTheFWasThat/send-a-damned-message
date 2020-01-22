@@ -58,3 +58,11 @@ assert please('a (b (c (d') == 'a b c d'
 assert please('() !c !!d') == ' c !d !d'
 # TODO: make this not work?
 assert please('a! b! c') == 'a b c'
+
+level = dict(
+    name='Please',  # 'Trippy',
+    fn=please,
+    goal='a (short) damned message, pretty pretty please!!',
+    answer='a (!(short!) (damned (message, (pretty (pretty (please!!!!',
+    # answer=""" ( please, ( just ( a ( short ( damned message"""
+)

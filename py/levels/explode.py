@@ -1,4 +1,4 @@
-def explode(x):
+def fn(x):
     "Ternary operator, abc -> aabc"
     i = 0
 
@@ -48,15 +48,23 @@ def explode(x):
     return read_expr()
 
 
-assert explode('a b') == 'a a b'
-assert explode('a b c') == 'a a b c'
-assert explode('a b c d e') == 'a a b c a a b c d e'
-assert explode(' a b') == 'a b'
-assert explode('" a b" c') == ' a b  a b c'
-assert explode(' a ( b c)') == 'a b c'
-assert explode('() a (() b c)') == 'a b c'
-assert explode('(a b) c d') == 'a a b a a b c d'
-assert explode('a b c d') == 'a a b c a a b c d'
-assert explode('"(a b)" c d') == '(a b) (a b) c d'
-assert explode('() "c" "d"') == 'c d'
-assert explode(""" '"' "'" c """.strip()) == """ " " ' c """.strip()
+assert fn('a b') == 'a a b'
+assert fn('a b c') == 'a a b c'
+assert fn('a b c d e') == 'a a b c a a b c d e'
+assert fn(' a b') == 'a b'
+assert fn('" a b" c') == ' a b  a b c'
+assert fn(' a ( b c)') == 'a b c'
+assert fn('() a (() b c)') == 'a b c'
+assert fn('(a b) c d') == 'a a b a a b c d'
+assert fn('a b c d') == 'a a b c a a b c d'
+assert fn('"(a b)" c d') == '(a b) (a b) c d'
+assert fn('() "c" "d"') == 'c d'
+assert fn(""" '"' "'" c """.strip()) == """ " " ' c """.strip()
+
+level = dict(
+    name='Group',  # 'Trippy',
+    fn=fn,
+    goal='(please) send a short "damned" message wouldn\'t you?',
+    answer='() \'(please) send a short "damned" message\' "wouldn\'t you?"',
+    # answer=""" ( please, ( just ( a ( short ( damned message"""
+)
