@@ -12,6 +12,7 @@ let fn = (x) => {
 
 let level: Types.level = {
   name: "mum",
+  // Lap', fold?  crossorads?  common?
   fn: fn,
   goal: "a damned message",
   answer: "a damned messageegassem denmad a",

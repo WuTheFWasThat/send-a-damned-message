@@ -1,25 +1,14 @@
 import readline
 
-from levels.rot_word import rot_word
 from levels.substitution import substitution
-from levels.cancer import cancerous_vowels
-from levels.step import extend_sequences
 from levels.paths import paths
-from levels.unary import count_words
-from levels.palindrome import needs_palindromic_redundancy
-from levels.cycle3 import ordered_cyclic_permute_3
-from levels.lonely import lonely_death
 from levels.corrupt import corrupt_final as corrupt
-from levels.codebook import codebook
 from levels.explode import explode
 from levels.please import please
 from levels.reflect import reflect
 from levels.checksum import checksum
 from levels.sandwiched import reverse_sandwiched
-from levels.end import end
 from levels.tournament import tournament
-from levels.caps import caps
-from levels.chain_define import chain_define
 from levels.ctrl import ctrl
 from levels.madden import fn as madden
 
@@ -61,42 +50,12 @@ levels = [
         # answer='',
         # answer='a damned message',
     ),
-    dict(
-        name='Id',
-        fn=lambda x: x,
-        goal='a damned message',
-        answer='a damned message',
-    ),
-    dict(
-        name='Trim',
-        fn=lambda x: x[:-len(x.split(' '))],
-        goal='a damned message',
-        answer='a damned message...',
-    ),
-    dict(
-        name='Rot',
-        fn=rot_word,
-        goal='a damned message',
-        # answer='amnedd essagem a',
-    ),
     # dict(
     #     name='Sub',
     #     fn=substitution,
     #     goal='a damned message',
     #     answer='t ztyjez yevvtxe',
     # ),
-    dict(
-        name='Ext',  # extend, extrapolate
-        fn=extend_sequences,
-        goal='a damned message',
-        answer="a daklngfd meqrutage"
-    ),
-    dict(
-        name='Unwary',
-        fn=count_words,
-        goal='Damn it',
-        answer='DDDDammmmmmmmmmmmmnnnnnnnnnnnnnn iiiiiiiiitttttttttttttttttttt',
-    ),
     # dict(
     #     name='One',
     #     fn=count_words_unimplemented,
@@ -110,35 +69,10 @@ levels = [
     #     answer='aa damnedo messageq',
     # ),
     dict(
-        name='Cancer',
-        fn=cancerous_vowels,
-        goal='a damned message',
-        answer='a  d a mn e d m e ss a g e ',
-    ),
-    dict(
         name='Milk',  # Reflect
         fn=reflect,
         goal="a damned message",
         answer="easmdna adme esg",
-    ),
-    dict(
-        name='Caps',  # 'Case', 'Upper'
-        fn=caps,
-        goal='A DAMNED MESSAGE',
-        answer='A dAmnEd MesSagE',
-    ),
-    dict(
-        name='Mum',  # Lap',  # fold?  # crossorads?  # common?
-        fn=needs_palindromic_redundancy,
-        goal='a damned message',
-        answer='a damned messageegassem denmad a',
-    ),
-    dict(
-        name='Book',
-        fn=codebook,
-        goal='a damned message',
-        # answer='adamnedmessage a bcdefg hijklmn',
-        answer='abcdefghijklmnopqrs a damned message',
     ),
     # dict(
     #     name='Book (Alt)',
@@ -146,12 +80,6 @@ levels = [
     #     goal='a damned message',
     #     answer='a a b damned c message abc',
     # ),
-    dict(
-        name='Crypt',  # 'Why',  # Lonely?
-        fn=lonely_death,
-        goal='a damned message',
-        answer='ay dyamneyd myessaygey',
-    ),
     dict(
         name='Hike',  # W
         fn=paths,
@@ -165,12 +93,6 @@ levels = [
     #     goal='a damned message',
     #     answer='k caunadqmmskabe',
     # ),
-    dict(
-        name='Def',
-        fn=chain_define,
-        goal='a damned  message',
-        answer='x  d z   m axamnedzessage',
-    ),
     dict(
         name='Darn',  # 'Corrupt',
         fn=corrupt,
@@ -200,26 +122,10 @@ levels = [
     #     # answer=""" ( please, ( just ( a ( short ( damned message"""
     # ),
     dict(
-        name='Tricky',
-        fn=ordered_cyclic_permute_3,
-        goal=(
-            'a damned message which contains as many usages of "damned" as possible, was damned by the damned over and over, and was deliberately constructed to be unnecessarily damned long (and confusing)'
-        ),
-        answer=ordered_cyclic_permute_3(ordered_cyclic_permute_3(
-            'a damned message which contains as many usages of "damned" as possible, was damned by the damned over and over, and was deliberately constructed to be unnecessarily damned long (and confusing)'
-        )),
-    ),
-    dict(
         name='Cut',
         fn=reverse_sandwiched,
         goal='a damned message',
         answer='ad aged mnemasse',
-    ),
-    dict(
-        name='End',
-        fn=end,
-        goal='end all the damned messages',
-        answer='send all the damned messages',
     ),
 ]
 
