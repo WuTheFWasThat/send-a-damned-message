@@ -51,6 +51,10 @@ let set_cheat_all: ((unit) => unit) => unit = [%raw {|
   function(fn) { window.cheat_all = function() { fn(); window.location.reload() }; }
 |}];
 
+let set_print_all: ((unit) => unit) => unit = [%raw {|
+  function(fn) { window.print_all = function() { fn(); }; }
+|}];
+
 type titleinfo = {
   prefix: string,
   damned: string,
@@ -116,6 +120,15 @@ let make = (
       Js.Dict.set(state.savedstate.answers, level.name, level.answer);
     }) |> ignore;
     savestate(state.savedstate);
+  });
+  set_print_all(() => {
+    levels |> Array.map((level: Types.level) => {
+      "==========================" |> Js.log;
+      "Level " ++ level.name ++ "" |> Js.log;
+      "Goal: " ++ level.goal |> Js.log;
+      "Attempt: " ++ level.fn(level.goal) |> Js.log;
+      "Answer: " ++ level.answer |> Js.log;
+    }) |> ignore;
   });
 
   let nlevels = Array.length(levels);
