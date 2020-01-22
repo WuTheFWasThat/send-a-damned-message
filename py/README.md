@@ -4,10 +4,8 @@ This version (was historically first but) is now unmaintained, with many levels 
 
 ## Usage
 
-To play:
+To test a level, add a level file to `py/levels/$level_name.py`:
 
 ```
-python send_a_damned_message.py
+python send_a_damned_message.py $level_name
 ```
-
-You can type `SKIP` or `BACK` at any time to browse through levels.

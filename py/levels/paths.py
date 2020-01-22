@@ -103,7 +103,6 @@ if 0:
     print(len(all_ms))
 
 level = dict(
-    name='Hike',  # W
     fn=paths,
     goal='a damned message',
     answer='a dcbabcdefghijklmmnmlkjihgfeed mlkjihgfefghijklmnopqrssrqponmlkjihgfedcbabcdefgfe',

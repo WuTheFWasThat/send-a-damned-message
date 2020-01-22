@@ -11,7 +11,6 @@ def substitution(x):
     return ''.join([replace(l) for l in x])
 
 level = dict(
-    name='Sub',
     fn=substitution,
     goal='a damned message',
     answer='t ztyjez yevvtxe',

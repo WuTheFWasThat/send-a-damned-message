@@ -71,7 +71,6 @@ ad aged mnemasse --> want this before swapping space, gives "damned message"
 """
 
 level = dict(
-    name='Cut',
     fn=fn,
     goal='a damned message',
     answer='ad aged mnemasse',

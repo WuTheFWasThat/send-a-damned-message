@@ -55,7 +55,6 @@ if 0:
     #     print_cycle(alphabet[:ll])
 
 level = dict(
-    name='Milk',  # Reflect
     fn=reflect,
     goal="a damned message",
     answer="easmdna adme esg",

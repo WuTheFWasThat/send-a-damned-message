@@ -89,7 +89,6 @@ assert fn("a damned message") == "aols"
 print(fn("a z ca lnac zmarfnba"))
 
 level = dict(
-    name='ctrl',
     fn=fn,
     goal='a damned message',
     answer='ec gc ac scc ec mc db eb nb mb ab db aa',

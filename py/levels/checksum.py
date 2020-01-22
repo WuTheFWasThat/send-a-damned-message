@@ -22,7 +22,6 @@ def fn(x):
     return ' '.join(results)
 
 level = dict(
-    name='Check',
     fn=fn,
     goal='a damned message',
     answer='aa damnedo messageq',

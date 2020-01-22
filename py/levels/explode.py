@@ -62,7 +62,6 @@ assert fn('() "c" "d"') == 'c d'
 assert fn(""" '"' "'" c """.strip()) == """ " " ' c """.strip()
 
 level = dict(
-    name='Group',  # 'Trippy',
     fn=fn,
     goal='(please) send a short "damned" message wouldn\'t you?',
     answer='() \'(please) send a short "damned" message\' "wouldn\'t you?"',
