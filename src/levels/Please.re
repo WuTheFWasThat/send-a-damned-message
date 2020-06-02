@@ -17,7 +17,7 @@ let fn = (x) => {
       } else if (letter == ' ') {
         read_words({ word: "", words: List.append(s.words, [s.word]), index: s.index + 1 });
       } else if (letter == '!') {
-        if (s.index + 1 == n) {
+        if (s.index + 1 == n || String.get(x, s.index + 1) == ' ') {
           read_words({ word: s.word, words: s.words, index: s.index + 1 })
         } else {
           let new_letter = Char.escaped(String.get(x, s.index + 1));
@@ -33,12 +33,15 @@ let fn = (x) => {
     }
   } and process_words = (words: array(string)): string => {
     let nw = Array.length(words);
-    if (nw < 3) {
-      words |> Js.Array.joinWith(" ")
+    if (nw < 2) {
+      words |> Js.Array.filter((word) => word != "") |> Js.Array.joinWith(" ")
+      } else if (nw < 3) {
+      let repeated = process_words(Array.sub(words, 1, 1));
+      Array.concat([Array.sub(words, 0, 1), Array.of_list([repeated, repeated])])  |> Js.Array.filter((word) => word != "") |> Js.Array.joinWith(" ");
     } else {
       // a b c -> a a b (c)
-      let repeated = process_words(Array.sub(words, 2, nw-2));
-      Array.append(Array.sub(words, 0, 2), Array.of_list([repeated, repeated]), ) |> Js.Array.joinWith(" ");
+      let repeated = process_words(Array.sub(words, 1, nw-2));
+      Array.concat([Array.sub(words, 0, 1), Array.of_list([repeated, repeated]), Array.sub(words, nw-1, 1)])  |> Js.Array.filter((word) => word != "") |> Js.Array.joinWith(" ");
     }
   }
 
@@ -48,25 +51,31 @@ let fn = (x) => {
 
 Utils.assert_eq(fn(""), "")
 Utils.assert_eq(fn("a"), "a")
-Utils.assert_eq(fn("a b"), "a b")
-Utils.assert_eq(fn("a b c"), "a b c c")
-Utils.assert_eq(fn("a b c d e"), "a b c d e e c d e e")
-Utils.assert_eq(fn(" a b"), " a b b")
-Utils.assert_eq(fn("a b "), "a b  ")
-Utils.assert_eq(fn("( a b) c"), " a b b c")
-Utils.assert_eq(fn("(a b ) c"), "a b   c")
-Utils.assert_eq(fn("a (b c)"), "a b c")
-Utils.assert_eq(fn("a !(b c)"), "a (b c c")
-Utils.assert_eq(fn("() a (() b c)"), " a  b c c  b c c")
-Utils.assert_eq(fn("(a b) c d"), "a b c d d")
-Utils.assert_eq(fn("a b c d"), "a b c d c d")
-Utils.assert_eq(fn("a (b (c (d"), "a b c d")
-Utils.assert_eq(fn("() !c !!d"), " c !d !d")
+Utils.assert_eq(fn("a b"), "a b b")
+Utils.assert_eq(fn("a () b"), "a b")
+Utils.assert_eq(fn("a b c"), "a b b c")
+Utils.assert_eq(fn("a b c d e"), "a b c c d b c c d e")
+Utils.assert_eq(fn(" a b"), "a a b")
+Utils.assert_eq(fn("a b "), "a b b")
+Utils.assert_eq(fn("a  b"), "a b")
+Utils.assert_eq(fn("a  b  c"), "a b b b b c")
+Utils.assert_eq(fn("( a b) c"), "a a b c c")
+Utils.assert_eq(fn("(a b ) c"), "a b b c c")
+Utils.assert_eq(fn("!a !b !c"), "a b b c")
+Utils.assert_eq(fn("a! b! c"), "a b b c")
+Utils.assert_eq(fn("a (b c)"), "a b c c b c c")
+Utils.assert_eq(fn("a !(b c)"), "a (b (b c")
+Utils.assert_eq(fn("() a (() b c)"), "a a b b c")
+Utils.assert_eq(fn("(a b) c d"), "a b b c c d")
+Utils.assert_eq(fn("a b c d"), "a b c c b c c d")
+Utils.assert_eq(fn("a (b (c (d"), "a b c d d c d d b c d d c d d")
+Utils.assert_eq(fn("() !c !!d"), "c c !d")
+Utils.assert_eq(fn("() !!c !d"), "!c !c d")
 
 let level: Types.level = {
   name: "please",
   fn: fn,
   goal: "a (short) damned message, pretty pretty please!!",
-  answer: "a (!(short!) (damned (message, (pretty (pretty (please!!!!",
+  answer: "a () (!(short!) () (damned () (message, () (pretty () (pretty () (please!!!!",
 }
 
