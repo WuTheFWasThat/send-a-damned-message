@@ -19,7 +19,7 @@ let fn = (x) => {
     let l = String.get(x, index);
     let fix_l = if (Utils.is_alphabet(l)) { l } else { ' ' }
     let new_char = Utils.rotate_alphabet(fix_l, rotate, ~with_spaces=true);
-    String.sub(x, 0, index) ++ Char.escaped(new_char) ++ String.sub(x, index + 1, n - index - 1)
+    String.sub(x, 0, index) ++ String.make(1, new_char) ++ String.sub(x, index + 1, n - index - 1)
   }
 }
 

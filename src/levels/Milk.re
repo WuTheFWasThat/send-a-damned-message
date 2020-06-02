@@ -4,7 +4,7 @@ let rec fn = (x) => {
   switch (n == 0) {
     | true => x
     | false => {
-      fn((String.sub(x, 1, n-1) |> Utils.reverse_str)) ++ Char.escaped(String.get(x, 0))
+      fn((String.sub(x, 1, n-1) |> Utils.reverse_str)) ++ String.sub(x, 0, 1)
     }
   }
 }
@@ -12,7 +12,7 @@ let rec fn = (x) => {
 let inv_fn = (x) => {
   let res = List.fold_left(
     (res, char) => {
-        (res |> Utils.reverse_str) ++ Char.escaped(char)
+        (res |> Utils.reverse_str) ++ String.make(1, char)
     },
     "", Utils.char_list(x)
   );
@@ -35,5 +35,7 @@ verify_pair("", "")
 verify_pair("a", "a")
 verify_pair("ab", "ba")
 verify_pair("abc", "bca")
+verify_pair("ab'c", "'bca")
+verify_pair("abc'", "cb'a")
 verify_pair("abcdefghijk lmnopqrstuv", " lkmjniohpgqfresdtcubva")
 verify_pair("abcdefghijkl mnopqrstuvw", " lmknjoiphqgrfsetducvbwa")

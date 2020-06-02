@@ -34,7 +34,7 @@ let fn = (x) => {
     } else {
       {
         words: s.words,
-        word: s.word ++ Char.escaped(char),
+        word: s.word ++ String.make(1, char),
         all_whitespace: (s.all_whitespace && (char == ' ')),
       }
     }

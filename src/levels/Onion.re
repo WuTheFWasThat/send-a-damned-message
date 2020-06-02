@@ -6,9 +6,9 @@ let fn = (x) => {
     } else {
       let letter = String.get(s, 0);
       switch (Utils.safe_index(s, letter, ~from=1)) {
-        | None => Char.escaped(letter) ++ cut(String.sub(s, 1, n-1))
+        | None => String.make(1, letter) ++ cut(String.sub(s, 1, n-1))
         | Some(i) => {
-          Char.escaped(letter) ++ cut(
+          String.make(1, letter) ++ cut(
             Utils.reverse_str(String.sub(s, 1, i-1)) ++ String.sub(s, i, n-i)
           )
         }

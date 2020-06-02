@@ -36,7 +36,7 @@ let rand_string: (int) => string = [%raw {|
 |}];
 
 let safe_index = (~from: int=0, s: string, c: char): option(int) => {
-  // "Checking " ++ Char.escaped(c) ++ " in " ++ s ++ " from " ++ string_of_int(from) |> Js.log;
+  // "Checking " ++ String.make(1, c) ++ " in " ++ s ++ " from " ++ string_of_int(from) |> Js.log;
   if (String.contains_from(s, from, c)) { Some(String.index_from(s, from, c)); } else { None }
 }
 // let safe_get = (l: list('a), i: int): option('a) => {
@@ -54,7 +54,7 @@ let safe_get_list = (l: list('a), i: int): option('a) => {
 }
 
 let char_list: (string) => list(char) = (s) => List.init(String.length(s), String.get(s));
-let join_char_array: (array(char)) => string = (l) => l |> Array.map((x) => Char.escaped(x)) |>  Js.Array.joinWith("");
+let join_char_array: (array(char)) => string = (l) => l |> Array.map((x) => String.make(1, x)) |>  Js.Array.joinWith("");
 let join_char_list: (list(char)) => string = (l) => l |> Array.of_list |> join_char_array
 let reverse_str = (x: string) => { x |> char_list |> List.rev |> join_char_list }
 
@@ -109,7 +109,7 @@ let cased_like = (x, y) => {
 }
 
 let rotate_alphabet = (~with_spaces=false, x: char, direction: int) => {
-  // Js.log("rotating " ++ Char.escaped(x));
+  // Js.log("rotating " ++ String.make(1, x));
   // Js.log(direction);
   let new_num = positive_mod(a2num(x, ~with_spaces=with_spaces) + direction, with_spaces ? 27 : 26)
   let new_x = num2a(new_num, ~with_spaces=with_spaces)
@@ -146,9 +146,9 @@ let map_words = (f, x) => {
   let s = List.fold_left(
     (s, char) => {
       if (is_alphabet(char)) {
-        { result: s.result, word: s.word ++ Char.escaped(char) }
+        { result: s.result, word: s.word ++ String.make(1, char) }
       } else {
-        { result: s.result ++ f(s.word) ++ Char.escaped(char), word: "" }
+        { result: s.result ++ f(s.word) ++ String.make(1, char), word: "" }
       }
     },
     { word: "", result: "" },

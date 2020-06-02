@@ -11,13 +11,13 @@ let fn = (x) => {
         | true => { result: s.result, prev: s.prev, count: s.count + 1 }
         | false => {
           let result = if (s.count > 0) {
-            s.result ++ Char.escaped(Utils.cased_like(Utils.num2a(min(s.count, 26) - 1), Utils.unwrap(s.prev)))
+            s.result ++ String.make(1, Utils.cased_like(Utils.num2a(min(s.count, 26) - 1), Utils.unwrap(s.prev)))
           } else {
             s.result
           }
 
           if (cur == ' ') {
-            { result: result ++ Char.escaped(' '), count: 0, prev: None }
+            { result: result ++ String.make(1, ' '), count: 0, prev: None }
           } else {
             { result: result, count: 1, prev: Some(cur) }
           }

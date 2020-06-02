@@ -13,7 +13,7 @@ let fn = (x) => {
             switch (s.direction) {
               | Some(d) => {
                 let target = Utils.rotate_alphabet(prev, d);
-                if (cur == target) { s.result } else { s.result ++ Char.escaped(target) }
+                if (cur == target) { s.result } else { s.result ++ String.make(1, target) }
               }
               | None => s.result
             }
@@ -30,7 +30,7 @@ let fn = (x) => {
           };
 
           let new_result = if (s.direction == None && new_direction == None) {
-            new_result ++ Char.escaped(prev)
+            new_result ++ String.make(1, prev)
           } else {
             new_result;
           };

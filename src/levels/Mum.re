@@ -3,7 +3,7 @@ let fn = (x) => {
   let n = String.length(x);
   Utils.range((n + 1) / 2) |> List.fold_left((s, i) => {
     if (String.get(x, i) == String.get(x, n - 1 - i)) {
-      s ++ Char.escaped(String.get(x, i))
+      s ++ String.make(1, String.get(x, i))
     } else {
       s
     }

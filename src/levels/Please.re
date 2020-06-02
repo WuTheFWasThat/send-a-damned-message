@@ -20,7 +20,7 @@ let fn = (x) => {
         if (s.index + 1 == n || String.get(x, s.index + 1) == ' ') {
           read_words({ word: s.word, words: s.words, index: s.index + 1 })
         } else {
-          let new_letter = Char.escaped(String.get(x, s.index + 1));
+          let new_letter = String.make(1, String.get(x, s.index + 1));
           read_words({ word: s.word ++ new_letter, words: s.words, index: s.index + 2 })
         }
       } else if (letter == '(') {
@@ -28,7 +28,7 @@ let fn = (x) => {
         let result = process_words(List.append(new_s.words, [new_s.word]) |> Array.of_list);
         read_words({ words: s.words, word: s.word ++ result, index: new_s.index })
       } else {
-        read_words({ word: s.word ++ Char.escaped(letter), words: s.words, index: s.index + 1 })
+        read_words({ word: s.word ++ String.make(1, letter), words: s.words, index: s.index + 1 })
       }
     }
   } and process_words = (words: array(string)): string => {

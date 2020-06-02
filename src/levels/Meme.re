@@ -3,7 +3,7 @@ let fn = (x) => {
   let bigrams = Js.Dict.empty();
   List.map(
     (i) => {
-      let bigram = Char.escaped(String.get(x, i)) ++ Char.escaped(String.get(x, i+1));
+      let bigram = String.sub(x, i, 2);
       Js.Dict.set(
         bigrams, bigram,
         (Js.Dict.get(bigrams, bigram) |> Utils.unwrap_or(0)) + 1,
@@ -14,7 +14,7 @@ let fn = (x) => {
 
   List.map(
     (i) => {
-      let bigram = Char.escaped(String.get(x, i)) ++ Char.escaped(String.get(x, i+1));
+      let bigram = String.sub(x, i, 2);
       if (Js.Dict.get(bigrams, bigram) |> Utils.unwrap_or(0) > 1) {
         Array.set(chars, i, None);
         Array.set(chars, i+1, None);
