@@ -34,9 +34,8 @@ It can sometimes be useful for quick development.
 
 ## Contributions
 
-New level ideas and UI improvements both welcome!
+New level ideas and UI improvements both welcome!  Feel free to post as Github issues.
 
 # History
 
 I was originally thinking to have a two player game, in which the two players can't communicate except through a chat room.  But the chat room is a noisy channel f and you see f(x) for incoming messages.
-
