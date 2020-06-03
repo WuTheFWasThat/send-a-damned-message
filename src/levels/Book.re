@@ -4,7 +4,7 @@ let fn = (x) => {
      next words are codes which do lookups
      */
 
-  switch (String.contains(x, ' ')) {
+  switch (String.contains(x, ' ') && (String.get(x, 0) != ' ')) {
   | false => ""
   | true =>
     let i = String.index(x, ' ');
@@ -26,6 +26,7 @@ let level: Types.level = {
   answer: "abcdefghijklmnopqrs a damned message",
 }
 
+Utils.assert_eq(fn(" dontcrash"), "")
 Utils.assert_eq(fn("blah"), "")
 Utils.assert_eq(fn("blah abz"), "bll")
 Utils.assert_eq(fn("blah ab "), "bl ")
