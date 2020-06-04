@@ -89,6 +89,7 @@ List.map(length => {
 let goal = "a damned message which is way too damned long and confusing, as a sanctimonious man, in an attempt to separate the damned from the virutous, damned it to contain \"damned\" as an adjective, noun, adverb, and verb; the damned use brute force and forever hold guilt in their chest, while the virtuous condemn them repeatedly and effortlessly find the key to enlightenment";
 let level: Types.level = {
   name: "tricky",
+  old_names: [],
   fn: fn,
   goal: goal,
   answer: fn(fn(goal)),

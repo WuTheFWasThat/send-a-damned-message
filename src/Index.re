@@ -42,12 +42,14 @@ let makeContainer = () => {
 let levels: array(Types.level) = [|
   {
     name: "send",
+    old_names: [],
     goal: "a damned message",
     answer: "a damned message",
     fn: (x) => x,
   },
   {
     name: "mess",
+    old_names: [],
     goal: "a damned message",
     answer: "a damned message...",
     fn: (x) => String.sub(x, 0, max(0, String.length(x) - 3)),

@@ -11,6 +11,7 @@ let fn = (x) => {
 
 let level: Types.level = {
   name: "pins",
+  old_names: [],
   goal: "a damned message",
   answer: "a amnedd essagem",
   fn: fn,

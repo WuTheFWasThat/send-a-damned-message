@@ -8,6 +8,7 @@ let fn = (x) => {
 
 let level: Types.level = {
   name: "end",
+  old_names: [],
   fn: fn,
   goal: "end all the damned messages",
   answer: "send all the damned messages",

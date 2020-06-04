@@ -102,11 +102,16 @@ let make = (
   Js.log("state: " ++ switch (Js.Json.stringifyAny(state)) { | None => "?" | Some(x) => x } );
 
   let level_solved = levels |> Array.map((level: Types.level) => {
-    switch (Js.Dict.get(state.savedstate.answers, level.name)) {
-      | None => false
-      // re-verify answer
-      | Some(answer) => { level.fn(answer) == level.goal }
-    }
+    List.append(level.old_names, [level.name]) |> List.map(
+      name =>
+        switch (Js.Dict.get(state.savedstate.answers, name)) {
+          | None => false
+          // re-verify answer
+          | Some(answer) => { level.fn(answer) == level.goal }
+        }
+    ) |> List.fold_left(
+      (a, b) => { a || b }, false
+    )
   });
 
   let set_cheat: ((unit) => unit) => unit = [%raw {|

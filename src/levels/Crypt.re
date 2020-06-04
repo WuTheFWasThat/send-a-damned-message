@@ -28,6 +28,7 @@ let fn = (x) => {
 
 let level: Types.level = {
   name: "crypt",
+  old_names: [],
   fn: fn,
   goal: "a dayum message",
   answer: "a ydayumy ymesysage",

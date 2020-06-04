@@ -74,6 +74,7 @@ Utils.assert_eq(fn("() !!c !d"), "!c !c d")
 
 let level: Types.level = {
   name: "please",
+  old_names: [],
   fn: fn,
   goal: "a (short) damned message, pretty pretty please!!",
   answer: "a () (!(short!) () (damned () (message, () (pretty () (pretty () (please!!!!",

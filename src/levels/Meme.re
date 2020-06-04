@@ -28,6 +28,7 @@ let fn = (x) => {
 
 let level: Types.level = {
   name: "meme", // "dang", "murmur", "george"
+  old_names: [],
   // magma, onion, sense, verve
   fn: fn,
   goal: "a danged message",

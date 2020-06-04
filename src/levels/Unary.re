@@ -33,6 +33,7 @@ let fn = (x) => {
 
 let level: Types.level = {
   name: "unwary",
+  old_names: [],
   fn: fn,
   goal: "a dam msg",
   answer: "a ddddammmmmmmmmmmmm mmmmmmmmmmmmmsssssssssssssssssssggggggg",

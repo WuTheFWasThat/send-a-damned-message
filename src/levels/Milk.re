@@ -21,6 +21,7 @@ let inv_fn = (x) => {
 
 let level: Types.level = {
   name: "milk",
+  old_names: [],
   fn: fn,
   goal: "a damned message",
   answer: "easmdna adme esg",

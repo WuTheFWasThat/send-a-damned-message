@@ -53,6 +53,7 @@ Utils.assert_eq(fn("abcdefgh ijklmnop"), "i q")
 
 let level: Types.level = {
   name: "ext",
+  old_names: [],
   fn: fn,
   goal: "a damned message",
   answer: "a daklngfd meqrutage"

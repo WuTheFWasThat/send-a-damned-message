@@ -34,6 +34,7 @@ let fn = (x) => {
 
 let level: Types.level = {
   name: "madden",
+  old_names: [],
   fn: fn,
   goal: "a damned message demands a sage me",
   answer: "sem denmad aassdnamed eggas a  eem",
