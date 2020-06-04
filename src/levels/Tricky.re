@@ -60,6 +60,8 @@ Utils.assert_eq(fn("abcdefgh"), "cdefabgh")
 Utils.assert_eq(fn("abcdefghi"), "efdhigbca")
 */
 
+/*
+// SIMPLEST POSSIBLE
 let fn = (x) => {
   let k = 3;
   let n = String.length(x);
@@ -81,6 +83,41 @@ Utils.assert_eq(fn("abcdef"), "bcaefd")
 Utils.assert_eq(fn("abcdefg"), "bcaefdg")
 Utils.assert_eq(fn("abcdefgh"), "bcaefdgh")
 Utils.assert_eq(fn("abcdefghi"), "bcaefdhig")
+*/
+
+let fn = (x) => {
+  let k = 3;
+  let rotate = (s, r) => {
+    String.concat("", [
+      String.sub(s, r, k-r),
+      String.sub(s, 0, r),
+    ])
+  }
+
+  let n = String.length(x);
+  let nk = n / k;
+  let result = Utils.range(nk) |> List.map(i => {
+    rotate(String.sub(x, i*k, k), i mod k)
+  }) |>  String.concat("")
+  result ++ String.sub(x, nk * k, n - (nk * k))
+}
+
+
+Utils.assert_eq(fn(""), "")
+Utils.assert_eq(fn("a"), "a")
+Utils.assert_eq(fn("ab"), "ab")
+Utils.assert_eq(fn("abc"), "abc")
+Utils.assert_eq(fn("abcd"), "abcd")
+Utils.assert_eq(fn("abcde"), "abcde")
+Utils.assert_eq(fn("abcdef"), "abcefd")
+Utils.assert_eq(fn("abcdefg"), "abcefdg")
+Utils.assert_eq(fn("abcdefgh"), "abcefdgh")
+Utils.assert_eq(fn("abcdefghi"), "abcefdigh")
+Utils.assert_eq(fn("abcdefghij"), "abcefdighj")
+Utils.assert_eq(fn("abcdefghijk"), "abcefdighjk")
+Utils.assert_eq(fn("abcdefghijkl"), "abcefdighjkl")
+
+
 List.map(length => {
   let s = Utils.rand_string(length);
   Utils.assert_eq(fn(fn(fn(s))), s);
