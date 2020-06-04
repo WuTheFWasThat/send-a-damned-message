@@ -66,7 +66,7 @@ let levels: array(Types.level) = [|
   Crypt.level,
   Tricky.level,
   Hike.level,
-  Define.level,
+  Let.level,
   Madden.level,
   Please.level,
   Emend.level,
