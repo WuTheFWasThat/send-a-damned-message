@@ -16,6 +16,11 @@ let makeContainer = () => {
   div;
 };
 
+// LEVEL IDEAS
+// - cumulative xor?
+// - compress from 2N in natural way?  something where you have to solve lp?  like xor of 3 positions type of thing
+//     - maybe there are 2^n positions.  then each position reads from places where nth bit is 1
+
 // SEND
 // Age
 // Dang
@@ -66,8 +71,9 @@ let levels: array(Types.level) = [|
   Crypt.level,
   Hike.level,
   Swiss.level,
-  Tricky.level,
   Let.level,
+  Bin.level,
+  Tricky.level,
   Madden.level,
   Please.level,
   Emend.level,

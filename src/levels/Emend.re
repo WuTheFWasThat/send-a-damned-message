@@ -8,12 +8,7 @@ let fn = (x) => {
   if (n == 0) {
       x
   } else {
-    let total = Utils.char_list(x) |> List.map(
-      l => {
-        let fix_l = if (Utils.is_alphabet(l)) { l } else { ' ' };
-        Utils.a2num(fix_l, ~with_spaces=true)
-      }
-    ) |> Utils.sum;
+    let total = Utils.char_list(x) |> List.map(Utils.char2num) |> Utils.sum;
     let index = (total + (n / 3)) mod n;
     let rotate = total + (n / 8)
     let l = String.get(x, index);
