@@ -90,6 +90,18 @@ let num2a = (~with_spaces=false, n: int) => {
   }
 }
 
+let char2num = (x: char) => {
+  if (is_alphabet(x)) {
+    a2num(x, ~with_spaces=true)
+  } else {
+    0
+  }
+}
+
+assert_eq(char2num('A'), 1);
+assert_eq(char2num('a'), 1);
+assert_eq(char2num('?'), 0);
+
 assert_eq(num2a(1, ~with_spaces=true), 'a');
 assert_eq(num2a(0, ~with_spaces=false), 'a');
 assert_eq(num2a(26, ~with_spaces=true), 'z');
