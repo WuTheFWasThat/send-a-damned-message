@@ -15,6 +15,9 @@ type state = {
   message: string,
   // TODO: keep a list per level?
   attempts: list(attempt),
+  // index (negatively) into attempts, upon "up" becomes -1, basically
+  message_cursor: int,
+  message_saved: string,
   savedstate: Types.savestate,
   justsolved: bool,
 };
@@ -23,6 +26,7 @@ type levelmenustate = Solved | Unlocked | Locked;
 
 type action =
   SendMessage
+  | SetMessageCursor(int)
   | SetMessage(string)
   | SetLevel(int);
 
@@ -76,7 +80,37 @@ let make = (
 ) => {
   let reducer = (state, action) => {
     let newstate = switch (action) {
-      | SetMessage(msg) => { ...state, message: msg }
+      | SetMessageCursor(code) => {
+          let n = List.length(state.attempts);
+          let change = if (code == 38) { 1 // up
+          } else if (code == 40) { -1 // down
+          } else { 0 };
+
+          let new_cursor = state.message_cursor + change;
+          // wasn't even an up or down
+          if (change == 0) { state }
+          // tried to go up too far
+          else if (new_cursor > n) { state }
+          // tried to go down too far
+          else if (new_cursor < 0) { state }
+          // actual change!
+          else {
+            let saved = if (state.message_cursor == 0) {
+              // save the message!
+              state.message
+            } else {
+              state.message_saved
+            }
+            if (new_cursor == 0) {
+              // restore saved message
+              {... state, message_cursor: 0, message: state.message_saved }
+            } else {
+              let old_message = List.nth(state.attempts, n - new_cursor).message;
+              {... state, message_cursor: new_cursor, message: old_message, message_saved: saved }
+            }
+          }
+        }
+      | SetMessage(msg) => { ...state, message: msg, message_cursor: 0 }
       | SendMessage => {
         let message = state.message;
         let level = levels[state.savedstate.level];
@@ -88,14 +122,19 @@ let make = (
         let attempts = List.append(state.attempts, [{
             message: message, damned: damned_message
         }]);
-        { ...state, attempts: attempts, message: message, justsolved: solved };
+        {
+          ...state, attempts: attempts,
+          message_cursor: 0,
+          message: message, justsolved: solved
+        };
       }
       | SetLevel(level) => {
         Js.log("setting level: " ++ levels[level].name);
         focusInput();
         {
           message: "", attempts: [], justsolved: false,
-          savedstate: { ...state.savedstate, level: level }
+          savedstate: { ...state.savedstate, level: level },
+          message_cursor: 0, message_saved: "",
         }
       }
     };
@@ -105,6 +144,7 @@ let make = (
   let initialState = {
     message: "", attempts: [], savedstate: savedstate,
     justsolved: false,
+    message_cursor: 0, message_saved: "",
   };
 
   let (state, dispatch) = React.useReducer(reducer, initialState);
@@ -285,7 +325,10 @@ let make = (
                     dispatch(SendMessage);
                   }} autoComplete="off">
                     <div style={ReactDOMRe.Style.make(~paddingRight="10px", ())}>
-                      <input id="main-input" className="fullwidth" type_="text" value={state.message} onChange={event => dispatch(SetMessage(event->ReactEvent.Form.target##value))}>
+                      <input id="main-input" className="fullwidth" type_="text" value={state.message}
+                        onChange={event => dispatch(SetMessage(event->ReactEvent.Form.target##value))}
+                        onKeyDown={event => dispatch(SetMessageCursor(event->ReactEvent.Keyboard.keyCode))} tabIndex={0}
+                    >
                       </input>
                     </div>
                   </form>
