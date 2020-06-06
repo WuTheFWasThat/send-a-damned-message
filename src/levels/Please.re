@@ -77,6 +77,7 @@ let level: Types.level = {
   old_names: [],
   fn: fn,
   goal: "a (short) damned message, pretty pretty please!!",
-  answer: "a () (!(short!) () (damned () (message, () (pretty () (pretty () (please!!!!",
+  // answer: "a () (!(short!) () (damned () (message, () (pretty () (pretty () (please!!!!",
+  answer: "a  (!(short!)  (damned  (message,  (pretty  (pretty  (please!!!!",
 }
 
