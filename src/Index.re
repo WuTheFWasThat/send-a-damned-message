@@ -71,7 +71,7 @@ let levels: array(Types.level) = [|
   Crypt.level,
   Hike.level,
   Swiss.level,
-  Let.level,
+  Def.level,
   Bin.level,
   Tricky.level,
   Madden.level,

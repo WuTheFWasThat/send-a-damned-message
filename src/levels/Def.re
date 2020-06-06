@@ -73,8 +73,8 @@ Utils.assert_eq(fn("a b  "), " ")
 Utils.assert_eq(fn("a fat fat b a"), "b")
 
 let level: Types.level = {
-  name: "let",
-  old_names: ["def"],
+  name: "def",
+  old_names: ["let"],
   fn: fn,
   goal: "a  damned  message",
   answer: "x   d y   m axamnedyessage",
