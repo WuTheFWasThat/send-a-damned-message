@@ -95,7 +95,7 @@ let style = {j|
     padding: 16px;
     border-radius: 0px 0px 12px 12px;
   }
-  .message_container {
+  .messages_container {
     max-height: 500px;
     overflow-y: scroll;
   }

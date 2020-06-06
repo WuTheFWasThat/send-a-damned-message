@@ -55,6 +55,15 @@ let set_print_all: ((unit) => unit) => unit = [%raw {|
   function(fn) { window.print_all = function() { fn(); }; }
 |}];
 
+let scroll_messages: (unit) => unit = [%raw {|
+  function() {
+    setTimeout(() => {
+      var div = document.getElementById("messages_container");
+      div.scrollTop = div.scrollHeight;
+    }, 0)
+  }
+|}];
+
 type titleinfo = {
   prefix: string,
   damned: string,
@@ -184,6 +193,8 @@ let make = (
     suffix: "Message",
   };
 
+  scroll_messages();
+
   <div>
   <div style={ReactDOMRe.Style.make(
      ~textAlign="right", ()
@@ -240,7 +251,7 @@ let make = (
             <h3 className="center">
               {React.string("Level " ++ string_of_int(state.savedstate.level) ++ ": " ++ level.name)}
             </h3>
-            <div className="messages_container">
+            <div className="messages_container" id="messages_container">
               {
                 ReasonReact.array(Array.of_list(List.mapi((i: int, attempt: attempt) => {
                   <div className="message_pair" key={string_of_int(i)} >
