@@ -146,7 +146,8 @@ let make = (
         all_but_last_solved ? Unlocked : Locked;
       } else if ((i == 0) ||
           Utils.safe_get_array(level_solved, i-1) == Some(true) ||
-          Utils.safe_get_array(level_solved, i-2) == Some(true)
+          Utils.safe_get_array(level_solved, i-2) == Some(true) ||
+          Utils.safe_get_array(level_solved, i-3) == Some(true)
          ) {
         Unlocked;
       } else {
