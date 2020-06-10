@@ -63,7 +63,9 @@ let scroll_messages: (unit) => unit = [%raw {|
   function() {
     setTimeout(() => {
       var div = document.getElementById("messages_container");
-      div.scrollTop = div.scrollHeight;
+      if (div) {
+        div.scrollTop = div.scrollHeight;
+      }
     }, 0)
   }
 |}];
