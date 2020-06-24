@@ -123,7 +123,7 @@ List.map(length => {
   Utils.assert_eq(fn(fn(fn(s))), s);
 }, Utils.range(20))
 
-let goal = "a damned message which is way too damned long and confusing, as a sanctimonious man, in an attempt to separate the damned from the virutous, damned it to contain \"damned\" as an adjective, noun, adverb, and verb; the damned use brute force and forever hold guilt in their chest, while the virtuous condemn them repeatedly and effortlessly find the key to enlightenment";
+let goal = "a damned message which is way too damned long and confusing, as a sanctimonious man once, in an attempt to separate the damned from the virtuous, damned it to contain \"damned\" as an adjective, noun, adverb, and verb; the damned use brute force and forever hold guilt in their chest, while the virtuous condemn them repeatedly and effortlessly find the key to enlightenment";
 let level: Types.level = {
   name: "tricky",
   old_names: [],
