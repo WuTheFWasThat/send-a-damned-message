@@ -149,8 +149,27 @@ let first_true: ('a => bool, list('a)) => option('a) = (f, l) => {
     l,
   )
 }
-
 type _map_words_state = {
+  word: string,
+  result: list(string),
+};
+
+let split = (x, sep) => {
+  let s = List.fold_left(
+    (s, char) => {
+      if (char == sep) {
+        { result: List.append(s.result, [s.word]), word: "" }
+      } else {
+        { result: s.result, word: s.word ++ String.make(1, char) }
+      }
+    },
+    { word: "", result: [] },
+    char_list(x)
+  );
+  List.append(s.result, [s.word])
+}
+
+type _map_words_state2 = {
   word: string,
   result: string,
 };

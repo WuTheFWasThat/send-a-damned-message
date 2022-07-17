@@ -4,80 +4,108 @@ type state = {
   index: int,
 };
 
-let fn = (x) => {
-  /*
-    Ternary operator, abc -> aabc
-  */
-  let n = String.length(x);
-  let rec read_words = (s: state): state => {
-    if (s.index == n) { s } else {
-      let letter = String.get(x, s.index);
-      if (letter == ')') {
-        { ...s, index: s.index + 1 }
-      } else if (letter == ' ') {
-        read_words({ word: "", words: List.append(s.words, [s.word]), index: s.index + 1 });
-      } else if (letter == '!') {
-        if (s.index + 1 == n || String.get(x, s.index + 1) == ' ') {
-          read_words({ word: s.word, words: s.words, index: s.index + 1 })
-        } else {
-          let new_letter = String.make(1, String.get(x, s.index + 1));
-          read_words({ word: s.word ++ new_letter, words: s.words, index: s.index + 2 })
+let rec _eval_words = (s: state): string => {
+    let a = s.word;
+    switch (Utils.safe_get_list(s.words, s.index)) {
+      | None => a
+      | Some(b) => {
+        switch (Utils.safe_get_list(s.words, s.index+1)) {
+          | None => {
+            a ++ b ++ " " ++ a
+          }
+          | Some(c) => {
+            _eval_words({
+              word: a ++ b ++ " " ++ a ++ c,
+              words: s.words,
+              index: s.index+2
+            })
+          }
         }
-      } else if (letter == '(') {
-        let new_s = read_words({ words: [], word: "", index: s.index + 1 });
-        let result = process_words(List.append(new_s.words, [new_s.word]) |> Array.of_list);
-        read_words({ words: s.words, word: s.word ++ result, index: new_s.index })
-      } else {
-        read_words({ word: s.word ++ String.make(1, letter), words: s.words, index: s.index + 1 })
       }
     }
-  } and process_words = (words: array(string)): string => {
-    let nw = Array.length(words);
-    if (nw < 2) {
-      words |> Js.Array.filter((word) => word != "") |> Js.Array.joinWith(" ")
-      } else if (nw < 3) {
-      let repeated = process_words(Array.sub(words, 1, 1));
-      Array.concat([Array.sub(words, 0, 1), Array.of_list([repeated, repeated])])  |> Js.Array.filter((word) => word != "") |> Js.Array.joinWith(" ");
-    } else {
-      // a b c -> a a b (c)
-      let repeated = process_words(Array.sub(words, 1, nw-2));
-      Array.concat([Array.sub(words, 0, 1), Array.of_list([repeated, repeated]), Array.sub(words, nw-1, 1)])  |> Js.Array.filter((word) => word != "") |> Js.Array.joinWith(" ");
+}
+
+let eval_words = (words: list(string)): string => {
+  /* Js.log(words |> Js.Json.stringifyAny); */
+  switch (Utils.safe_get_list(words, 0)) {
+    | None => "";
+    | Some(word) => {
+      _eval_words({word: word, words: words, index: 1})
     }
   }
+}
 
-  let s = read_words({word: "", words: [], index: 0});
-  process_words(List.append(s.words, [s.word]) |> Array.of_list)
+let n_dolls_str = (n: int): string => {
+  Utils.join_char_list(List.map( (_c) => '$', Utils.range(n)))
+}
+
+type _map_words_state = {
+  cur: list(string),
+  result: list(list(string)),
+};
+let split_arr = (arr, sep): list(list(string)) => {
+  let s = List.fold_left(
+    (s, el) => {
+      if (el == sep) {
+        { cur: [], result: List.append(s.result, [s.cur]) }
+      } else {
+        { cur: List.append(s.cur, [el]), result: s.result }
+      }
+    },
+    {cur: [], result: []},
+    arr,
+  );
+  List.append(s.result, [s.cur])
+}
+
+let rec parse = (words, n_dolls): string => {
+    if (n_dolls == 0) {
+      eval_words(words)
+    } else {
+      let new_words = List.map(
+        (w) => parse(w, n_dolls - 1),
+        split_arr(words, n_dolls_str(n_dolls))
+      )
+      eval_words(new_words)
+    }
+}
+
+
+let fn = (x) => {
+  /*
+    Ternary operator, a b c -> ab ac
+  */
+  let w = Utils.split(x, ' ');
+  /* Js.log("here " ++ x); */
+  /* Js.log("here2 " ++ Utils.unwrap(w |> Js.Json.stringifyAny)); */
+  let n_dolls = List.fold_left(
+    (n, w) => {
+      switch (w == n_dolls_str(String.length(w))) {
+        | true => max(String.length(w), n)
+        | false => n
+      }
+    },
+    0,
+    w
+  );
+  parse(w, n_dolls)
 }
 
 Utils.assert_eq(fn(""), "")
 Utils.assert_eq(fn("a"), "a")
-Utils.assert_eq(fn("a b"), "a b b")
-Utils.assert_eq(fn("a () b"), "a b")
-Utils.assert_eq(fn("a b c"), "a b b c")
-Utils.assert_eq(fn("a b c d e"), "a b c c d b c c d e")
-Utils.assert_eq(fn(" a b"), "a a b")
-Utils.assert_eq(fn("a b "), "a b b")
-Utils.assert_eq(fn("a  b"), "a b")
-Utils.assert_eq(fn("a  b  c"), "a b b b b c")
-Utils.assert_eq(fn("( a b) c"), "a a b c c")
-Utils.assert_eq(fn("(a b ) c"), "a b b c c")
-Utils.assert_eq(fn("!a !b !c"), "a b b c")
-Utils.assert_eq(fn("a! b! c"), "a b b c")
-Utils.assert_eq(fn("a (b c)"), "a b c c b c c")
-Utils.assert_eq(fn("a !(b c)"), "a (b (b c")
-Utils.assert_eq(fn("() a (() b c)"), "a a b b c")
-Utils.assert_eq(fn("(a b) c d"), "a b b c c d")
-Utils.assert_eq(fn("a b c d"), "a b c c b c c d")
-Utils.assert_eq(fn("a (b (c (d"), "a b c d d c d d b c d d c d d")
-Utils.assert_eq(fn("() !c !!d"), "c c !d")
-Utils.assert_eq(fn("() !!c !d"), "!c !c d")
+Utils.assert_eq(fn(" a"), "a ")
+Utils.assert_eq(fn("a b"), "ab a")
+Utils.assert_eq(fn("a b c"), "ab ac")
+Utils.assert_eq(fn("a b c d"), "ab acd ab ac")
+Utils.assert_eq(fn("a b c d e"), "ab acd ab ace")
+Utils.assert_eq(fn(" a b"), "a b")
+Utils.assert_eq(fn("a b "), "ab a")
 
 let level: Types.level = {
   name: "please",
   old_names: [],
   fn: fn,
-  goal: "a (short) damned message, pretty pretty please!!",
-  // answer: "a () (!(short!) () (damned () (message, () (pretty () (pretty () (please!!!!",
-  answer: "a  (!(short!)  (damned  (message,  (pretty  (pretty  (please!!!!",
+  goal: "pretty pretty please just send a short damned message and maybe some money",
+  answer: "$$$$ $$$ $$ $ pretty $ pretty $$ $ please $ just $$$ $$ $ send $ a $$ $ short $ damned $$$$ $$$ $ message $ and $$$ $$ $ maybe $ some $$ money",
 }
 

@@ -41,7 +41,7 @@ let fn = (x) => {
     },
     Utils.range(List.length(winners), ~start=0),
   );
-  String.lowercase(String.concat("", parts))
+  String.lowercase_ascii(String.concat("", parts))
 }
 
 let level: Types.level = {
