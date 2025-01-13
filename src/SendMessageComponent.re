@@ -229,10 +229,15 @@ let make = (
   //     damned: "Damned",
   //     suffix: "Message",
   //   };
+  // let title_info = {
+  //   prefix: "Send A",
+  //   damned: "Damned",
+  //   suffix: "Message",
+  // };
   let title_info = {
-    prefix: "Send A",
-    damned: "Damned",
-    suffix: "Message",
+    prefix: "send",
+    damned: "a damned message",
+    suffix: "",
   };
 
   scroll_messages();

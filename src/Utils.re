@@ -57,6 +57,8 @@ let char_list: (string) => list(char) = (s) => List.init(String.length(s), Strin
 let join_char_array: (array(char)) => string = (l) => l |> Array.map((x) => String.make(1, x)) |>  Js.Array.joinWith("");
 let join_char_list: (list(char)) => string = (l) => l |> Array.of_list |> join_char_array
 let reverse_str = (x: string) => { x |> char_list |> List.rev |> join_char_list }
+let char_map: (char => char, string) => string = (f, s) => {s |> char_list |> List.map(f) |> join_char_list; };
+
 
 let filter_none: (list(option('a))) => list('a) = (l) => List.map((x) => unwrap(x), List.filter((x) => x != None, l));
 
