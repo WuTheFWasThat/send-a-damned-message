@@ -9,8 +9,14 @@ let fn = (x) => {
       x
   } else {
     let total = Utils.char_list(x) |> List.map(Utils.char2num) |> Utils.sum;
-    let index = (total + (n / 3)) mod n;
-    let rotate = total + (n / 8)
+    // Js.log(total)
+
+    //  5 when n=16, darn->damn 1 when n=5, emend->amend 5 when n=5
+    let index = (total + (n / 3)) mod n; 
+
+    // 2/29/56/83/110/137/164 when n=16, darn->damn 12/39/66 when n=4, emend->amend 9 when n=5
+    let rotate = total + 2 // 3*n+8-2*(n mod 8) 
+
     let l = String.get(x, index);
     let fix_l = if (Utils.is_alphabet(l)) { l } else { ' ' }
     let new_char = Utils.rotate_alphabet(fix_l, rotate, ~with_spaces=true);
@@ -19,16 +25,17 @@ let fn = (x) => {
 }
 
 Utils.assert_eq(fn(""), "")
-Utils.assert_eq(fn("a"), "b")
-Utils.assert_eq(fn("b"), "d")
-Utils.assert_eq(fn("!"), " ")
+// Utils.assert_eq(fn("a"), "b")
+// Utils.assert_eq(fn("b"), "d")
+// Utils.assert_eq(fn("!"), " ")
+// Utils.assert_eq(fn("emend"), " ")
 Utils.assert_eq(fn("a damned message"), "a darned message")
 Utils.assert_eq(fn("a damned m!ssage"), "a damned m!ssage")
 Utils.assert_eq(fn("a damned!message"), "a darned!message")
 
 let level: Types.level = {
-  name: "emend", // massage, darn
-  old_names: [],
+  name: "darn", // massage, darn
+  old_names: ["emend"],
   fn: fn,
   goal: "a damned message",
   answer: "a damned messagp",

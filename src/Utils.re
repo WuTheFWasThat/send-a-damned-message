@@ -72,38 +72,43 @@ let is_vowel = (l) => String.contains(vowels, Char.lowercase_ascii(l))
 let consonants = "bcdfghjklmnpqrstvwxyz"
 let is_consonant = (l) => String.contains(consonants, Char.lowercase_ascii(l))
 
-let a2num = (~with_spaces=false, x: char) => {
+let a2num = (~with_spaces=false, ~with_caps=false, x: char) => {
   switch (with_spaces && (x == ' ')) {
     | true => 0
-    | false => String.index(alphabet, Char.lowercase_ascii(x)) + (with_spaces ? 1 : 0)
+    | false => {
+      String.index(alphabet, Char.lowercase_ascii(x)) + (with_spaces ? 1 : 0) + (with_caps && (Char.uppercase_ascii(x) == x) ? 26 : 0)
+    }
   }
 }
 
+assert_eq(a2num('A', ~with_spaces=true, ~with_caps=true), 27);
 assert_eq(a2num('A', ~with_spaces=true), 1);
 assert_eq(a2num('A', ~with_spaces=false), 0);
 assert_eq(a2num('z', ~with_spaces=true), 26);
 assert_eq(a2num('z', ~with_spaces=false), 25);
 assert_eq(a2num(' ', ~with_spaces=true), 0);
 
-let num2a = (~with_spaces=false, n: int) => {
+let num2a = (~with_spaces=false, ~with_caps=false, n: int) => {
+  let alphabet_index = alphabet ++ (with_caps ? char_map(Char.uppercase_ascii, alphabet) : "");
   switch (with_spaces && (n == 0)) {
     | true => ' '
-    | false => String.get(alphabet, n - (with_spaces ? 1 : 0))
+    | false => String.get(alphabet_index, n - (with_spaces ? 1 : 0))
   }
 }
 
 let char2num = (x: char) => {
   if (is_alphabet(x)) {
-    a2num(x, ~with_spaces=true)
+    a2num(x, ~with_spaces=true, ~with_caps=true)
   } else {
     0
   }
 }
 
-assert_eq(char2num('A'), 1);
+assert_eq(char2num('A'), 27);
 assert_eq(char2num('a'), 1);
 assert_eq(char2num('?'), 0);
 
+assert_eq(num2a(27, ~with_spaces=true, ~with_caps=true), 'A');
 assert_eq(num2a(1, ~with_spaces=true), 'a');
 assert_eq(num2a(0, ~with_spaces=false), 'a');
 assert_eq(num2a(26, ~with_spaces=true), 'z');
@@ -119,17 +124,25 @@ let is_lower = (l) => (Char.lowercase_ascii(l) == l);
 let swap_case = (l) => (is_upper(l) ? Char.lowercase_ascii(l) : Char.uppercase_ascii(l));
 
 let cased_like = (x, y) => {
-  if (y == Char.uppercase_ascii(y)) { Char.uppercase_ascii(x) } else { x };
+  if (y == Char.lowercase_ascii(y)) { Char.lowercase_ascii(x) } else { Char.uppercase_ascii(x) };
 }
 
-let rotate_alphabet = (~with_spaces=false, x: char, direction: int) => {
+let rotate_alphabet = (~with_spaces=false, ~with_caps=false, x: char, direction: int) => {
   // Js.log("rotating " ++ String.make(1, x));
   // Js.log(direction);
-  let new_num = positive_mod(a2num(x, ~with_spaces=with_spaces) + direction, with_spaces ? 27 : 26)
-  let new_x = num2a(new_num, ~with_spaces=with_spaces)
-  cased_like(new_x, x)
+  let modulus = 26 + (with_spaces ? 1 : 0) + (with_caps ? 26 : 0);
+  let num = a2num(x, ~with_spaces=with_spaces, ~with_caps=with_caps);
+  let new_num = positive_mod(num + direction, modulus);
+  let new_x = num2a(new_num, ~with_spaces=with_spaces, ~with_caps=with_caps);
+  if (with_caps) {
+    new_x
+  } else {
+    cased_like(new_x, x)
+  }
 };
 
+assert_eq(rotate_alphabet('a', 26), 'a');
+assert_eq(rotate_alphabet('a', 26, ~with_caps=true), 'A');
 assert_eq(rotate_alphabet('a', 25), 'z');
 assert_eq(rotate_alphabet('A', 25), 'Z');
 assert_eq(rotate_alphabet('A', 26, ~with_spaces=true), ' ');
@@ -137,7 +150,7 @@ assert_eq(rotate_alphabet('a', 26), 'a');
 assert_eq(rotate_alphabet('A', 26), 'A');
 assert_eq(rotate_alphabet('a', 27), 'b');
 assert_eq(rotate_alphabet('A', 27), 'B');
-assert_eq(rotate_alphabet(' ', 3, ~with_spaces=true), 'C');
+assert_eq(rotate_alphabet(' ', 3, ~with_spaces=true), 'c');
 
 let first_true: ('a => bool, list('a)) => option('a) = (f, l) => {
   List.fold_left(
